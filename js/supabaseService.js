@@ -3,19 +3,20 @@ import { supabaseUrl, supabaseKey } from './config.js'
 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
 
-async function getData() {
+async function getData(table_name = "testing") {
     let { data: testing, error } = await supabase
-        .from('testing')
+        .from(table_name)
         .select('*');
 
     if (error) {
-        console.error("Error obteniendo datos:", error);
+        console.error("Error getting data from DB:", error);
     } else {
-        console.log("Datos obtenidos:", testing);
+        return testing;
     }
 }
 
-await getData();
+export { getData };
+
 
 
 // async function insertData() {
