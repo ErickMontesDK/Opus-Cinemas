@@ -33,7 +33,8 @@ const get_end_hour = (start_time, minutes) => {
     const [start_hour, start_minutes] = start_time.split(':').map(number => parseInt(number))
 
     let end_minutes = start_minutes + minutes;
-    const end_hour = end_minutes >= 60? start_hour + Math.floor(end_minutes/60) : start_hour;
+    let end_hour = end_minutes >= 60? start_hour + Math.floor(end_minutes/60) : start_hour;
+    end_hour = end_hour >=24? end_hour - 24 : end_hour;
     end_minutes = end_minutes % 60;
 
     return `${end_hour.toString().padStart(2, '0')}:${end_minutes.toString().padStart(2, '0')}`
@@ -52,14 +53,11 @@ async function insert_db_showtimes(movie_id, date, duration, showtimes){
                 end_time:  get_end_hour(function_time.start_time, duration),
                 movie_id: parseInt(movie_id)
             };
-            // console.log(audithorium);
             
             showtimes_clean.push(function_clean);
         }
     }
-    console.log(showtimes_clean);
-    const audithorium = await get_available_auditorium(showtimes_clean, date);
-    // const response = await insert_showtime_db(showtimes_clean);
+    return await get_available_auditorium(showtimes_clean, date);
 }
 
 export async function getMovieDetails(movie_id, date=convert_date_iso().split('T')[0]) {
@@ -67,7 +65,9 @@ export async function getMovieDetails(movie_id, date=convert_date_iso().split('T
     const films_list = response.films 
     let film_clean = {}
     for (let film of films_list){
+        console.log(movie_id, film.film_id)
         if (film.film_id == movie_id){
+            console.log("found film " + film.film_id)
             film_clean = {
                 id: movie_id,
                 title: film.film_name,
@@ -86,9 +86,9 @@ export async function getMovieDetails(movie_id, date=convert_date_iso().split('T
                 showtimes = await insert_db_showtimes(movie_id, date, duration_min, film.showings);
 
             } 
-            // console.log(showtimes);
+            film_clean.showings = showtimes;
+            break;
         }
-        break;
     }
     console.log(film_clean);
 }

@@ -29,36 +29,62 @@ export async function get_showtimesPerMovie_db(id, date, showing_type=null) {
     }
 }
 
-export async function get_available_auditorium(showtime, date){
-    let { data, error } = await supabase
-        .from('auditoriums')
-        .select('*')
-        .not('id', 'in', supabase
-            .from('showtimes')
-            .select('auditorium_id')
-            .eq('start_date', showtime.date)
-            .or(`start_time.lt.${showtime.end_time}, end_time.gt.${showtime.start_time}`)
-        );
-    console.log(data);
-};
-
-
-
-
-export async function insert_showtime_db(api_showtimes) {
-    
+export async function insert_showtime_db(showtime) {
+    console.log("ssss",showtime);
     const { data, error } = await supabase
         .from('showtimes')
         .insert([
-            { name: 'example' },
+            showtime,
         ])
         .select()
             
         if (error) {
             console.error("Error insertando datos:", error);
-        } else {
-            console.log("Datos insertados:", data);
-        }
+            return;
+        } 
+        return data;
 }
+
+export async function get_available_auditorium(showtimes, date){
+    const showtimes_record = [];
+    for (let showtime of showtimes){
+        
+        const { data, error: showtimesError } = await supabase
+            .from('showtimes')
+            .select('auditorium_id')
+            .eq('start_date', date) 
+            .lt('start_time', showtime.end_time)  
+            .gt('end_time', showtime.start_time); 
+    
+        if (showtimesError) {
+            console.error('Error fetching showtimes:', showtimesError);
+            return;
+        }
+        let unavailable_auditoriums = data.map(showtime => showtime.auditorium_id);
+        unavailable_auditoriums = `(${unavailable_auditoriums.join(',')})`
+
+        const { data: auditoriums, error: auditoriumsError } = await supabase
+            .from('auditoriums')
+            .select('*')
+            .not('id', 'in', unavailable_auditoriums);
+
+        if (auditoriumsError) {
+            console.error('Error fetching auditoriums:', auditoriumsError);
+            return;
+        }
+        const available_auditoriums = auditoriums.map(auditorium => auditorium.id);
+        console.log("available auditors:", available_auditoriums);
+        showtime.auditorium_id = available_auditoriums[0];
+
+        const showtime_record = await insert_showtime_db(showtime)
+        showtimes_record.push(showtime_record);
+        
+    }
+    return showtimes_record
+};
+
+
+
+
 
 

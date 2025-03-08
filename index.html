@@ -22,8 +22,15 @@
             import {getMovies, getMovieDetails} from "./js/services/dataService.js"
 
             $(document).ready(function(){
+                // async function call_db_data(){
+                //     const movies = await getMovies(25);
+                //     console.log(movies)
+                // } 
+                // call_db_data()
+
+
                 async function call_db_data(){
-                    await getMovieDetails(7772);
+                    await getMovieDetails(3427);
                 } 
                 call_db_data()
             });
