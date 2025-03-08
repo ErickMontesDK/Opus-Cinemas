@@ -62,6 +62,7 @@ async function insert_db_showtimes(movie_id, date, duration, showtimes){
 
 export async function getMovieDetails(movie_id, date=convert_date_iso().split('T')[0]) {
     let response = await mglu_schedules_movie(movie_id, date);
+    console.log(response)
     const films_list = response.films 
     let film_clean = {}
     for (let film of films_list){
@@ -72,7 +73,8 @@ export async function getMovieDetails(movie_id, date=convert_date_iso().split('T
                 id: movie_id,
                 title: film.film_name,
                 age_rating: film.age_rating[0].rating,
-                duration: film.duration_hrs_mins
+                duration: film.duration_hrs_mins,
+                synopsis: film.synopsis_long
             };
             const genres = [];
             for (let genre of film.genres) {

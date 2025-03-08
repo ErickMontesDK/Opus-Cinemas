@@ -30,7 +30,6 @@ export async function get_showtimesPerMovie_db(id, date, showing_type=null) {
 }
 
 export async function insert_showtime_db(showtime) {
-    console.log("ssss",showtime);
     const { data, error } = await supabase
         .from('showtimes')
         .insert([
