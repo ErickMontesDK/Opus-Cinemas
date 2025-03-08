@@ -14,6 +14,18 @@ export async function get_data_db(table_name = "testing") {
         return testing;
     }
 }
+export async function get_showtime_seats(showtime) {
+    let { data: tickets, error } = await supabase
+        .from("tickets")
+        .select('seat_number')
+        .eq('showtime_id', showtime);
+
+    if (error) {
+        console.error("Error getting data from DB:", error);
+    } else {
+        return tickets;
+    }
+}
 export async function get_showtimesPerMovie_db(id, date, showing_type=null) {
     let { data, error } = await supabase
         .from('showtimes')
