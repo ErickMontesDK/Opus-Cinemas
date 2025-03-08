@@ -30,7 +30,6 @@ export async function get_showtimesPerMovie_db(id, date, showing_type=null) {
 }
 
 export async function get_available_auditorium(showtime, date){
-    console.log(showtime);
     let { data, error } = await supabase
         .from('auditoriums')
         .select('*')
