@@ -17,29 +17,17 @@
         
         <h1>Opus Cinemas</h1>
         
-        
-        
         <!-- Configuration and methods to use supabase are here-->
-        <script src="./js/supabaseService.js" type="module"></script>
         <script type="module">
-            import {getData} from "./js/supabaseService.js"
+            import {getMovies, getMovieDetails} from "./js/services/dataService.js"
 
             $(document).ready(function(){
-                async function call_db_data(tableName){
-                    const db_data = await getData();
-                    console.log(db_data);
+                async function call_db_data(){
+                    await getMovieDetails(7772);
                 } 
-                call_db_data('testing')
+                call_db_data()
             });
         </script>
-        <script type="module">
-            import {get_list_movies } from "./js/movieglu_api.js"
 
-            async function get_movies() {
-                const movies = await get_list_movies(25);
-                console.log(movies); 
-            }
-            get_movies();
-        </script>
     </body>
 </html>
