@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Gugi&family=Orbitron:wght@400..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
         <title>Opus Cinemas</title>
         <!--This link charges JQuery-->
         <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
@@ -11,11 +14,13 @@
         <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
         <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
         <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+        <link rel="stylesheet" href="./css/style.css">
 
     </head>
     <body>
         
         <h1>Opus Cinemas</h1>
+        <p>example</p>
         
         <!-- Configuration and methods to use supabase are here-->
         <script type="module">
@@ -23,9 +28,16 @@
 
             $(document).ready(function(){
                 async function call_db_data(){
-                    await getMovieDetails(7772);
+                    const movies = await getMovies(25);
+                    console.log(movies)
                 } 
                 call_db_data()
+
+
+                // async function call_db_data(){
+                //     await getMovieDetails(3427);
+                // } 
+                // call_db_data()
             });
         </script>
 
