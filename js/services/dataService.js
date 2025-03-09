@@ -1,4 +1,4 @@
-import { get_available_auditorium, get_data_db, get_showtimesPerMovie_db, insert_showtime_db, get_showtime_seats} from "../api/supabase_api.js";
+import { get_available_auditorium,get_booked_tickets, get_showtimesPerMovie_db,get_data_by_id, insert_showtime_db, get_showtime_seats, insert_payment, insert_tickets, update_tickets_salesid, get_sale_by_uuid, get_tickets_by_sale} from "../api/supabase_api.js";
 import { mglu_list_movies, mglu_data_movie, mglu_schedules_movie } from "../api/movieglu_api.js";  
 import { convert_date_iso } from "../utils.js";
 
@@ -96,8 +96,161 @@ export async function getMovieDetails(movie_id, date=convert_date_iso().split('T
     console.log(film_clean);
 }
 
+
+
 export async function get_booked_seats(showtime=30){
     const seats = await get_showtime_seats(showtime);
     console.log("seat", seats);
 }
+
+export async function register_tickets(seats, showtime_id, ticket_type_id=1, price=15, sales_id=undefined){
+    let tickets_info = [];
+    const uuid = crypto.randomUUID();
+
+    for (let index in seats){
+        let ticket = {
+            seat_number: seats[index],
+            showtime_id,
+            sales_id,
+            ticket_type_id,
+            price,
+            status: "reserved",
+            reserved_at: convert_date_iso(),
+            uuid:uuid 
+        }
+        tickets_info.push(ticket);
+    }
+    console.log("tickets_info", tickets_info);
+    try {
+        const ticket_records = await insert_tickets(tickets_info);
+        sessionStorage.setItem('ticket_uuid', uuid);
+        return uuid;
+    } catch (error) {
+        console.error(error);
+        throw new Error("Error registering tickets");
+    }
+
+}
+
+export async function get_booked_info(uuid){
+    const tickets = await get_booked_tickets(uuid);
+    let total_amount = 0;
+    let seats_reserved = [];
+    let showtime_id;
+
+    for(let ticket of tickets){
+        total_amount += ticket.price;
+        seats_reserved.push(ticket.seat_number);
+
+        if (ticket == tickets[0]){
+            showtime_id = ticket.showtime_id;
+            continue;
+        }
+    }
+    if(showtime_id){
+        const showtime = await get_data_by_id('showtimes',showtime_id);
+
+        if(showtime.length > 0){
+            let movie_id =showtime[0].movie_id
+            let auditorium_id = showtime[0].auditorium_id
+
+            const movie = await mglu_data_movie(movie_id);
+            const auditorium = await get_data_by_id('auditoriums', auditorium_id);
+
+
+            const booking_data = {
+                movie: {
+                    title: movie.film_name,
+                    poster: movie.images.poster[1].medium.film_image,
+                    age_rated_image: movie.age_rating[0].age_rating_image,
+                    age_rated: movie.age_rating[0].rating
+                },
+                auditorium: auditorium[0].name,
+                seats_reserved,
+                total_amount
+            }
+            return booking_data;
+        } 
+    }
+
+    throw new Error("Booked information was not found");
+}
+
+export async function payment_process(uuid, email, total, showtime_id){
+    const sale = {
+        email,
+        total,
+        showtime_id,
+        payment_time: convert_date_iso(),
+    };
+
+    try {
+        const response = await insert_payment(sale);
+        const sale_record = response[0];
+        const sale_id = sale_record.id;
+        const sale_uuid = sale_record.uuid;
+    
+        const tickets_updated = await update_tickets_salesid(uuid,sale_id)
+        
+        console.log("sale_record", sale_record);
+        console.log("tickets_updated", tickets_updated);
+        sessionStorage.setItem('payment_uuid', sale_uuid);
+        return sale_uuid;
+    } catch (error) {
+        throw new Error("Error processing payment");
+        
+    }
+}        
+
+export async function get_payment_confirmation(uuid){
+    try {
+        const response = await get_sale_by_uuid(uuid);
+        const sale = response[0];
+        const email = sale.email;
+    
+        let total_amount = sale.total;
+        let seats_reserved = [];
+        let showtime_id = sale.showtime_id;
+    
+        const tickets = await get_tickets_by_sale(sale.id);
+        for(let ticket of tickets){
+            seats_reserved.push(ticket.seat_number);
+        }
+        if(showtime_id){
+            const showtime = await get_data_by_id('showtimes',showtime_id);
+    
+            if(showtime.length > 0){
+                let movie_id =showtime[0].movie_id
+                let auditorium_id = showtime[0].auditorium_id
+    
+                const movie = await mglu_data_movie(movie_id);
+                const auditorium = await get_data_by_id('auditoriums', auditorium_id);
+    
+    
+                const sale_data = {
+                    movie: {
+                        title: movie.film_name,
+                        poster: movie.images.poster[1].medium.film_image,
+                        age_rated_image: movie.age_rating[0].age_rating_image,
+                        age_rated: movie.age_rating[0].rating
+                    },
+                    auditorium: auditorium[0].name,
+                    seats_reserved,
+                    total_amount,
+                    email
+                }
+                return sale_data;
+            } 
+        
+        }
+        
+    } catch (error) {
+        throw new Error("Error at processing the payment request: " + error);
+        
+    }
+    
+}
+
+
+
 

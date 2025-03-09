@@ -24,27 +24,56 @@
         
         <!-- Configuration and methods to use supabase are here-->
         <script type="module">
-            import {getMovies, getMovieDetails,get_booked_seats} from "./js/services/dataService.js"
+            import {get_booked_info, getMovies, getMovieDetails,get_booked_seats, register_tickets, payment_process, get_payment_confirmation} from "./js/services/dataService.js"
 
             $(document).ready(function(){
-                async function call_db_data(){
-                    const movies = await getMovies(25);
-                    console.log(movies)
-                } 
-                call_db_data()
-
-
                 // async function call_db_data(){
-                //     await getMovieDetails(3427);
+                //     const movies = await getMovies(25);
+                //     console.log(movies)
+                // } 
+                // call_db_data()
+                // async function call_db_data(){
+                //     const seats = await get_booked_seats(30);
+                //     console.log(seats)
+                // } 
+                // call_db_data()
+                
+                
+                
+                
+                // async function call_db_data(){
+                    //     await getMovieDetails(3427);
                 // } 
                 // call_db_data()
 
                 // async function call_db_data(){
-                //     await get_booked_seats(30);
+                    //     const uuid = await register_tickets(['A1','A2','A3'], 30);
+                    //     console.log("uuid from db",uuid);
+                    //     const session_uuid = sessionStorage.getItem('ticket_uuid');
+                    //     console.log("session uuid",session_uuid);
+                    
+                    // } 
+                    // call_db_data()
+                    // async function call_db_data(){
+                //     const booking_info = await get_booked_info("1b895794-3ffa-4e1c-92ca-84ec035afe4a");
+                //     console.log("booking_info",booking_info);
+                
                 // } 
                 // call_db_data()
-            });
-        </script>
+                // async function call_db_data(){
+                //         const payment_uuid = await payment_process("1b895794-3ffa-4e1c-92ca-84ec035afe4a","erickmontesdk@gmail.com",45,30);
+                //         console.log("payment_uuid",payment_uuid);
+                    
+                //     } 
+                //     call_db_data()
+                    
+                    async function call_db_data(){
+                        const seats = await get_payment_confirmation("56fda436-d634-4d1d-8f50-6b2c34dbd67a");
+                        console.log(seats)
+                    } 
+                    call_db_data()
+                });
+                </script>
 
-    </body>
+</body>
 </html>

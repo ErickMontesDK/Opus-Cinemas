@@ -2,30 +2,110 @@
 import { supabaseUrl, supabaseKey } from '../config.js'
 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
+const time_limit = 24* 60
 
-export async function get_data_db(table_name = "testing") {
-    let { data: testing, error } = await supabase
+export async function get_data_by_id(table_name = "testing", record_id) {
+    let { data, error } = await supabase
         .from(table_name)
-        .select('*');
+        .select('*')
+        .eq('id', record_id);
 
     if (error) {
         console.error("Error getting data from DB:", error);
     } else {
-        return testing;
+        return data;
+    }
+}
+export async function get_booked_tickets(uuid) {
+    const hour_options = {
+        hour12: false,
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+    }
+    const limit_time = `${new Date(Date.now() - time_limit * 60 *1000).toLocaleString('en-US', hour_options)}`;
+    
+    let { data, error } = await supabase
+        .from("tickets")
+        .select('*')
+        .eq('uuid', uuid)
+        .eq('status', 'reserved')
+        .gt('reserved_at', limit_time);
+
+    if (error) {
+        console.error("Error getting data from DB:", error);
+    } else {
+        return data;
     }
 }
 export async function get_showtime_seats(showtime) {
-    let { data: tickets, error } = await supabase
+    const hour_options = {
+        hour12: false,
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+    }
+    const limit_time = `${new Date(Date.now() - time_limit * 60 *1000).toLocaleString('en-US', hour_options)}`;
+    
+    let { data:reserved, error_reserved } = await supabase
         .from("tickets")
         .select('seat_number')
-        .eq('showtime_id', showtime);
+        .eq('showtime_id', showtime)
+        .eq('status', 'reserved')
+        .gt('reserved_at', limit_time);
 
-    if (error) {
+    let { data: sold, error_sold } = await supabase
+        .from("tickets")
+        .select('seat_number')
+        .eq('showtime_id', showtime)
+        .eq('status','sold');
+
+    if (error_sold || error_reserved) {
         console.error("Error getting data from DB:", error);
     } else {
-        return tickets;
+        const allTickets = [...(reserved || []), ...(sold || [])];
+        return allTickets;
     }
 }
+
+export async function insert_payment(sale){
+    let { data, error } = await supabase
+    .from("sales")
+    .insert([
+        sale,
+    ])
+    .select()
+        
+    if (error) {
+        console.error("Error insertando datos:", error);
+        return;
+    } 
+    return data;
+}
+
+export async function insert_tickets(tickets){
+    let { data, error } = await supabase
+    .from("tickets")
+    .insert(tickets)
+    .select()
+        
+    if (error) {
+        console.error("Error insertando datos:", error);
+        return;
+    } 
+    return data;
+}
+
+
+
+
+
 export async function get_showtimesPerMovie_db(id, date, showing_type=null) {
     let { data, error } = await supabase
         .from('showtimes')
@@ -93,6 +173,46 @@ export async function get_available_auditorium(showtimes, date){
     }
     return showtimes_record
 };
+
+export async function update_tickets_salesid(uuid, sales_id) {
+    let { data, error } = await supabase
+        .from("tickets")
+        .update({'sales_id': sales_id, 'status':'sold'})
+        .select('*')
+        .eq('uuid', uuid);
+
+    if (error) {
+        console.error("Error getting data from DB:", error);
+    } else {
+        return data;
+    }
+}
+
+export async function get_sale_by_uuid(uuid) {
+    let { data, error } = await supabase
+        .from('sales')
+        .select('*')
+        .eq('uuid', uuid);
+
+    if (error) {
+        console.error("Error getting data from DB:", error);
+    } else {
+        return data;
+    }
+}
+
+export async function get_tickets_by_sale(sale_id) {
+    let { data, error } = await supabase
+        .from('tickets')
+        .select('*')
+        .eq('sales_id', sale_id);
+
+    if (error) {
+        console.error("Error getting data from DB:", error);
+    } else {
+        return data;
+    }
+}
 
 
 
