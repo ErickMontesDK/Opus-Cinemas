@@ -24,12 +24,18 @@
         
         <!-- Configuration and methods to use supabase are here-->
         <script type="module">
-            import {getMovies, getMovieDetails,get_booked_seats} from "./js/services/dataService.js"
+            import {getMovies, getMovieDetails,get_booked_seats, saving_payment} from "./js/services/dataService.js"
 
             $(document).ready(function(){
+                // async function call_db_data(){
+                //     const movies = await getMovies(25);
+                //     console.log(movies)
+                // } 
+                // call_db_data()
+
                 async function call_db_data(){
-                    const movies = await getMovies(25);
-                    console.log(movies)
+                    const movies = await saving_payment(30, "erickmontesdk@gmail.com",200);
+                    console.log("sending to sales",movies)
                 } 
                 call_db_data()
 

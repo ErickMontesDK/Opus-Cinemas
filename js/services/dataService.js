@@ -1,4 +1,4 @@
-import { get_available_auditorium, get_data_db, get_showtimesPerMovie_db, insert_showtime_db, get_showtime_seats} from "../api/supabase_api.js";
+import { get_available_auditorium, get_data_db, get_showtimesPerMovie_db, insert_showtime_db, get_showtime_seats, insert_payment} from "../api/supabase_api.js";
 import { mglu_list_movies, mglu_data_movie, mglu_schedules_movie } from "../api/movieglu_api.js";  
 import { convert_date_iso } from "../utils.js";
 
@@ -94,6 +94,17 @@ export async function getMovieDetails(movie_id, date=convert_date_iso().split('T
         }
     }
     console.log(film_clean);
+}
+
+export async function saving_payment(showtime_id, email, total){
+    const sale = {
+        email,
+        total,
+        showtime_id
+    };
+
+    const sale_record = await insert_payment(sale);
+    return sale_record[0];
 }
 
 export async function get_booked_seats(showtime=30){

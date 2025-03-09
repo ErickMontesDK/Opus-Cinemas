@@ -26,6 +26,26 @@ export async function get_showtime_seats(showtime) {
         return tickets;
     }
 }
+
+export async function insert_payment(sale){
+    let { data, error } = await supabase
+    .from("sales")
+    .insert([
+        sale,
+    ])
+    .select()
+        
+    if (error) {
+        console.error("Error insertando datos:", error);
+        return;
+    } 
+    return data;
+}
+
+
+
+
+
 export async function get_showtimesPerMovie_db(id, date, showing_type=null) {
     let { data, error } = await supabase
         .from('showtimes')
