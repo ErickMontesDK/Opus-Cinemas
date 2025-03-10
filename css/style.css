@@ -1,6 +1,6 @@
 :root {
-    --black:#181818;
-    --grey:#2f2f2f;
+    --black: #181818;
+    --grey: #2f2f2f;
     --yellow: #F1CD55;
     --white: #FAF1E5;
     --red: #ED254E;
@@ -10,12 +10,66 @@
 * {
     font-family: "Roboto", sans-serif;
     font-optical-sizing: auto;
-    font-style: normal;  
+    font-style: normal;
 }
 
-h1,h2,h3 {
+h1,h2,h3,#header {
     font-family: "Gugi", sans-serif;
     font-weight: 400;
     font-style: normal;
     color: var(--yellow);
+}
+
+.nav-link {
+    font-family: "Gugi", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    color: var(--white);
+}
+
+.nav-link:hover {
+    color: var(--white);
+}
+
+.navbar-toggler {
+    border: none;
+}
+
+/* To Change the color of the menu button */
+.navbar-toggler-icon {
+    background-image: url('data:image/svg+xml;charset=utf8,%3Csvg viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath stroke="%23F1CD55" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" d="M4 7h22M4 15h22M4 23h22"/%3E%3C/svg%3E');
+}
+
+/* The link in a header which color and underline set as a default value for design consistency */
+#header-link a:link,
+#header-link a:visited {
+    color: var(--yellow);
+    text-decoration: none;
+}
+
+.header-icon-custom {
+    font-size: 30px;
+}
+
+.header-icon-custom:hover {
+    color: var(--yellow);
+}
+
+/* To align menu contents for horizontal direction */
+.navbar-nav {
+    flex-direction: row;
+}
+
+/* To align menu contnts space-around */
+.nav-item {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.container-fluid {
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
 }
