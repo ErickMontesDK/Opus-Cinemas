@@ -1,4 +1,4 @@
-import { get_available_auditorium, get_data_db, get_showtimesPerMovie_db, insert_showtime_db } from "../api/supabase_api.js";
+import { get_available_auditorium, get_data_db, get_showtimesPerMovie_db, insert_showtime_db, get_showtime_seats} from "../api/supabase_api.js";
 import { mglu_list_movies, mglu_data_movie, mglu_schedules_movie } from "../api/movieglu_api.js";  
 import { convert_date_iso } from "../utils.js";
 
@@ -61,6 +61,7 @@ async function insert_db_showtimes(movie_id, date, duration, showtimes){
 }
 
 export async function getMovieDetails(movie_id, date=convert_date_iso().split('T')[0]) {
+    console.log(date)
     let response = await mglu_schedules_movie(movie_id, date);
     console.log(response)
     const films_list = response.films 
@@ -93,5 +94,10 @@ export async function getMovieDetails(movie_id, date=convert_date_iso().split('T
         }
     }
     console.log(film_clean);
+}
+
+export async function get_booked_seats(showtime=30){
+    const seats = await get_showtime_seats(showtime);
+    console.log("seat", seats);
 }
 

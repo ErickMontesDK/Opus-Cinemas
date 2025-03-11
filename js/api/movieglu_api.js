@@ -10,7 +10,7 @@ const headers = {
     'geolocation': mg_geolocation, 
     'device-datetime': convert_date_iso()
 };
-
+console.log(headers);
 async function fetch_api(endpoint) {
     const response = await fetch(endpoint, {headers});
 
