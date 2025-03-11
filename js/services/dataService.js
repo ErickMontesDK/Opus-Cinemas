@@ -16,7 +16,7 @@ export async function getMovies(n_movies) {
             age_rating: movie.age_rating[0].rating
         };
         movies_clean.push(movie_data);
-
+        
     }
     return movies_clean;
 }
@@ -100,7 +100,7 @@ export async function getMovieDetails(movie_id, date=convert_date_iso().split('T
 
 export async function get_booked_seats(showtime=30){
     const seats = await get_showtime_seats(showtime);
-    console.log("seat", seats);
+    return seats;
 }
 
 export async function register_tickets(seats, showtime_id, ticket_type_id=1, price=15, sales_id=undefined){
@@ -122,12 +122,12 @@ export async function register_tickets(seats, showtime_id, ticket_type_id=1, pri
     }
     console.log("tickets_info", tickets_info);
     try {
-        const ticket_records = await insert_tickets(tickets_info);
+        await insert_tickets(tickets_info);
         sessionStorage.setItem('ticket_uuid', uuid);
         return uuid;
     } catch (error) {
         console.error(error);
-        throw new Error("Error registering tickets");
+        throw new Error("Error registering tickets"+error);
     }
 
 }
