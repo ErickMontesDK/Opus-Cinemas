@@ -20,15 +20,19 @@ h1,h2,h3,#header {
     color: var(--yellow);
 }
 
+.navbar {
+    --bs-navbar-padding-y: 0;
+}
+
 .nav-link {
     font-family: "Gugi", sans-serif;
     font-weight: 400;
     font-style: normal;
-    color: var(--white);
+    --bs-nav-link-color: var(--white);
 }
 
 .nav-link:hover {
-    color: var(--white);
+    color: var(--yellow);
 }
 
 .navbar-toggler {
@@ -52,7 +56,7 @@ h1,h2,h3,#header {
 }
 
 .header-icon-custom:hover {
-    color: var(--yellow);
+    color: var(--white);
 }
 
 /* To align menu contents for horizontal direction */
