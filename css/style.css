@@ -73,3 +73,41 @@ h1,h2,h3,#header {
     padding-left: 0;
     padding-right: 0;
 }
+
+.infomovies {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+}
+.movie-card {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 16px;
+    background: white;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 400px;
+}
+.movie-card img {
+    width: 100px;
+    height: 150px;
+    border-radius: 4px;
+    object-fit: cover;
+}
+.movie-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.movie-title {
+    font-size: 18px;
+    font-weight: bold;
+}
+.movie-info {
+    color: gray;
+    font-size: 14px;
+}
