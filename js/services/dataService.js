@@ -94,6 +94,7 @@ export async function getMovieDetails(movie_id, date=convert_date_iso().split('T
         }
     }
     console.log(film_clean);
+    return film_clean;
 }
 
 

@@ -21,6 +21,7 @@
         
         <h1>Opus Cinemas</h1>
         <p>example sss</p>
+        <p id="synopsis"></p>
         
         <!-- Configuration and methods to use supabase are here-->
         <script type="module">
@@ -41,10 +42,15 @@
                 
                 
                 
-                // async function call_db_data(){
-                    //     await getMovieDetails(3427);
-                // } 
-                // call_db_data()
+                async function call_db_data(){
+                    const data = await getMovieDetails(3427);
+                    console.log("movie info", data)
+
+                    const synopsis = data.synopsis;
+                    console.log("rating", synopsis)
+                    document.getElementById("synopsis").innerText = synopsis
+                } 
+                call_db_data()
 
                 // async function call_db_data(){
                     //     const uuid = await register_tickets(['A1','A2','A3'], 30);
@@ -67,11 +73,11 @@
                 //     } 
                 //     call_db_data()
                     
-                    async function call_db_data(){
-                        const seats = await get_payment_confirmation("56fda436-d634-4d1d-8f50-6b2c34dbd67a");
-                        console.log(seats)
-                    } 
-                    call_db_data()
+                    // async function call_db_data(){
+                    //     const seats = await get_payment_confirmation("56fda436-d634-4d1d-8f50-6b2c34dbd67a");
+                    //     console.log(seats)
+                    // } 
+                    // call_db_data()
                 });
                 </script>
 
