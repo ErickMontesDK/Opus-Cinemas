@@ -41,38 +41,33 @@ const time_limit = 24* 60
 //         return data;
 //     }
 // }
-// export async function get_showtime_seats(showtime) {
-//     const hour_options = {
-//         hour12: false,
-//         year: 'numeric',
-//         month: '2-digit',
-//         day: '2-digit',
-//         hour: '2-digit',
-//         minute: '2-digit',
-//         second: '2-digit',
-//     }
-//     const limit_time = `${new Date(Date.now() - time_limit * 60 *1000).toLocaleString('en-US', hour_options)}`;
+export async function get_showtime_seats(showtime_id) {
+    const hour_options = {
+        hour12: false,
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+    }
+    const limit_time = `${new Date(Date.now() - time_limit * 60 *1000).toLocaleString('en-US', hour_options)}`;
     
-//     let { data:reserved, error_reserved } = await supabase
-//         .from("tickets")
-//         .select('seat_number')
-//         .eq('showtime_id', showtime)
-//         .eq('status', 'reserved')
-//         .gt('reserved_at', limit_time);
-        
-//         let { data: sold, error_sold } = await supabase
-//         .from("tickets")
-//         .select('seat_number')
-//         .eq('showtime_id', showtime)
-//         .eq('status','sold');
-        
-//     if (error_sold || error_reserved) {
-//         throw new Error("Error getting booked tickets from DB:", error);
-//     } else {
-//         const allTickets = [...(reserved || []), ...(sold || [])];
-//         return allTickets;
-//     }
-// }
+    console.log("start fetch for supabase unavailable seats", limit_time, showtime_id)
+    const response = await fetch(`/.netlify/functions/ticketsHandling?limit_time=${limit_time}&showtime_id=${showtime_id}`,
+        {
+            method: 'GET', 
+            headers: {'Content-Type': 'application/json'},
+        }
+    );
+
+    if (!response.ok) {
+        throw new Error(`Error: ${response.status} - ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return data;
+}
     
 // export async function insert_payment(sale){
 //     let { data, error } = await supabase

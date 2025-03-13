@@ -1,5 +1,5 @@
 // import { ,get_booked_tickets, get_showtimesPerMovie_db,get_data_by_id, insert_showtime_db, get_showtime_seats, insert_payment, insert_tickets, update_tickets_salesid, get_sale_by_uuid, get_tickets_by_sale} from "../api/supabase_api.js";
-import { get_showtimesPerMovie_db, get_available_auditorium, insert_showtime_db } from "../api/supabase_api.js";
+import { get_showtimesPerMovie_db, get_available_auditorium, get_showtime_seats } from "../api/supabase_api.js";
 import { mglu_list_movies, mglu_data_movie, mglu_schedules_movie } from "../api/movieglu_api.js";  
 import { convert_date_iso } from "../utils.js";
 
@@ -41,7 +41,6 @@ export async function getMovieDetails(movie_id, date=convert_date_iso().split('T
     for (let film of films_list){
         
         if (film.film_id == movie_id){
-            console.log("Found film " + film.film_id)
             film_clean = {
                 id: movie_id,
                 title: film.film_name,
@@ -56,9 +55,7 @@ export async function getMovieDetails(movie_id, date=convert_date_iso().split('T
                 film_clean.genres.push(genre.genre_name);
             }
 
-            //First we consult the db for the showtimes
             let showtimes = await get_db_showtimes(movie_id, date);
-            console.log("showtimes from db",showtimes)
             if (showtimes.length == 0){
                 const duration_min = film.duration_mins
                 showtimes = await insert_db_showtimes(movie_id, date, duration_min, film.showings);
@@ -69,7 +66,7 @@ export async function getMovieDetails(movie_id, date=convert_date_iso().split('T
             break;
         }
     }
-    console.log(film_clean);
+
     return film_clean;
 }
 
@@ -94,6 +91,7 @@ const get_end_hour = (start_time, minutes) => {
 
 async function insert_db_showtimes(movie_id, date, duration, showtimes){
     const showtimes_clean = [];
+
     for (let showing in showtimes){
         const showing_type = showing;
         const functions = showtimes[showing_type].times;
@@ -108,15 +106,13 @@ async function insert_db_showtimes(movie_id, date, duration, showtimes){
             };
             const auditoriums = await get_available_auditorium(function_clean);
             function_clean.auditorium_id = auditoriums[0].id;
-            // showtimes_clean.push(function_clean);
+
             const response = await insert_showtime_db(function_clean);
-            console.log(response);
             const db_showtime = response[0];
             console.log("showtime inserted: ", db_showtime);
             showtimes_clean.push(db_showtime);
         }
     }
-    console.log("showtimes: " + showtimes_clean)
     return showtimes_clean;
 }
 
@@ -125,6 +121,7 @@ async function insert_db_showtimes(movie_id, date, duration, showtimes){
 
 
 export async function get_booked_seats(showtime=30){
+    console.log("dataservice showtime with:", showtime)
     const seats = await get_showtime_seats(showtime);
     return seats;
 }
