@@ -1,7 +1,9 @@
-import { get_available_auditorium,get_booked_tickets, get_showtimesPerMovie_db,get_data_by_id, insert_showtime_db, get_showtime_seats, insert_payment, insert_tickets, update_tickets_salesid, get_sale_by_uuid, get_tickets_by_sale} from "../api/supabase_api.js";
+// import { ,get_booked_tickets, get_showtimesPerMovie_db,get_data_by_id, insert_showtime_db, get_showtime_seats, insert_payment, insert_tickets, update_tickets_salesid, get_sale_by_uuid, get_tickets_by_sale} from "../api/supabase_api.js";
+import { get_showtimesPerMovie_db, get_available_auditorium, insert_showtime_db } from "../api/supabase_api.js";
 import { mglu_list_movies, mglu_data_movie, mglu_schedules_movie } from "../api/movieglu_api.js";  
 import { convert_date_iso } from "../utils.js";
 
+//we get the movie list and we "clean" the information, so we have the relevant things
 export async function getMovies(n_movies) {
     let response = await mglu_list_movies(n_movies);
     let movies = response.films;
@@ -16,16 +18,66 @@ export async function getMovies(n_movies) {
             age_rating: movie.age_rating[0].rating
         };
         movies_clean.push(movie_data);
-
+        
     }
     return movies_clean;
 }
 
+//We consult the db for the showtimes already storaged
 async function get_db_showtimes(movie_id, date){
     let db_showtimes = await get_showtimesPerMovie_db(movie_id, date);
-    // console.log(db_showtimes);
     return db_showtimes;
 }
+
+//We get the basic info about the movie and the schedules
+//It needs the movie_id from movieglu and a date 
+export async function getMovieDetails(movie_id, date=convert_date_iso().split('T')[0]) {
+    let response = await mglu_schedules_movie(movie_id, date);
+    console.log("movieglu original response",response)
+
+    const films_list = response.films 
+    let film_clean = {}
+
+    for (let film of films_list){
+        
+        if (film.film_id == movie_id){
+            console.log("Found film " + film.film_id)
+            film_clean = {
+                id: movie_id,
+                title: film.film_name,
+                age_rating: film.age_rating[0].rating,
+                duration: film.duration_hrs_mins,
+                synopsis: film.synopsis_long,
+                poster : film.images.poster['1'].medium.film_image,
+                genres: [],
+            };
+
+            for (let genre of film.genres) {
+                film_clean.genres.push(genre.genre_name);
+            }
+
+            //First we consult the db for the showtimes
+            let showtimes = await get_db_showtimes(movie_id, date);
+            console.log("showtimes from db",showtimes)
+            if (showtimes.length == 0){
+                const duration_min = film.duration_mins
+                showtimes = await insert_db_showtimes(movie_id, date, duration_min, film.showings);
+
+            } 
+
+            film_clean.showings = showtimes;
+            break;
+        }
+    }
+    console.log(film_clean);
+    return film_clean;
+}
+
+
+
+
+
+
 
 
 
@@ -51,56 +103,30 @@ async function insert_db_showtimes(movie_id, date, duration, showtimes){
                 start_time: function_time.start_time,
                 start_date: date,
                 end_time:  get_end_hour(function_time.start_time, duration),
-                movie_id: parseInt(movie_id)
+                movie_id: parseInt(movie_id),
+                available_seats: 91
             };
-            
-            showtimes_clean.push(function_clean);
+            const auditoriums = await get_available_auditorium(function_clean);
+            function_clean.auditorium_id = auditoriums[0].id;
+            // showtimes_clean.push(function_clean);
+            const response = await insert_showtime_db(function_clean);
+            console.log(response);
+            const db_showtime = response[0];
+            console.log("showtime inserted: ", db_showtime);
+            showtimes_clean.push(db_showtime);
         }
     }
-    return await get_available_auditorium(showtimes_clean, date);
+    console.log("showtimes: " + showtimes_clean)
+    return showtimes_clean;
 }
 
-export async function getMovieDetails(movie_id, date=convert_date_iso().split('T')[0]) {
-    console.log(date)
-    let response = await mglu_schedules_movie(movie_id, date);
-    console.log(response)
-    const films_list = response.films 
-    let film_clean = {}
-    for (let film of films_list){
-        console.log(movie_id, film.film_id)
-        if (film.film_id == movie_id){
-            console.log("found film " + film.film_id)
-            film_clean = {
-                id: movie_id,
-                title: film.film_name,
-                age_rating: film.age_rating[0].rating,
-                duration: film.duration_hrs_mins,
-                synopsis: film.synopsis_long
-            };
-            const genres = [];
-            for (let genre of film.genres) {
-                genres.push(genre.genre_name);
-            }
-            film_clean.genres = genres;
 
-            let showtimes = await get_db_showtimes(movie_id, date);
-            if (showtimes.length == 0){
-                const duration_min = film.duration_mins
-                showtimes = await insert_db_showtimes(movie_id, date, duration_min, film.showings);
-
-            } 
-            film_clean.showings = showtimes;
-            break;
-        }
-    }
-    console.log(film_clean);
-}
 
 
 
 export async function get_booked_seats(showtime=30){
     const seats = await get_showtime_seats(showtime);
-    console.log("seat", seats);
+    return seats;
 }
 
 export async function register_tickets(seats, showtime_id, ticket_type_id=1, price=15, sales_id=undefined){
@@ -122,12 +148,12 @@ export async function register_tickets(seats, showtime_id, ticket_type_id=1, pri
     }
     console.log("tickets_info", tickets_info);
     try {
-        const ticket_records = await insert_tickets(tickets_info);
+        await insert_tickets(tickets_info);
         sessionStorage.setItem('ticket_uuid', uuid);
         return uuid;
     } catch (error) {
         console.error(error);
-        throw new Error("Error registering tickets");
+        throw new Error("Error registering tickets"+error);
     }
 
 }

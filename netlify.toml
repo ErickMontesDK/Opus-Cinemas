@@ -1,0 +1,7 @@
+[build]
+  base = "/"
+  publish = "public"  # Carpeta donde estarán tus archivos estáticos (HTML, CSS, JS)
+  functions = "netlify/functions"  # Carpeta de funciones serverless
+
+[dev]
+  framework = "#static"  # Indica que es un proyecto estático
