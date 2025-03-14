@@ -24,9 +24,7 @@ export const handler = async (event) => {
             //Just to get the information from our db
             case 'GET': {
                 const { uuid, showtime_id, sale_id, limit_time } = queryStringParameters;
-                // const limit_time = `${new Date(Date.now() - time_limit * 60 * 1000).toLocaleString('en-US', hour_options)}`;
-                console.log("THE TIME LIMIT: " + limit_time)
-            
+                // const limit_time = `${new Date(Date.now() - time_limit * 60 * 1000).toLocaleString('en-US', hour_options)}`;            
                 //When we need reserved tickets
                 // if (uuid) {
                 //     const { data, error } = await supabase
@@ -43,7 +41,7 @@ export const handler = async (event) => {
                 //When we need the occupied seats in the showtime
                 if (showtime_id && limit_time) {
                     const { data: unav_seats, error } = await supabase
-                        .rpc('get_occupied_seats', {
+                        .rpc('get_showtime_seats', {
                             p_showtime_id: showtime_id,
                             p_limit_time: limit_time,
                         });

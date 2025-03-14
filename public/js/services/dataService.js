@@ -127,31 +127,44 @@ export async function get_booked_seats(showtime=30){
 }
 
 export async function register_tickets(seats, showtime_id, ticket_type_id=1, price=15, sales_id=undefined){
-    let tickets_info = [];
+    let new_tickets = [];
+    let expired_bookings_id = [];
+    console.log(seats)
     const uuid = crypto.randomUUID();
+    const common_data = {
+        showtime_id,
+        sales_id,
+        ticket_type_id,
+        price,
+        status: "reserved",
+        reserved_at: convert_date_iso(),
+        uuid: uuid
+    };
+
 
     for (let index in seats){
-        let ticket = {
-            seat_number: seats[index],
-            showtime_id,
-            sales_id,
-            ticket_type_id,
-            price,
-            status: "reserved",
-            reserved_at: convert_date_iso(),
-            uuid:uuid 
+        index = parseInt(index)
+        console.log(seats[index], "index",index)
+
+        if (seats[index].id !== null){
+            console.log("mememe",seats[index].id);
+            expired_bookings_id.push(seats[index].id);
+        } else {
+            let custom_data = common_data;
+            custom_data.seat_number = seats[index].seat_number;
+            new_tickets.push(custom_data);
         }
-        tickets_info.push(ticket);
     }
-    console.log("tickets_info", tickets_info);
-    try {
-        await insert_tickets(tickets_info);
-        sessionStorage.setItem('ticket_uuid', uuid);
-        return uuid;
-    } catch (error) {
-        console.error(error);
-        throw new Error("Error registering tickets"+error);
-    }
+    console.log("old reservation with new data", expired_bookings_id);
+    console.log("new_tickets", new_tickets);
+    // try {
+    //     await insert_tickets(tickets_info);
+    //     sessionStorage.setItem('ticket_uuid', uuid);
+    //     return uuid;
+    // } catch (error) {
+    //     console.error(error);
+    //     throw new Error("Error registering tickets"+error);
+    // }
 
 }
 
