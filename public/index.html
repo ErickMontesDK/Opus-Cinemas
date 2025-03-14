@@ -27,18 +27,18 @@
             import {get_booked_info, getMovies, getMovieDetails,get_booked_seats, register_tickets, payment_process, get_payment_confirmation} from "./js/services/dataService.js"
 
             $(document).ready(function(){
-                // async function call_db_data1(){
-                //     console.log("Searching for 25 list of movies")
-                //     const movies = await getMovies(25);
-                //     console.log(movies)
-                // } 
-                // call_db_data1()
-                // async function call_db_data2(){
-                //     console.log("Searching for schedules and movie details")
-                //     const movie_data = await getMovieDetails(3427);
-                //     console.log(movie_data)
-                // } 
-                // call_db_data2()
+                async function call_db_data1(){
+                    console.log("Searching for 25 list of movies")
+                    const movies = await getMovies(25);
+                    console.log(movies)
+                } 
+                call_db_data1()
+                async function call_db_data2(){
+                    console.log("Searching for schedules and movie details")
+                    const movie_data = await getMovieDetails(3427);
+                    console.log(movie_data)
+                } 
+                call_db_data2()
                 async function call_db_data3(){
                     console.log("Getting unavailable seats for showtime  ")
                     const seats = await get_booked_seats(30);
