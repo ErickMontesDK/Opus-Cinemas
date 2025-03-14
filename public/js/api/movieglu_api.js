@@ -13,8 +13,7 @@ async function mglu_data_movie(movie_id=7772){
     const endpoint = 'https://api-gate2.movieglu.com/filmDetails/?film_id='+movie_id
 }
 
-async function mglu_schedules_movie(movie_id=7772, date, cinema_id=8845){
-    console.log("movide_id api service", movie_id);
+async function mglu_schedules_movie(movie_id=7772, date){
     const response = await fetch(`/.netlify/functions/movieDetails?movie_id=${movie_id}&date=${date}`)
     return await response.json();
 }

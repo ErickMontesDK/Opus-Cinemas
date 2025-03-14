@@ -1,5 +1,5 @@
-// import { ,get_booked_tickets, get_showtimesPerMovie_db,get_data_by_id, insert_showtime_db, get_showtime_seats, insert_payment, insert_tickets, update_tickets_salesid, get_sale_by_uuid, get_tickets_by_sale} from "../api/supabase_api.js";
-import { get_showtimesPerMovie_db, get_available_auditorium, get_showtime_seats } from "../api/supabase_api.js";
+// import { ,get_booked_tickets, get_showtimesPerMovie_db,get_data_by_id, get_showtime_seats, insert_payment, insert_tickets, update_tickets_salesid, get_sale_by_uuid, get_tickets_by_sale} from "../api/supabase_api.js";
+import { get_showtimesPerMovie_db, get_available_auditorium, get_showtime_seats, insert_showtime_db } from "../api/supabase_api.js";
 import { mglu_list_movies, mglu_data_movie, mglu_schedules_movie } from "../api/movieglu_api.js";  
 import { convert_date_iso } from "../utils.js";
 
@@ -23,17 +23,15 @@ export async function getMovies(n_movies) {
     return movies_clean;
 }
 
-//We consult the db for the showtimes already storaged
 async function get_db_showtimes(movie_id, date){
     let db_showtimes = await get_showtimesPerMovie_db(movie_id, date);
     return db_showtimes;
 }
 
-//We get the basic info about the movie and the schedules
-//It needs the movie_id from movieglu and a date 
+
 export async function getMovieDetails(movie_id, date=convert_date_iso().split('T')[0]) {
     let response = await mglu_schedules_movie(movie_id, date);
-    console.log("movieglu original response",response)
+    // console.log("movieglu original response",response)
 
     const films_list = response.films 
     let film_clean = {}
@@ -69,13 +67,6 @@ export async function getMovieDetails(movie_id, date=convert_date_iso().split('T
 
     return film_clean;
 }
-
-
-
-
-
-
-
 
 
 const get_end_hour = (start_time, minutes) => {
@@ -129,7 +120,7 @@ export async function get_booked_seats(showtime=30){
 export async function register_tickets(seats, showtime_id, ticket_type_id=1, price=15, sales_id=undefined){
     let new_tickets = [];
     let expired_bookings_id = [];
-    console.log(seats)
+
     const uuid = crypto.randomUUID();
     const common_data = {
         showtime_id,
@@ -144,10 +135,8 @@ export async function register_tickets(seats, showtime_id, ticket_type_id=1, pri
 
     for (let index in seats){
         index = parseInt(index)
-        console.log(seats[index], "index",index)
 
         if (seats[index].id !== null){
-            console.log("mememe",seats[index].id);
             expired_bookings_id.push(seats[index].id);
         } else {
             let custom_data = common_data;
@@ -155,8 +144,8 @@ export async function register_tickets(seats, showtime_id, ticket_type_id=1, pri
             new_tickets.push(custom_data);
         }
     }
-    console.log("old reservation with new data", expired_bookings_id);
-    console.log("new_tickets", new_tickets);
+    // console.log("old reservation with new data", expired_bookings_id);
+    // console.log("new_tickets", new_tickets);
     // try {
     //     await insert_tickets(tickets_info);
     //     sessionStorage.setItem('ticket_uuid', uuid);
