@@ -1,5 +1,5 @@
 // import { ,get_booked_tickets, get_showtimesPerMovie_db,get_data_by_id, get_showtime_seats, insert_payment, insert_tickets, update_tickets_salesid, get_sale_by_uuid, get_tickets_by_sale} from "../api/supabase_api.js";
-import { get_showtimesPerMovie_db, get_available_auditorium, get_showtime_seats, insert_showtime_db } from "../api/supabase_api.js";
+import { get_showtimesPerMovie_db, get_available_auditorium, get_showtime_seats, insert_showtime_db, updateMultipleTicketsInDb, insertMultipleTicketsInDb } from "../api/supabase_api.js";
 import { mglu_list_movies, mglu_data_movie, mglu_schedules_movie } from "../api/movieglu_api.js";  
 import { convert_date_iso } from "../utils.js";
 
@@ -123,7 +123,6 @@ export async function register_tickets(seats, showtime_id, ticket_type_id=1, pri
 
     const uuid = crypto.randomUUID();
     const common_data = {
-        showtime_id,
         sales_id,
         ticket_type_id,
         price,
@@ -139,21 +138,31 @@ export async function register_tickets(seats, showtime_id, ticket_type_id=1, pri
         if (seats[index].id !== null){
             expired_bookings_id.push(seats[index].id);
         } else {
-            let custom_data = common_data;
+            const custom_data = {...common_data};
             custom_data.seat_number = seats[index].seat_number;
+            custom_data.showtime_id = showtime_id;
             new_tickets.push(custom_data);
         }
     }
     // console.log("old reservation with new data", expired_bookings_id);
     // console.log("new_tickets", new_tickets);
-    // try {
-    //     await insert_tickets(tickets_info);
-    //     sessionStorage.setItem('ticket_uuid', uuid);
-    //     return uuid;
-    // } catch (error) {
-    //     console.error(error);
-    //     throw new Error("Error registering tickets"+error);
-    // }
+    try {
+        const updatedTicketsData = await updateMultipleTicketsInDb(expired_bookings_id, common_data);
+        const insertedTicketsData = await insertMultipleTicketsInDb(new_tickets);
+        console.log("updatedTicketsData", updatedTicketsData);
+        console.log("insertedTicketsData", insertedTicketsData);
+        
+        sessionStorage.setItem('ticket_uuid', uuid);
+
+        if(updatedTicketsData.length < 0 && updatedTicketsData.length < 0){
+            throw new Error("No tickets were booked");
+        }
+
+        return uuid;
+    } catch (error) {
+        console.error(error);
+        throw new Error("Error registering tickets"+error);
+    }
 
 }
 

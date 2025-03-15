@@ -83,18 +83,42 @@ export async function get_showtime_seats(showtime_id) {
 //     return data;
 // }
     
-// export async function insert_tickets(tickets){
-//     let { data, error } = await supabase
-//         .from("tickets")
-//         .insert(tickets)
-//         .select()
-    
-//     if (error) {
-//         throw new Error("Error saving booked tickets in db:", error);
-//     } 
-//     return data;
-// }
+export async function insertMultipleTicketsInDb(newTickets){
+    console.log("entro a updateMultipleTicketsInDb")
+    const databaseResponse = await fetch(`/.netlify/functions/ticketsHandling`,
+        {
+            method: 'POST', 
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ newTickets })
+        },
+    );
 
+    if (!databaseResponse.ok) {
+        throw new Error(`Error: ${databaseResponse.status} - ${databaseResponse.statusText}`);
+    }
+
+    const insertedTicketsData = await databaseResponse.json();
+    return insertedTicketsData;
+}
+
+
+export async function updateMultipleTicketsInDb(ticketIdsToUpdate, fieldsToUpdate){
+    console.log("entro a updateMultipleTicketsInDb")
+    const databaseResponse = await fetch(`/.netlify/functions/ticketsHandling`,
+        {
+            method: 'PUT', 
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ ticketIdsToUpdate, fieldsToUpdate })
+        },
+    );
+
+    if (!databaseResponse.ok) {
+        throw new Error(`Error: ${databaseResponse.status} - ${databaseResponse.statusText}`);
+    }
+
+    const updatedTicketsData = await databaseResponse.json();
+    return updatedTicketsData;
+}
 
 
 

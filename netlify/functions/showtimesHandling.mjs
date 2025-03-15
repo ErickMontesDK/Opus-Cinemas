@@ -25,6 +25,7 @@ export const handler = async (event) => {
                         
                     console.log("showtime_list", showtimes_db)
                     if (error) {
+                        
                         throw new Error("Error searching showtimes for the movie:", error);
                     } 
                     return { statusCode: 200, body: JSON.stringify(showtimes_db) };
