@@ -52,41 +52,41 @@
                 
                 
 
-                async function call_db_data4(){
-                    const selected_seats = [
-                        { id: null, seat_number: "C09"},
-                        { id: 62, seat_number: "C10"},
-                        { id: null, seat_number: "C11"},
-                        { id: 63, seat_number: "C12"},
-                    ];
+                // async function call_db_data4(){
+                //     const selected_seats = [
+                //         { id: null, seat_number: "C09"},
+                //         { id: 62, seat_number: "C10"},
+                //         { id: null, seat_number: "C11"},
+                //         { id: 63, seat_number: "C12"},
+                //     ];
                     
-                    const uuid = await register_tickets(selected_seats, 30);
-                    console.log("uuid from db",uuid);
-                    const session_uuid = sessionStorage.getItem('ticket_uuid');
-                    console.log("session uuid",session_uuid);
-                
-                } 
-                call_db_data4()
-                    // async function call_db_data(){
-                //     const booking_info = await get_booked_info("1b895794-3ffa-4e1c-92ca-84ec035afe4a");
-                //     console.log("booking_info",booking_info);
+                //     const uuid = await register_tickets(selected_seats, 30);
+                //     console.log("uuid from db",uuid);
+                //     const session_uuid = sessionStorage.getItem('ticket_uuid');
+                //     console.log("session uuid",session_uuid);
                 
                 // } 
-                // call_db_data()
-                // async function call_db_data(){
-                //         const payment_uuid = await payment_process("1b895794-3ffa-4e1c-92ca-84ec035afe4a","erickmontesdk@gmail.com",45,30);
-                //         console.log("payment_uuid",payment_uuid);
+                // call_db_data4()
+                    async function call_db_data5(){
+                    const booking_info = await get_booked_info("07631c79-2eee-4abf-bca9-41dfa6691d05");
+                    console.log("booking_info",booking_info);
+                
+                } 
+                call_db_data5()
+                // async function call_db_data6(){
+                //     const payment_uuid = await payment_process("07631c79-2eee-4abf-bca9-41dfa6691d05","erickmontesdk@gmail.com", 45, 30);
+                //     console.log("payment_uuid",payment_uuid);
+                
+                // } 
+                // call_db_data6()
                     
-                //     } 
-                //     call_db_data()
-                    
-                    // async function call_db_data(){
-                    //     const seats = await get_payment_confirmation("56fda436-d634-4d1d-8f50-6b2c34dbd67a");
-                    //     console.log(seats)
-                    // } 
-                    // call_db_data()
-                });
-                </script>
+                async function call_db_data(){
+                    const seats = await get_payment_confirmation("41d2418e-4d69-474f-aeb3-4bd34f34c0b2");
+                    console.log(seats)
+                } 
+                call_db_data()
+            });
+        </script>
 
 </body>
 </html>

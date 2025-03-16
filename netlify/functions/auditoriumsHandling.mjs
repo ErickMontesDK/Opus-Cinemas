@@ -11,7 +11,8 @@ export const handler = async (event) => {
 
         switch (httpMethod) {
             case 'GET': {
-                const { start_date, start_time, end_time } = queryStringParameters;
+                const { start_date, start_time, end_time, auditoriumId } = queryStringParameters;
+                console.log(start_date, start_time, end_time, auditoriumId);
                 if (start_date) {
                     
                     const { data: auditoriums, error } = await supabase
@@ -26,8 +27,18 @@ export const handler = async (event) => {
                     } 
                     return { statusCode: 200, body: JSON.stringify(auditoriums) };
                     
+                } else if (auditoriumId){
+                    const { data: auditoriumData, error } = await supabase
+                    .from('auditoriums')
+                    .select('*')
+                    .eq('id', auditoriumId);
+                    
+                    if (error) {
+                        console.log("Error: " + error.message);
+                        throw new Error(error?.message);
+                    }
+                    return { statusCode: 200, body: JSON.stringify(auditoriumData) };
                 }
-                        
                 break;
             }
 

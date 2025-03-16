@@ -3,9 +3,9 @@ import { movieglu_headers, cinema_id_movieglu } from './config.js';
 
 export const handler = async (event) => {
     try {
-        const { movie_id, date } = event.queryStringParameters;
+        const { film_id } = event.queryStringParameters;
 
-        const endpoint = `https://api-gate2.movieglu.com/cinemaShowTimes/?film_id=${movie_id}&cinema_id=${cinema_id_movieglu}&date=${date}`
+        const endpoint = `https://api-gate2.movieglu.com/filmDetails/?film_id=${film_id}`
 
         const response = await fetch(endpoint, { headers: movieglu_headers });
         if (!response.ok) {

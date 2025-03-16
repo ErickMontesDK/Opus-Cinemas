@@ -10,7 +10,7 @@ export const handler = async (event) => {
 
         switch (httpMethod) {
             case 'GET': {
-                const { movie_id, start_date, start_time, end_time } = queryStringParameters;
+                const { movie_id, start_date, start_time, end_time, selectedShowtimeId } = queryStringParameters;
 
                 console.log("query parameters: " + queryStringParameters)
 
@@ -30,6 +30,19 @@ export const handler = async (event) => {
                     } 
                     return { statusCode: 200, body: JSON.stringify(showtimes_db) };
                     
+                } else if (selectedShowtimeId) {
+                    let { data:showtimeData, error } = await supabase
+                        .from('showtimes')
+                        .select('*')
+                        .eq('id', parseInt(selectedShowtimeId));
+                        
+                    console.log("showtime_list", showtimeData)
+                    if (error) {
+                        console.log("error", error.message);
+                        throw new Error("Error searching showtimes for the movie:", error);
+                    } 
+                    return { statusCode: 200, body: JSON.stringify(showtimeData) };
+
                 }
                         
                 break;
@@ -50,9 +63,20 @@ export const handler = async (event) => {
                 return { statusCode: 200, body: JSON.stringify(data) };
 
 
-            case 'PUT':
-                const { uuid, sales_id, price, tickets_ids, reserved_at } = JSON.parse(body);
+            case 'PUT':{
+                const {showtimeId, numberSeats} = JSON.parse(body);
+                const { data: showtimeData, error } = await supabase
+                    .from('showtimes')
+                    .update({available_seats: numberSeats})
+                    .eq('id', parseInt(showtimeId))
+                    .select('*');
+                    
+                if (error) {
+                    throw new Error("Error searching showtimes for the movie:", error);
+                } 
+                return { statusCode: 200, body: JSON.stringify(showtimeData) };
 
+            }
             default:
                 return {
                     statusCode: 405,

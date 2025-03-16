@@ -10,7 +10,7 @@ export const handler = async (event) => {
 
         switch (httpMethod) {
             case 'GET': {
-                const { uuid, showtime_id, sale_id, limit_time } = queryStringParameters;
+                const { uuid, showtime_id, saleId, limit_time } = queryStringParameters;
 
                 if (showtime_id && limit_time) {
                     const { data: unav_seats, error } = await supabase
@@ -26,13 +26,41 @@ export const handler = async (event) => {
                     }
                     
                     return { statusCode: 200, body: JSON.stringify(unav_seats) };
+                
+                } else if(uuid && limit_time ){
+                    console.log("eso se acabo")
+                    const { data: ticketsBookedByUser, error } = await supabase
+                        .from('tickets')
+                        .select('*')
+                        .eq('uuid', uuid)
+                        .eq('status', 'reserved')
+                        .gt('reserved_at', limit_time);
+
+                    if (error) {
+                        console.log("Error: " + error.message);
+                        throw new Error(error?.message);
+
+                    }
+                    
+                    return { statusCode: 200, body: JSON.stringify(ticketsBookedByUser) };
+                } else if (saleId) {
+                    console.log("Sale ID: " + saleId);
+                    let { data: ticketsBookedBySale, error } = await supabase
+                        .from('tickets')
+                        .select('*')
+                        .eq('sales_id', saleId);
+                    
+                    if (error) {
+                        throw new Error("Error getting tickets by sale " + error);
+                    } 
+                    return { statusCode: 200, body: JSON.stringify(ticketsBookedBySale) };
                 }
             
                 break;
             }
             
             case 'PUT':
-                const {ticketIdsToUpdate, fieldsToUpdate } = JSON.parse(body);
+                const {ticketIdsToUpdate, fieldsToUpdate, ticketsUuid, saleId } = JSON.parse(body);
                 if (ticketIdsToUpdate && fieldsToUpdate) {
 
                     const { data: updatedTicketsData, error } = await supabase
@@ -49,8 +77,24 @@ export const handler = async (event) => {
 
                     }
                     return { statusCode: 200, body: JSON.stringify(updatedTicketsData) };
-                }
 
+                } else if (ticketsUuid && saleId){
+
+                    const { data: updatedTicketsSaleData, error } = await supabase
+                        .from('tickets')
+                        .update([
+                            { sales_id: saleId, status: 'sold' }
+                        ])
+                        .eq('uuid', ticketsUuid)
+                        .select('*');
+
+                    if (error) {
+                        console.log("Error: " + error.message);
+                        throw new Error(error?.message);
+                    }
+                    return { statusCode: 200, body: JSON.stringify(updatedTicketsSaleData) };
+                }
+                
                 case 'POST':
                     const { newTickets } = JSON.parse(body);
                     if ( newTickets ) {

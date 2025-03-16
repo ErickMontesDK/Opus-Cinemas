@@ -10,7 +10,8 @@ async function mglu_list_movies(n_movies = 1){
     return await response.json();
 }
 async function mglu_data_movie(movie_id=7772){
-    const endpoint = 'https://api-gate2.movieglu.com/filmDetails/?film_id='+movie_id
+    const response = await fetch(`/.netlify/functions/filmInformation?film_id=${movie_id}`)
+    return await response.json();
 }
 
 async function mglu_schedules_movie(movie_id=7772, date){

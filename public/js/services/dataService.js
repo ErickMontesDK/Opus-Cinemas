@@ -1,5 +1,5 @@
 // import { ,get_booked_tickets, get_showtimesPerMovie_db,get_data_by_id, get_showtime_seats, insert_payment, insert_tickets, update_tickets_salesid, get_sale_by_uuid, get_tickets_by_sale} from "../api/supabase_api.js";
-import { get_showtimesPerMovie_db, get_available_auditorium, get_showtime_seats, insert_showtime_db, updateMultipleTicketsInDb, insertMultipleTicketsInDb } from "../api/supabase_api.js";
+import {get_tickets_by_sale, get_sale_by_uuid, insert_payment, getAuditoriumInDbById, getShowtimeDataInDb, get_booked_tickets, get_showtimesPerMovie_db, get_available_auditorium, get_showtime_seats, insert_showtime_db, updateMultipleTicketsInDb, insertMultipleTicketsInDb, updateTicketsBySale, updateAvailableSeatsShowtime } from "../api/supabase_api.js";
 import { mglu_list_movies, mglu_data_movie, mglu_schedules_movie } from "../api/movieglu_api.js";  
 import { convert_date_iso } from "../utils.js";
 
@@ -123,7 +123,7 @@ export async function register_tickets(seats, showtime_id, ticket_type_id=1, pri
 
     const uuid = crypto.randomUUID();
     const common_data = {
-        sales_id,
+        sales_id: null,
         ticket_type_id,
         price,
         status: "reserved",
@@ -168,6 +168,7 @@ export async function register_tickets(seats, showtime_id, ticket_type_id=1, pri
 
 export async function get_booked_info(uuid){
     const tickets = await get_booked_tickets(uuid);
+    console.log("Booked tickets", tickets);
     let total_amount = 0;
     let seats_reserved = [];
     let showtime_id;
@@ -182,16 +183,17 @@ export async function get_booked_info(uuid){
         }
     }
     if(showtime_id){
-        const showtime = await get_data_by_id('showtimes',showtime_id);
+        const showtime = await getShowtimeDataInDb(showtime_id);
 
         if(showtime.length > 0){
             let movie_id =showtime[0].movie_id
             let auditorium_id = showtime[0].auditorium_id
+            const available_seats = showtime[0].available_seats
 
             const movie = await mglu_data_movie(movie_id);
-            const auditorium = await get_data_by_id('auditoriums', auditorium_id);
+            const auditorium = await getAuditoriumInDbById(auditorium_id);
 
-
+            console.log("keep rolling",showtime, movie_id, auditorium_id, movie)
             const booking_data = {
                 movie: {
                     title: movie.film_name,
@@ -201,7 +203,8 @@ export async function get_booked_info(uuid){
                 },
                 auditorium: auditorium[0].name,
                 seats_reserved,
-                total_amount
+                total_amount,
+                available_seats
             }
             return booking_data;
         } 
@@ -210,7 +213,7 @@ export async function get_booked_info(uuid){
     throw new Error("Booked information was not found");
 }
 
-export async function payment_process(uuid, email, total, showtime_id){
+export async function payment_process(uuid, email, total, showtime_id, available_seats){
     const sale = {
         email,
         total,
@@ -220,17 +223,22 @@ export async function payment_process(uuid, email, total, showtime_id){
 
     try {
         const response = await insert_payment(sale);
+        console.log(response);
         const sale_record = response[0];
         const sale_id = sale_record.id;
         const sale_uuid = sale_record.uuid;
     
-        const tickets_updated = await update_tickets_salesid(uuid,sale_id)
-        
+        const tickets_updated = await updateTicketsBySale(uuid,sale_id)
+        console.log(tickets_updated);
         console.log("sale_record", sale_record);
-        console.log("tickets_updated", tickets_updated);
-        sessionStorage.setItem('payment_uuid', sale_uuid);
+        available_seats = available_seats - tickets_updated.length;
+        // console.log("tickets_updated", tickets_updated);
+        // sessionStorage.setItem('payment_uuid', sale_uuid);
+        const showtimeUpdated = updateAvailableSeatsShowtime(showtime_id, available_seats)
+        console.log(showtimeUpdated);
         return sale_uuid;
     } catch (error) {
+        console.error(error.message);
         throw new Error("Error processing payment");
         
     }
@@ -239,6 +247,7 @@ export async function payment_process(uuid, email, total, showtime_id){
 export async function get_payment_confirmation(uuid){
     try {
         const response = await get_sale_by_uuid(uuid);
+        console.log("sale",response);
         const sale = response[0];
         const email = sale.email;
     
@@ -247,18 +256,20 @@ export async function get_payment_confirmation(uuid){
         let showtime_id = sale.showtime_id;
     
         const tickets = await get_tickets_by_sale(sale.id);
+        console.log(tickets);
         for(let ticket of tickets){
             seats_reserved.push(ticket.seat_number);
         }
+
         if(showtime_id){
-            const showtime = await get_data_by_id('showtimes',showtime_id);
+            const showtime = await getShowtimeDataInDb(showtime_id);
     
             if(showtime.length > 0){
                 let movie_id =showtime[0].movie_id
                 let auditorium_id = showtime[0].auditorium_id
     
                 const movie = await mglu_data_movie(movie_id);
-                const auditorium = await get_data_by_id('auditoriums', auditorium_id);
+                const auditorium = await getAuditoriumInDbById(auditorium_id);
     
     
                 const sale_data = {
