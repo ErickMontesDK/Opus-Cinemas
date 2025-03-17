@@ -1,75 +1,125 @@
 // import { ,get_booked_tickets, get_showtimesPerMovie_db,get_data_by_id, get_showtime_seats, insert_payment, insert_tickets, update_tickets_salesid, get_sale_by_uuid, get_tickets_by_sale} from "../api/supabase_api.js";
-import {get_tickets_by_sale, get_sale_by_uuid, insert_payment, getAuditoriumInDbById, getShowtimeDataInDb, get_booked_tickets, get_showtimesPerMovie_db, get_available_auditorium, get_showtime_seats, insert_showtime_db, updateMultipleTicketsInDb, insertMultipleTicketsInDb, updateTicketsBySale, updateAvailableSeatsShowtime } from "../api/supabase_api.js";
-import { mglu_list_movies, mglu_data_movie, mglu_schedules_movie } from "../api/movieglu_api.js";  
-import { convert_date_iso } from "../utils.js";
+import {get_tickets_by_sale, get_sale_by_uuid, insert_payment, getAuditoriumInDbById, getShowtimeDataInDb, get_booked_tickets, getShowtimesPerMovieDb, get_showtime_seats, insertShowtimeRecordDb, updateMultipleTicketsInDb, insertMultipleTicketsInDb, updateTicketsBySale, updateAvailableSeatsShowtime, getAvailableAuditorium } from "../api/supabaseApi.js";
+import { fetchMovieInformationFromAPI, fetchMoviesFromAPI, fetchMoviesSchedulesFromAPI } from "../api/moviegluApi.js";  
+import { adjustedDatetime, convert_date_iso } from "../utils.js";
 
-//we get the movie list and we "clean" the information, so we have the relevant things
-export async function getMovies(n_movies) {
-    let response = await mglu_list_movies(n_movies);
-    let movies = response.films;
-    let movies_clean = [];
+function getReleaseStatus(currentDate, movieReleaseDate){
+    const releaseDate = new Date(movieReleaseDate);
+    const today = new Date(currentDate);
+    const daysOfDifference = Math.ceil((today - releaseDate)/(1000*60*60*24));
 
-    for (let movie of movies){
-        let movie_data = {
+    if (daysOfDifference < 1) {
+        return "preSale"; 
+    } else if (daysOfDifference < 15) {
+        return "newRelease";
+    } else {
+        return "regular"; 
+    }
+}
+
+export async function getMovies(numberOfMovies, date=convert_date_iso().split("T")[0]) {
+    const dateTime = date+"T05:00:00"
+    const moviesListResponse  = await fetchMoviesFromAPI(numberOfMovies);
+    const schedulesResponse  = await fetchMoviesSchedulesFromAPI(dateTime);
+
+    let moviesList = moviesListResponse.films;
+    let moviesSchedules = schedulesResponse.films;
+
+    const cleanedMovies = moviesList.map(movie =>{
+        const movieSchedulesData = moviesSchedules.find(movieData => movieData.film_id == movie.film_id);
+        const releaseStatus = getReleaseStatus(date, movie.release_dates[0].release_date)
+        
+        let movieGenres = [];
+        if (movieSchedulesData){
+            movieGenres = movieSchedulesData.genres.map(genre => genre.genre_name)
+        }
+
+        return {
             id: movie.film_id,
             title: movie.film_name,
             poster: movie.images.poster[1].medium.film_image,
             trailer: movie.film_trailer,
-            age_rating: movie.age_rating[0].rating
-        };
-        movies_clean.push(movie_data);
-        
-    }
-    return movies_clean;
-}
-
-async function get_db_showtimes(movie_id, date){
-    let db_showtimes = await get_showtimesPerMovie_db(movie_id, date);
-    return db_showtimes;
-}
-
-
-export async function getMovieDetails(movie_id, date=convert_date_iso().split('T')[0]) {
-    let response = await mglu_schedules_movie(movie_id, date);
-    // console.log("movieglu original response",response)
-
-    const films_list = response.films 
-    let film_clean = {}
-
-    for (let film of films_list){
-        
-        if (film.film_id == movie_id){
-            film_clean = {
-                id: movie_id,
-                title: film.film_name,
-                age_rating: film.age_rating[0].rating,
-                duration: film.duration_hrs_mins,
-                synopsis: film.synopsis_long,
-                poster : film.images.poster['1'].medium.film_image,
-                genres: [],
-            };
-
-            for (let genre of film.genres) {
-                film_clean.genres.push(genre.genre_name);
-            }
-
-            let showtimes = await get_db_showtimes(movie_id, date);
-            if (showtimes.length == 0){
-                const duration_min = film.duration_mins
-                showtimes = await insert_db_showtimes(movie_id, date, duration_min, film.showings);
-
-            } 
-
-            film_clean.showings = showtimes;
-            break;
+            ageRating: movie.age_rating[0].rating,
+            ageAdvisory: movie.age_rating[0].age_advisory,
+            genres: movieGenres,
+            releaseStatus
         }
-    }
-
-    return film_clean;
+    });
+    return cleanedMovies;
 }
 
 
-const get_end_hour = (start_time, minutes) => {
+async function consultMovieSchedules(movieId, datetime, movieDurationInMin){
+    try {
+        const [date, time] = datetime.split("T");
+        let showtimes = await getShowtimesPerMovieDb(movieId, date, time);
+        
+        if (showtimes.length == 0){
+            let apiSchedulesResponse = await fetchMoviesSchedulesFromAPI(datetime);
+
+            if (apiSchedulesResponse){
+                const movieSchedulesResponse = apiSchedulesResponse.films.find(film => film.film_id == movieId )
+
+                if(movieSchedulesResponse?.showings){
+                    const schedulesInDate = movieSchedulesResponse.showings ? movieSchedulesResponse.showings : []; 
+                    console.log("showtimes in API", schedulesInDate)
+                    showtimes = await insertShowtimesInDb(movieId, date, movieDurationInMin, schedulesInDate);
+                }
+            }            
+        } 
+        return showtimes;
+    } catch (error) {
+        console.log("Error consulting schedules", error);
+        throw new Error("Error consulting schedules: " + error.message);
+    }
+}
+
+
+export async function getMovieDetails(movieId, datetime=convert_date_iso()) {
+    try {
+        console.log("getMovieDetails", movieId);
+        let responseMovieDetails = await fetchMovieInformationFromAPI(movieId);
+        const durationInMs = responseMovieDetails.duration_mins;
+        
+        const cleanedFilmData = {
+            id: movieId,
+            title: responseMovieDetails.film_name,
+            age_rating: responseMovieDetails.age_rating?.[0]?.rating || null,
+            age_advisory: responseMovieDetails.age_rating?.[0]?.age_advisory || null,
+            duration: durationInMs,
+            synopsis: responseMovieDetails.synopsis_long,
+            poster : responseMovieDetails.images?.poster?.['1']?.medium?.film_image || null,
+            trailer: responseMovieDetails.trailers?.high?.[0]?.film_trailer || null,
+            director: responseMovieDetails?.directors?.[0]?.director_name || null,
+            genres: responseMovieDetails?.genres?.map(genre => genre.genre_name) || []
+        }        
+        const todaysDate = datetime
+        const tomorrowsData = adjustedDatetime(datetime, 1);
+        const afterTomorrowsData = adjustedDatetime(datetime, 2);
+
+        console.log(todaysDate, tomorrowsData, afterTomorrowsData)
+
+        const [todaySchedules, tomorrowSchedules, afterTomorrowsSchedules] = await Promise.all([
+            consultMovieSchedules(movieId, todaysDate, cleanedFilmData.duration),
+            consultMovieSchedules(movieId, tomorrowsData, cleanedFilmData.duration),
+            consultMovieSchedules(movieId, afterTomorrowsData, cleanedFilmData.duration),
+        ]);
+
+        cleanedFilmData.showings = {
+            today: todaySchedules,
+            tomorrow: tomorrowSchedules,
+            afterTomorrow: afterTomorrowsSchedules,
+        }
+    
+        return cleanedFilmData;
+    } catch (error) {
+        console.log("Error consulting schedules", error);
+        throw new Error("Error consulting schedules: " + error.message);
+    }
+}
+
+
+const getEndFunctionHour = (start_time, minutes) => {
     const [start_hour, start_minutes] = start_time.split(':').map(number => parseInt(number))
 
     let end_minutes = start_minutes + minutes;
@@ -80,31 +130,31 @@ const get_end_hour = (start_time, minutes) => {
     return `${end_hour.toString().padStart(2, '0')}:${end_minutes.toString().padStart(2, '0')}`
 }
 
-async function insert_db_showtimes(movie_id, date, duration, showtimes){
-    const showtimes_clean = [];
+async function insertShowtimesInDb(movieId, date, duration, showtimes){
+    const showtimesClean = [];
 
     for (let showing in showtimes){
-        const showing_type = showing;
-        const functions = showtimes[showing_type].times;
+        const showingType = showing;
+        const showtimesHours = showtimes[showingType].times;
 
-        for (let function_time of functions){            
-            let function_clean = {
-                start_time: function_time.start_time,
+        for (let showtimeHour of showtimesHours){            
+            let showtimeDbFields = {
+                start_time: showtimeHour.start_time,
                 start_date: date,
-                end_time:  get_end_hour(function_time.start_time, duration),
-                movie_id: parseInt(movie_id),
+                end_time:  getEndFunctionHour(showtimeHour.start_time, duration),
+                movie_id: parseInt(movieId),
                 available_seats: 91
             };
-            const auditoriums = await get_available_auditorium(function_clean);
-            function_clean.auditorium_id = auditoriums[0].id;
+            const auditoriumsAvailable = await getAvailableAuditorium(showtimeDbFields);
+            showtimeDbFields.auditorium_id = auditoriumsAvailable[0].id;
 
-            const response = await insert_showtime_db(function_clean);
-            const db_showtime = response[0];
-            console.log("showtime inserted: ", db_showtime);
-            showtimes_clean.push(db_showtime);
+            const insertShowtimeResponse = await insertShowtimeRecordDb(showtimeDbFields);
+            const showtimeRecord = insertShowtimeResponse[0];
+            console.log("showtime inserted: ", showtimeRecord);
+            showtimesClean.push(showtimeRecord);
         }
     }
-    return showtimes_clean;
+    return showtimesClean;
 }
 
 
@@ -190,7 +240,7 @@ export async function get_booked_info(uuid){
             let auditorium_id = showtime[0].auditorium_id
             const available_seats = showtime[0].available_seats
 
-            const movie = await mglu_data_movie(movie_id);
+            const movie = await fetchMovieInformationFromAPI(movie_id);
             const auditorium = await getAuditoriumInDbById(auditorium_id);
 
             console.log("keep rolling",showtime, movie_id, auditorium_id, movie)
@@ -268,7 +318,7 @@ export async function get_payment_confirmation(uuid){
                 let movie_id =showtime[0].movie_id
                 let auditorium_id = showtime[0].auditorium_id
     
-                const movie = await mglu_data_movie(movie_id);
+                const movie = await fetchMovieInformationFromAPI(movie_id);
                 const auditorium = await getAuditoriumInDbById(auditorium_id);
     
     

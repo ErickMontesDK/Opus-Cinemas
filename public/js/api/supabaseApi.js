@@ -182,9 +182,9 @@ export async function updateAvailableSeatsShowtime(selectedShowtimeId, numberSea
     const data = await response.json();
     return data;
 }
-export async function get_showtimesPerMovie_db(movie_id, date, showing_type=null) {
-    console.log("start fetch for supabase showtimes", movie_id, date)
-    const response = await fetch(`/.netlify/functions/showtimesHandling?movie_id=${movie_id}&start_date=${date}`,
+export async function getShowtimesPerMovieDb(movieId, date, startTime) {
+    console.log("start fetch for supabase showtimes", movieId, date)
+    const response = await fetch(`/.netlify/functions/showtimesHandling?movieId=${movieId}&startDate=${date}&startTime=${startTime}`,
         {
             method: 'GET', 
             headers: {'Content-Type': 'application/json'},
@@ -199,7 +199,7 @@ export async function get_showtimesPerMovie_db(movie_id, date, showing_type=null
     return data;
 }
 
-export async function insert_showtime_db(showtime) {
+export async function insertShowtimeRecordDb(showtime) {
     console.log("inserting showtimes in db")
     const response = await fetch(`/.netlify/functions/showtimesHandling`,
         {
@@ -217,7 +217,7 @@ export async function insert_showtime_db(showtime) {
     return data;
 }
 
-export async function get_available_auditorium(showtime){
+export async function getAvailableAuditorium(showtime){
     console.log("start fetch for supabase auditoriums", showtime.start_time, showtime.end_time)
     const response = await fetch(`/.netlify/functions/auditoriumsHandling?start_date=${showtime.start_date}&start_time=${showtime.start_time}&end_time=${showtime.end_time}`,
         {
@@ -231,6 +231,7 @@ export async function get_available_auditorium(showtime){
     }
 
     const data = await response.json();
+    console.log("vamos america", data)
     return data;
 };
 

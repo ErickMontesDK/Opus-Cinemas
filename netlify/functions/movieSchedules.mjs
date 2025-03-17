@@ -1,13 +1,16 @@
-import { moviegluHeaders } from './config.js';
+import { moviegluHeaders, moviegluCinemaId } from './config.js';
 
 export const handler = async (event) => {
     try {
-        const { movieId } = event.queryStringParameters;
+        const { dateTime } = event.queryStringParameters;
         
-        if (movieId){
-            const endpoint = `https://api-gate2.movieglu.com/filmDetails/?film_id=${movieId}`
+        if (dateTime){
+            const date = dateTime.split('T')[0]
+            const endpoint = `https://api-gate2.movieglu.com/cinemaShowTimes/?cinema_id=${moviegluCinemaId}&date=${date}`
+            const headers = {...moviegluHeaders}
             
-            const apiResponse = await fetch(endpoint, { headers: moviegluHeaders });
+            headers["device-datetime"] = dateTime;
+            const apiResponse = await fetch(endpoint, { headers: headers });
 
             if (!apiResponse.ok) {
                 throw new Error(`Error: ${apiResponse.status} - ${apiResponse.statusText}`);
@@ -19,7 +22,7 @@ export const handler = async (event) => {
                 body: JSON.stringify(schedulesData),
             };
         } else {
-            throw new Error('Missing required parameter: movieId');
+            throw new Error('Missing required parameter: dateTime');
         }
     } catch (error) {
         console.log(`Error: ${error.message}`);

@@ -1,6 +1,6 @@
 import { convert_date_iso } from './utils.js';
 
-export const movieglu_headers = {
+export const moviegluHeaders = {
     'client': 'SDPR',
     'x-api-key': process.env.MOVIEGLU_APIKEY,
     'authorization': process.env.MOVIEGLU_AUTH,
@@ -10,7 +10,7 @@ export const movieglu_headers = {
     'device-datetime': convert_date_iso()
 };
 
-export const cinema_id_movieglu = 8845;
+export const moviegluCinemaId = 8845;
 
 export const supabaseUrl = process.env.SUPABASE_URL;
 export const supabaseKey = process.env.SUPABASE_KEY;

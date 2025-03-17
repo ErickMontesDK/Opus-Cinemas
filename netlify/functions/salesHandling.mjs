@@ -27,7 +27,6 @@ export const handler = async (event) => {
 
             }
             case 'POST':
-                console.log("hola")
                 const {saleData} = JSON.parse(body);
                 console.log("saleData",saleData);
                 if ( saleData ) {

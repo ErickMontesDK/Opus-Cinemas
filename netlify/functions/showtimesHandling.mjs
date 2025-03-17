@@ -10,22 +10,19 @@ export const handler = async (event) => {
 
         switch (httpMethod) {
             case 'GET': {
-                const { movie_id, start_date, start_time, end_time, selectedShowtimeId } = queryStringParameters;
+                const { movieId, startDate, startTime, end_time, selectedShowtimeId } = queryStringParameters;
 
-                console.log("query parameters: " + queryStringParameters)
+                console.log("query parameters: ",movieId,startDate,startTime)
 
-                if (movie_id && start_date) {
-                    console.log("movie_id", movie_id);
-                    console.log("start_date", start_date)
+                if (movieId && startDate && startTime) {
                     let { data:showtimes_db, error } = await supabase
                         .from('showtimes')
                         .select('*')
-                        .eq('movie_id', parseInt(movie_id))
-                        .eq('start_date',start_date);
+                        .eq('movie_id', parseInt(movieId))
+                        .eq('start_date',startDate)
+                        .gt('start_time', startTime);
                         
-                    console.log("showtime_list", showtimes_db)
                     if (error) {
-                        
                         throw new Error("Error searching showtimes for the movie:", error);
                     } 
                     return { statusCode: 200, body: JSON.stringify(showtimes_db) };
