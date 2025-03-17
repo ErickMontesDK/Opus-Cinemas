@@ -20,6 +20,10 @@ h1,h2,h3,#header {
     color: var(--yellow);
 }
 
+.navbar {
+    --bs-navbar-padding-y: 0;
+}
+
 .nav-link {
     font-family: "Gugi", sans-serif;
     font-weight: 400;
@@ -47,6 +51,8 @@ h1,h2,h3,#header {
     text-decoration: none;
 }
 
+.
+
 .header-icon-custom {
     font-size: 30px;
 }
@@ -72,4 +78,29 @@ h1,h2,h3,#header {
     margin-right: 0;
     padding-left: 0;
     padding-right: 0;
+}
+
+.carousel-inner {
+    height: 15%; /* Height of the carousel */
+    width: 100%; /* Width of the carousel */
+    background-color: var(--black);
+}
+
+.carousel-image {
+    height: 320px; /* Height of the carousel */
+    object-fit: contain; /* To fit in the carousel */
+    object-position: top; /* Clop from the center */
+}
+
+.movieCards {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+}
+
+.movie {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
