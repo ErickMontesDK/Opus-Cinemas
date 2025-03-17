@@ -80,6 +80,41 @@ h1,h2,h3,#header {
     padding-right: 0;
 }
 
+.infomovies {
+    font-family: Arial, sans-serif;
+    display: flex;
+    background-color: #f0f0f0;
+    min-height: 100vh;
+    flex-direction: column;
+}
+.movie-card {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 16px;
+    background: white;
+    padding: 16px;
+    border-radius: 8px;
+    width: 400px;
+}
+.movie-card img {
+    width: 100px;
+    height: 150px;
+    border-radius: 4px;
+    object-fit: cover;
+}
+.movie-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.movie-title {
+    font-size: 18px;
+    font-weight: bold;
+}
+.movie-info {
+    color: gray;
+    font-size: 14px;
+}
 .carousel-inner {
     height: 15%; /* Height of the carousel */
     width: 100%; /* Width of the carousel */
