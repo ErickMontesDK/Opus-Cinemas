@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Gugi&family=Orbitron:wght@400..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <title>Opus Cinemas</title>
+    <!--This link charges JQuery-->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <!--This link charges Bootstrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <!--This link added for special fonts like facebook, twitter, and Instagram-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <!--This link charges conection with Supabase-->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <link rel="stylesheet" href="./css/style.css">
+
+</head>
+
+<body>
+    <header>
+        <nav class="navbar bg-body-tertiary">
+            <div class="container-fluid" style="background-color: var(--black);">
+                <div style="display: inline;">
+                    <!--This part is for Menu Button-->
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <!--This part is for Logo-->
+                    <a class="navbar-brand" href="#" id="header">
+                        <img src="./asset/img/Logo.png" alt="Logo" width="30" height="24"
+                            class="d-inline-block align-text-top">
+                        Opus-Cinemas
+                    </a>
+                </div>
+                <!--This part is for SMS icons-->
+                <span class="navbar-text" id="header-link">
+                    <a href="https://www.facebook.com/" target="_blank"><i
+                            class="fab fa-facebook header-icon-custom mx-2"></i></a>
+                    <a href="https://x.com/" target="_blank"><i class="fab fa-twitter header-icon-custom mx-2"></i></a>
+                    <a href="https://www.instagram.com/" target="_blank"><i
+                            class="fab fa-instagram header-icon-custom mx-2"></i></a>
+                </span>
+                <!--This part is for Menu Contets-->
+                <div class="collapse navbar-collapse" id="navbarNav" style="background-color: var(--grey);">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">About Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Promotions</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Pre-Sales</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Events</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+    <h1>Opus Cinemas</h1>
+    <p>example</p>
+
+    <!-- Configuration and methods to use supabase are here-->
+    <script type="module">
+        import { get_booked_info, getMovies, getMovieDetails, get_booked_seats, register_tickets, payment_process, get_payment_confirmation } from "./js/services/dataService.js"
+
+        $(document).ready(function () {
+            // async function call_db_data(){
+            //     const movies = await getMovies(25);
+            //     console.log(movies)
+            // } 
+            // call_db_data()
+            // async function call_db_data(){
+            //     const seats = await get_booked_seats(30);
+            //     console.log(seats)
+            // } 
+            // call_db_data()
+
+
+
+
+            // async function call_db_data(){
+            //     await getMovieDetails(3427);
+            // } 
+            // call_db_data()
+
+            // async function call_db_data(){
+            //     const uuid = await register_tickets(['A1','A2','A3'], 30);
+            //     console.log("uuid from db",uuid);
+            //     const session_uuid = sessionStorage.getItem('ticket_uuid');
+            //     console.log("session uuid",session_uuid);
+
+            // } 
+            // call_db_data()
+            // async function call_db_data(){
+            //     const booking_info = await get_booked_info("1b895794-3ffa-4e1c-92ca-84ec035afe4a");
+            //     console.log("booking_info",booking_info);
+
+            // } 
+            // call_db_data()
+            // async function call_db_data(){
+            //         const payment_uuid = await payment_process("1b895794-3ffa-4e1c-92ca-84ec035afe4a","erickmontesdk@gmail.com",45,30);
+            //         console.log("payment_uuid",payment_uuid);
+
+            //     } 
+            //     call_db_data()
+
+            async function call_db_data() {
+                const seats = await get_payment_confirmation("56fda436-d634-4d1d-8f50-6b2c34dbd67a");
+                console.log(seats)
+            }
+            call_db_data()
+        });
+
+    </script>
+
+</body>
+
+</html>

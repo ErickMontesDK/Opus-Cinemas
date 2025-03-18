@@ -13,10 +13,7 @@
     font-style: normal;
 }
 
-h1,
-h2,
-h3,
-#header {
+h1,h2,h3,#header {
     font-family: "Gugi", sans-serif;
     font-weight: 400;
     font-style: normal;
@@ -38,10 +35,12 @@ h3,
     border: none;
 }
 
+/* To Change the color of the menu button */
 .navbar-toggler-icon {
     background-image: url('data:image/svg+xml;charset=utf8,%3Csvg viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath stroke="%23F1CD55" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" d="M4 7h22M4 15h22M4 23h22"/%3E%3C/svg%3E');
 }
 
+/* The link in a header which color and underline set as a default value for design consistency */
 #header-link a:link,
 #header-link a:visited {
     color: var(--yellow);
@@ -56,10 +55,12 @@ h3,
     color: var(--yellow);
 }
 
+/* To align menu contents for horizontal direction */
 .navbar-nav {
     flex-direction: row;
 }
 
+/* To align menu contnts space-around */
 .nav-item {
     display: flex;
     justify-content: space-around;
@@ -71,38 +72,4 @@ h3,
     margin-right: 0;
     padding-left: 0;
     padding-right: 0;
-}
-
-
-.movie-card {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 16px;
-    background: white;
-    padding: 16px;
-    border-radius: 8px;
-    width: 400px;
-}
-
-.movie-card img {
-    width: 100px;
-    height: 150px;
-    border-radius: 4px;
-    object-fit: cover;
-}
-
-.movie-details {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.movie-title {
-    font-size: 18px;
-    font-weight: bold;
-}
-
-.movie-info {
-    color: gray;
-    font-size: 14px;
 }
