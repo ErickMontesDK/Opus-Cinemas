@@ -168,8 +168,10 @@ export async function getBookedSeats(showtimeId=30){
 }
 
 export async function registerTickets(seats, showtimeId, ticketTypeId=1, price=15){
+    console.log("registering tickets for showtime:", showtimeId)
+    console.log("list of seats", seats)
     try {
-        if (seats.length > 0 && !Array.isArray(seats) && showtimeId){
+        if (seats.length > 0 && Array.isArray(seats) && showtimeId){
             const ticketUuid = crypto.randomUUID();
             const commonTicketData = {
                 sales_id: null,
