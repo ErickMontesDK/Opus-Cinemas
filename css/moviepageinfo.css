@@ -83,13 +83,11 @@
     display: flex;
     flex: 0 0 50%;
     padding: 20px;
-    background-color: whitesmoke;
+    background-color: white;
     gap: 20px;
     box-shadow: 0 4px 8px black;
     border-radius: 10px;
-    
 }
-
 
 .movieschedules {
     flex: 0 0 35%;
