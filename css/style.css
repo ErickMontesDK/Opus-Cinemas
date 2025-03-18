@@ -59,12 +59,12 @@ h1,h2,h3,#header {
     color: var(--yellow);
 }
 
-/* To align menu contents for horizontal direction */
 .navbar-nav {
     flex-direction: row;
 }
 
 /* To align menu contnts space-around */
+
 .nav-item {
     display: flex;
     justify-content: space-around;
@@ -78,13 +78,6 @@ h1,h2,h3,#header {
     padding-right: 0;
 }
 
-.infomovies {
-    font-family: Arial, sans-serif;
-    display: flex;
-    background-color: #f0f0f0;
-    min-height: 100vh;
-    flex-direction: column;
-}
 .movie-card {
     display: grid;
     grid-template-columns: auto 1fr;
@@ -94,6 +87,7 @@ h1,h2,h3,#header {
     border-radius: 8px;
     width: 400px;
 }
+
 .movie-card img {
     width: 100px;
     height: 150px;
@@ -105,10 +99,46 @@ h1,h2,h3,#header {
     flex-direction: column;
     justify-content: center;
 }
+
 .movie-title {
     font-size: 18px;
     font-weight: bold;
 }
+.movie-info {
+    color: gray;
+    font-size: 14px;
+}
+.carousel-inner {
+    height: 15%; /* Height of the carousel */
+    width: 100%; /* Width of the carousel */
+    background-color: var(--black);
+}
+
+.carousel-image {
+    height: 320px; /* Height of the carousel */
+    object-fit: contain; /* To fit in the carousel */
+    object-position: top; /* Clop from the center */
+}
+
+.movieCards {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.movie {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.btn {
+    background-color: transparent;
+    border: 0;
+    color: var(--black);
+    text-align: center;
+    width: 100%;
+
 .movie-info {
     color: gray;
     font-size: 14px;
