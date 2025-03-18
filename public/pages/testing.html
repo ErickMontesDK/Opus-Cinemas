@@ -41,7 +41,20 @@
 <body>
     <h1>It's alive</h1>
     <button id="listMovies">Call List of movies</button>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <iframe src="https://trailer.movieglu.com/7772_high.mp4" frameborder="5" style="width: 100%; aspect-ratio: 4/3;"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
     <div id="movies_container" ></div>
+    
 
     <div class="row">
     
@@ -83,6 +96,10 @@
                 <p>${movie_data.genres}</p>
                 <img src="${movie_data.poster}"></img>
                 <p>${movie_data.genres}</p>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Watch Trailer
+                </button>
+                
                 <div id="listSchedules"></div>
                 `);
                 
