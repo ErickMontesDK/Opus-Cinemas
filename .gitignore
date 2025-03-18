@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 /public/js/config.js
 node_modules
 .env
 
 # Local Netlify folder
 .netlify
+=======
+/js/config.js
+>>>>>>> 681456d6f91376f26285c203bb6ff9a1d9e9b54f
