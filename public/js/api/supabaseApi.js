@@ -1,17 +1,35 @@
 const time_limit = 24* 60
+const hour_options = {
+    hour12: false,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+}
+const limit_time = `${new Date(Date.now() - time_limit * 60 *1000).toLocaleString('en-US', hour_options)}`;
+
+async function fetchFromDatabase(endpoint, options = {}) {
+    try {
+        const response = await fetch(endpoint,{...options});
+        
+        if (!response.ok){
+            throw new Error(`Netlify Server Error: ${response.status} - ${response.statusText}`);
+        }
+        const data = await response.json();
+        return data;
+        
+    } catch (error) {
+        console.log('Error: ' + error.message);
+        throw error
+    }
+
+}
+
 
 export async function get_booked_tickets(uuid) {
     console.log("tickets uuid: " + uuid);
-    const hour_options = {
-        hour12: false,
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-    }
-    const limit_time = `${new Date(Date.now() - time_limit * 60 *1000).toLocaleString('en-US', hour_options)}`;
     console.log("Limit", limit_time)
     const response = await fetch(`/.netlify/functions/ticketsHandling?limit_time=${limit_time}&uuid=${uuid}`,
         {
@@ -27,32 +45,15 @@ export async function get_booked_tickets(uuid) {
     const data = await response.json();
     return data;
 }
-export async function get_showtime_seats(showtime_id) {
-    const hour_options = {
-        hour12: false,
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-    }
-    const limit_time = `${new Date(Date.now() - time_limit * 60 *1000).toLocaleString('en-US', hour_options)}`;
-    
-    console.log("start fetch for supabase unavailable seats", limit_time, showtime_id)
-    const response = await fetch(`/.netlify/functions/ticketsHandling?limit_time=${limit_time}&showtime_id=${showtime_id}`,
-        {
-            method: 'GET', 
-            headers: {'Content-Type': 'application/json'},
-        }
-    );
-
-    if (!response.ok) {
-        throw new Error(`Error: ${response.status} - ${response.statusText}`);
+export async function getBookedTicketsFromDb(showtimeId) {
+    const endpoint = `/.netlify/functions/ticketsHandling?limit_time=${limit_time}&showtime_id=${showtimeId}`
+    const options = {
+        method: 'GET', 
+        headers: {'Content-Type': 'application/json'},
     }
 
-    const data = await response.json();
-    return data;
+    const response = fetchFromDatabase(endpoint, options);
+    return await response
 }
 
 export async function getAuditoriumInDbById(auditoriumId) {
@@ -183,55 +184,39 @@ export async function updateAvailableSeatsShowtime(selectedShowtimeId, numberSea
     return data;
 }
 export async function getShowtimesPerMovieDb(movieId, date, startTime) {
-    console.log("start fetch for supabase showtimes", movieId, date)
-    const response = await fetch(`/.netlify/functions/showtimesHandling?movieId=${movieId}&startDate=${date}&startTime=${startTime}`,
-        {
-            method: 'GET', 
-            headers: {'Content-Type': 'application/json'},
-        }
-    );
-
-    if (!response.ok) {
-        throw new Error(`Error: ${response.status} - ${response.statusText}`);
+    console.log("Getting showtimes for Movie", movieId, date)
+    const endpoint = `/.netlify/functions/showtimesHandling?movieId=${movieId}&startDate=${date}&startTime=${startTime}`;
+    const options = {
+        method: 'GET', 
+        headers: {'Content-Type': 'application/json'},
     }
 
-    const data = await response.json();
+    const data = await fetchFromDatabase(endpoint, options);
     return data;
 }
 
 export async function insertShowtimeRecordDb(showtime) {
     console.log("inserting showtimes in db")
-    const response = await fetch(`/.netlify/functions/showtimesHandling`,
-        {
-            method: 'POST', 
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ showtime: showtime })
-        },
-    );
-
-    if (!response.ok) {
-        throw new Error(`Error: ${response.status} - ${response.statusText}`);
+    const endpoint = `/.netlify/functions/showtimesHandling`
+    const options = {
+        method: 'POST', 
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ showtime: showtime })
     }
 
-    const data = await response.json();
+    const data = await fetchFromDatabase(endpoint, options);
     return data;
 }
 
 export async function getAvailableAuditorium(showtime){
-    console.log("start fetch for supabase auditoriums", showtime.start_time, showtime.end_time)
-    const response = await fetch(`/.netlify/functions/auditoriumsHandling?start_date=${showtime.start_date}&start_time=${showtime.start_time}&end_time=${showtime.end_time}`,
-        {
-            method: 'GET', 
-            headers: {'Content-Type': 'application/json'},
-        }
-    );
-
-    if (!response.ok) {
-        throw new Error(`Error: ${response.status} - ${response.statusText}`);
+    console.log("Searching an available auditorium for the showtime", showtime.start_time, showtime.end_time)
+    const endpoint =`/.netlify/functions/auditoriumsHandling?start_date=${showtime.start_date}&start_time=${showtime.start_time}&end_time=${showtime.end_time}`
+    const options = {
+        method: 'GET', 
+        headers: {'Content-Type': 'application/json'},
     }
 
-    const data = await response.json();
-    console.log("vamos america", data)
+    const data = await fetchFromDatabase(endpoint, options);
     return data;
 };
 

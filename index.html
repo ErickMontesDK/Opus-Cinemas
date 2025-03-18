@@ -19,33 +19,31 @@
     </head>
     <body>
         
-        <h1>Opus Cinemas</h1>
-        <a href="./pages/testing.html">Go to testing</a>
-        
+        <h1>Opus CInemas</h1>
+        <p>example</p>
         
         <!-- Configuration and methods to use supabase are here-->
         <script type="module">
             import {getMovies, getMovieDetails,getBookedSeats} from "./js/services/dataService.js"
 
             $(document).ready(function(){
-                // async function call_db_data1(){
-                //     console.log("Searching for 25 list of movies")
+                // async function call_db_data(){
                 //     const movies = await getMovies(25);
-                //     console.log("List of movies: ",movies)
+                //     console.log(movies)
                 // } 
-                // call_db_data1()
-                // async function call_db_data2(){
-                //     console.log("Searching for schedules and movie details")
-                //     const movie_data = await getMovieDetails(3427);
-                //     console.log("Movie's schedule and info: ",movie_data)
+                // call_db_data()
+
+
+                // async function call_db_data(){
+                //     await getMovieDetails(3427);
                 // } 
-                // call_db_data2()
-                // async function call_db_data3(){
-                //     console.log("Getting unavailable seats for showtime ")
-                //     const seats = await getBookedSeats(30);
-                //     console.log("Unavailable seats for : ",seats)
-                // } 
-                // call_db_data3()
+                // call_db_data()
+
+                async function call_db_data(){
+                    await getBookedSeats(30);
+                } 
+                call_db_data()
+
 
                 // async function call_db_data4(){
                 //     const selected_seats = [
@@ -55,33 +53,14 @@
                 //         { id: 63, seat_number: "C12"},
                 //     ];
                     
-                //     const uuid = await register_tickets(selected_seats, 30);
+                //     const uuid = await register_tickets(selected_seats, 60);
                 //     console.log("uuid from db",uuid);
                 //     const session_uuid = sessionStorage.getItem('ticket_uuid');
                 //     console.log("session uuid",session_uuid);
-                
                 // } 
                 // call_db_data4()
-                //     async function call_db_data5(){
-                //     const booking_info = await get_booked_info("07631c79-2eee-4abf-bca9-41dfa6691d05");
-                //     console.log("booking_info",booking_info);
-                
-                // } 
-                // call_db_data5()
-                // async function call_db_data6(){
-                //     const payment_uuid = await payment_process("07631c79-2eee-4abf-bca9-41dfa6691d05","erickmontesdk@gmail.com", 45, 30);
-                //     console.log("payment_uuid",payment_uuid);
-                
-                // } 
-                // call_db_data6()
-                    
-                // async function call_db_data(){
-                //     const seats = await get_payment_confirmation("41d2418e-4d69-474f-aeb3-4bd34f34c0b2");
-                //     console.log(seats)
-                // } 
-                // call_db_data()
             });
         </script>
 
-</body>
+    </body>
 </html>

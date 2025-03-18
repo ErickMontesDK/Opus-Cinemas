@@ -64,12 +64,10 @@
     
     <div id="movieData"></div>
     <script>
-        console.log("asas")
     </script>
     <script type="module">
         import { getMovies, getMovieDetails } from "../js/services/dataService.js"
         $(document).ready(function(){
-            console.log("jejeje")
             async function callingMovies(){
                 console.log("Searching for 25 list of movies")
                 const movies = await getMovies(25);
@@ -88,7 +86,6 @@
                 console.log(`Searching for schedule and movie details for movie id: ${movieId}`)
                 const movie_data = await getMovieDetails(movieId);
                 console.log("Movie's schedule and info: ",movie_data)
-                console.log("movie name",movie_data.title)
                 $('#movieData').html(`<p>${movie_data.title}</p>
                 <p>${movie_data.synopsis}</p>
                 <p>${movie_data.age_rating}</p>

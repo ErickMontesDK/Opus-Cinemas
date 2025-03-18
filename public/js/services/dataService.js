@@ -1,5 +1,5 @@
 // import { ,get_booked_tickets, get_showtimesPerMovie_db,get_data_by_id, get_showtime_seats, insert_payment, insert_tickets, update_tickets_salesid, get_sale_by_uuid, get_tickets_by_sale} from "../api/supabase_api.js";
-import {get_tickets_by_sale, get_sale_by_uuid, insert_payment, getAuditoriumInDbById, getShowtimeDataInDb, get_booked_tickets, getShowtimesPerMovieDb, get_showtime_seats, insertShowtimeRecordDb, updateMultipleTicketsInDb, insertMultipleTicketsInDb, updateTicketsBySale, updateAvailableSeatsShowtime, getAvailableAuditorium } from "../api/supabaseApi.js";
+import {get_booked_tickets, get_tickets_by_sale, get_sale_by_uuid, insert_payment, getAuditoriumInDbById, getShowtimeDataInDb, getShowtimesPerMovieDb, getBookedTicketsFromDb, insertShowtimeRecordDb, updateMultipleTicketsInDb, insertMultipleTicketsInDb, updateTicketsBySale, updateAvailableSeatsShowtime, getAvailableAuditorium } from "../api/supabaseApi.js";
 import { fetchMovieInformationFromAPI, fetchMoviesFromAPI, fetchMoviesSchedulesFromAPI } from "../api/moviegluApi.js";  
 import { adjustedDatetime, convert_date_iso } from "../utils.js";
 
@@ -161,59 +161,60 @@ async function insertShowtimesInDb(movieId, date, duration, showtimes){
 
 
 
-export async function get_booked_seats(showtime=30){
-    console.log("dataservice showtime with:", showtime)
-    const seats = await get_showtime_seats(showtime);
+export async function getBookedSeats(showtimeId=30){
+    console.log("getting booked seats for showtime:", showtimeId)
+    const seats = await getBookedTicketsFromDb(showtimeId);
     return seats;
 }
 
-export async function register_tickets(seats, showtime_id, ticket_type_id=1, price=15, sales_id=undefined){
-    let new_tickets = [];
-    let expired_bookings_id = [];
-
-    const uuid = crypto.randomUUID();
-    const common_data = {
-        sales_id: null,
-        ticket_type_id,
-        price,
-        status: "reserved",
-        reserved_at: convert_date_iso(),
-        uuid: uuid
-    };
-
-
-    for (let index in seats){
-        index = parseInt(index)
-
-        if (seats[index].id !== null){
-            expired_bookings_id.push(seats[index].id);
-        } else {
-            const custom_data = {...common_data};
-            custom_data.seat_number = seats[index].seat_number;
-            custom_data.showtime_id = showtime_id;
-            new_tickets.push(custom_data);
-        }
-    }
-    // console.log("old reservation with new data", expired_bookings_id);
-    // console.log("new_tickets", new_tickets);
+export async function registerTickets(seats, showtimeId, ticketTypeId=1, price=15){
     try {
-        const updatedTicketsData = await updateMultipleTicketsInDb(expired_bookings_id, common_data);
-        const insertedTicketsData = await insertMultipleTicketsInDb(new_tickets);
-        console.log("updatedTicketsData", updatedTicketsData);
-        console.log("insertedTicketsData", insertedTicketsData);
-        
-        sessionStorage.setItem('ticket_uuid', uuid);
+        if (seats.length > 0 && !Array.isArray(seats) && showtimeId){
+            const ticketUuid = crypto.randomUUID();
+            const commonTicketData = {
+                sales_id: null,
+                ticket_type_id: ticketTypeId,
+                price,
+                status: "reserved",
+                reserved_at: convert_date_iso(),
+                uuid: ticketUuid
+            };
+            let newTickets = [];
+            let expiredReservationIds = [];
+    
+            seats.forEach(seat => {
+                if (seat.id !== null){
+                    expiredReservationIds.push(seat.id) 
+                } else {
+                    const customTicketData = {...commonTicketData};
+                    customTicketData.seat_number = seat.seat_number;
+                    customTicketData.showtime_id = showtimeId;
+                    newTickets.push(customTicketData);
+                }
+            });
+            
+            const [updatedTicketsData, insertedTicketsData] =await Promise.all([
+                updateMultipleTicketsInDb(expiredReservationIds, commonTicketData),
+                insertMultipleTicketsInDb(newTickets)
+            ])         
+            console.log("updatedTicketsData", updatedTicketsData);
+            console.log("insertedTicketsData", insertedTicketsData);
 
-        if(updatedTicketsData.length < 0 && updatedTicketsData.length < 0){
-            throw new Error("No tickets were booked");
+            
+            if(updatedTicketsData.length < 0 && updatedTicketsData.length < 0){
+                throw new Error("No tickets were booked");
+            } else {
+                sessionStorage.setItem('ticket_uuid', ticketUuid);
+                return ticketUuid;
+            }
+        } else {
+            throw new Error("Invalid input for registering tickets");
         }
-
-        return uuid;
+        
     } catch (error) {
-        console.error(error);
-        throw new Error("Error registering tickets"+error);
+        console.log("error registering tickets", error.message);
+        throw new Error("Error registering tickets: " + error.message);
     }
-
 }
 
 export async function get_booked_info(uuid){
