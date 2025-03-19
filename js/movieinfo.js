@@ -282,12 +282,12 @@ let moviedata = {
     }
 }
 
-document.getElementById('title').innerHTML = moviedata.title;
-document.getElementById('synopsis').innerHTML = moviedata.synopsis;
-document.getElementById('duration').innerHTML = `Duration: ${moviedata.duration} minutes`;
-document.getElementById('rating').innerHTML = `Age Rating: ${moviedata.age_rating}`;
-document.getElementById('director').innerHTML = `Director: ${moviedata.director}`;
-document.getElementById('advisory').innerHTML = `Advisory: ${moviedata.age_advisory}`;
+document.getElementById('title').innerText = moviedata.title;
+document.getElementById('synopsis').innerText = moviedata.synopsis;
+document.getElementById('duration').innerText = `Duration: ${moviedata.duration} minutes`;
+document.getElementById('rating').innerText = `Age Rating: ${moviedata.age_rating}`;
+document.getElementById('director').innerText = `Director: ${moviedata.director}`;
+document.getElementById('advisory').innerText = `Advisory: ${moviedata.age_advisory}`;
 document.getElementById('poster').src = moviedata.poster;
 document.getElementById('trailer').src = moviedata.trailer;
-document.getElementById('genre').innerHTML = `Genre: ${moviedata.genres}`;
+document.getElementById('genre').innerText = `Genre: ${moviedata.genres}`;

@@ -81,6 +81,7 @@
 
 .movie {
     display: flex;
+    flex-direction: row;
     flex: 0 0 50%;
     padding: 20px;
     background-color: white;
