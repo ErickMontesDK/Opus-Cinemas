@@ -254,7 +254,7 @@
         function setMovieCards(movies) {
             let movieCardsHTML = movies.map(movie => `
                     <div class="movie">
-                        <a id="movieInfo${movie.id}" href="./movie-info.html?movieId=${movie.id}"><img id="img${movie.id}" style="margin-top: 7.5px; margin-left: 7.5px; margin-right: 7.5px" src="${movie.poster}" alt="${movie.title}"></a>
+                        <a id="movieInfo${movie.id}" href="./pages/movie-info.html?movieId=${movie.id}"><img id="img${movie.id}" style="margin-top: 7.5px; margin-left: 7.5px; margin-right: 7.5px" src="${movie.poster}" alt="${movie.title}"></a>
                         <button id="button${movie.id}" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-play-circle mx-1" viewBox="0 0 16 16">
                                 <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
