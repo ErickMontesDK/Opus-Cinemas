@@ -139,7 +139,10 @@ h1,h2,h3,#header {
     text-align: center;
     width: 100%;
 }
+<<<<<<< HEAD:css/style.css
 
+=======
+>>>>>>> 73933a90e182bf6ff9fdceb295cceec961e4adcd:public/css/style.css
 .movie-info {
     color: gray;
     font-size: 14px;
