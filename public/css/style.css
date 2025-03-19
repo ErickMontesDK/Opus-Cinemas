@@ -141,7 +141,7 @@ h1,h2,h3,#header {
     color: var(--black);
     text-align: center;
     width: 100%;
-
+}
 .movie-info {
     color: gray;
     font-size: 14px;
