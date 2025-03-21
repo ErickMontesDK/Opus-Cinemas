@@ -78,68 +78,27 @@ h1,h2,h3,#header {
     padding-right: 0;
 }
 
-.movie-card {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 16px;
-    background: white;
-    padding: 16px;
-    border-radius: 8px;
-    width: 400px;
+footer{
+    padding: 20px 40px; 
+    text-align: center; 
+    color :white; 
+    background:black 
 }
-
-.movie-card img {
-    width: 100px;
-    height: 150px;
-    border-radius: 4px;
-    object-fit: cover;
+.footertext{
+    text-decoration: none;
 }
-.movie-details {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+.footertextdiv{
+    text-align: right;
 }
-
-.movie-title {
-    font-size: 18px;
-    font-weight: bold;
+.numberemail{
+    text-align: left;
 }
-.movie-info {
-    color: gray;
-    font-size: 14px;
-}
-.carousel-inner {
-    height: 15%; /* Height of the carousel */
-    width: 100%; /* Width of the carousel */
-    background-color: var(--black);
-}
-
-.carousel-image {
-    height: 320px; /* Height of the carousel */
-    object-fit: contain; /* To fit in the carousel */
-    object-position: top; /* Clop from the center */
-}
-
-.movieCards {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-}
-
-.movie {
-    display: flex;
-    flex-direction: column;
+.footersection{
+    display: flex; 
+    justify-content: space-between; 
+    flex-wrap: wrap; 
     align-items: center;
 }
-
-.btn {
-    background-color: transparent;
-    border: 0;
-    color: var(--black);
-    text-align: center;
-    width: 100%;
-}
-.movie-info {
-    color: gray;
-    font-size: 14px;
+hr{
+    border: 1px solid white;
 }
