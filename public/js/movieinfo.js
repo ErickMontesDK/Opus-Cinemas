@@ -292,5 +292,3 @@ document.getElementById('poster').src = moviedata.poster;
 document.getElementById('trailer').src = moviedata.trailer;
 document.getElementById('genre').innerText = `Genre: ${moviedata.genres}`;
 
-document.body.style.backgroundImage = `url("${moviedata.poster}")`;
-
