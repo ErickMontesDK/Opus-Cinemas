@@ -16,7 +16,7 @@ export const handler = async (event) => {
                 if (start_date) {
                     
                     const { data: auditoriums, error } = await supabase
-                        .rpc('get_available_auditoriums', {
+                        .rpc('getAvailableAuditoriums', {
                             p_start_date: start_date,
                             p_start_time: start_time,
                             p_end_time: end_time,
