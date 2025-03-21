@@ -14,7 +14,7 @@ export const handler = async (event) => {
 
                 if (showtime_id && limit_time) {
                     const { data: unav_seats, error } = await supabase
-                        .rpc('get_showtime_seats', {
+                        .rpc('getShowtimeSeats', {
                             p_showtime_id: showtime_id,
                             p_limit_time: limit_time,
                         });
@@ -28,7 +28,6 @@ export const handler = async (event) => {
                     return { statusCode: 200, body: JSON.stringify(unav_seats) };
                 
                 } else if(uuid && limit_time ){
-                    console.log("eso se acabo")
                     const { data: ticketsBookedByUser, error } = await supabase
                         .from('tickets')
                         .select('*')

@@ -12,5 +12,9 @@
   "devDependencies": {
     "@supabase/supabase-js": "^2.49.1",
     "netlify-cli": "^19.0.2"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "pg": "^8.14.1"
   }
 }
