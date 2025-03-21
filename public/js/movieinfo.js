@@ -1,16 +1,73 @@
-let moviedata = {
-    "id": "7772",
-    "title": "Raiders of the Lost Ark",
-    "age_rating": "PG ",
-    "age_advisory": "Contains moderate violence and mild language",
-    "duration": 105,
-    "synopsis": "As the Third Reich continues its reign of terror, Adolf Hitler is on a quest for the legendary Ark os the Covenenant- resting place of the Ten Commandments- whose supernatural powers, legend says, can wipe out entire armies.\n\nThe U.S. Government turns to Dr. Indiana Jones, for the mission.  Relentlessly pursued by Hitler's henchmen, Indy infiltrartes their massive digging operation in a race against time to discover the Well od the Souls, where the Ark has lain undisturbed for centuries.",
-    "poster": "https://image.movieglu.com/7772/GBR_007772h0.jpg",
-    "trailer": "https://trailer.movieglu.com/7772_high.mp4",
-    "director": "Steven Spielberg",
-    "genres": [
-        "Action/Adventure"
-    ],
+function insertShowingsInContainer(showings, containerId) {
+    if (showings.length > 0){
+        showings.forEach(showing => {
+            console.log(showing)
+            const timeSlotElement = document.createElement('a');
+            timeSlotElement.classList.add('time-slot');
+            timeSlotElement.innerText = `${showing.start_time.slice(0,-3)}`;
+            console.log(timeSlotElement)
+            document.getElementById(containerId).appendChild(timeSlotElement);  
+        });
+
+    } else {
+        const message = document.createElement('p');
+        message.innerText = "Not available for this day"
+        document.getElementById(containerId).appendChild(message);  
+    }  
+} 
+    
+    
+
+function insertMovieData(movieData){
+    let scheduletoday =  'today'
+    let scheduletomo =  'tomorrow'
+    let scheduleafter =  'afterTomorrow'
+
+    const todayShowings = movieData.showings.today
+    console.log(todayShowings)
+    const tomorrowShowings = movieData.showings.tomorrow
+    console.log(tomorrowShowings)
+    const afterShowings = movieData.showings.afterTomorrow
+    console.log(afterShowings)
+
+    insertShowingsInContainer(todayShowings, scheduletoday)
+    insertShowingsInContainer(tomorrowShowings, scheduletomo)
+    insertShowingsInContainer(afterShowings, scheduleafter)
+
+    const image = document.createElement('img');
+    image.src = movieData.poster
+    
+    const imageContainer = document.getElementById('poster')
+    console.log(imageContainer)
+    imageContainer.appendChild(image)
+    document.body.style.backgroundImage = `url("${movieData.poster}")`
+    
+    
+    let trailer = movieData.trailer; 
+    if (trailer !== null && trailer !== undefined && trailer !== "") {
+        
+        let trailerSpace = document.createElement('iframe');
+        trailerSpace.src = movieData.trailer
+        document.getElementById('trailer').appendChild(trailerSpace)
+        
+    } else {
+        console.log("No trailer")
+    }
+
+    document.getElementById('title').innerText = movieData.title;
+    document.getElementById('synopsis').innerText = movieData.synopsis;
+    document.getElementById('duration').innerText = `Duration: ${movieData.duration} minutes`;
+    document.getElementById('rating').innerText = `Age Rating: ${movieData.age_rating}`;
+    document.getElementById('director').innerText = `Director: ${movieData.director}`;
+    document.getElementById('advisory').innerText = `Advisory: ${movieData.age_advisory}`;
+    
+    document.getElementById('genre').innerText = `Genre: ${movieData.genres}`;
+    
+
+}
+
+const datatemplate = {
+    
     "showings": {
         "today": [
             {
@@ -281,14 +338,4 @@ let moviedata = {
         ]
     }
 }
-
-document.getElementById('title').innerText = moviedata.title;
-document.getElementById('synopsis').innerText = moviedata.synopsis;
-document.getElementById('duration').innerText = `Duration: ${moviedata.duration} minutes`;
-document.getElementById('rating').innerText = `Age Rating: ${moviedata.age_rating}`;
-document.getElementById('director').innerText = `Director: ${moviedata.director}`;
-document.getElementById('advisory').innerText = `Advisory: ${moviedata.age_advisory}`;
-document.getElementById('poster').src = moviedata.poster;
-document.getElementById('trailer').src = moviedata.trailer;
-document.getElementById('genre').innerText = `Genre: ${moviedata.genres}`;
 

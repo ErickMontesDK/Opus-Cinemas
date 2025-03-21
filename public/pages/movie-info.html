@@ -64,7 +64,7 @@
 
     <div class="moviepage">
         <section class="movie">
-            <img src="" alt="postermovie" id="poster">
+            <div id="poster"></div>
             <div>
                 <h1 id="title"></h1>
                 <p id="synopsis"></p>
@@ -73,43 +73,41 @@
                 <p id="duration"></p>
                 <p id="genre"></p>
                 <p id="director"></p>
-                <iframe src="" frameborder="5" id="trailer"></iframe>
+                <div id="trailer"></div>
             </div>   
         </section>
 
         <section class="movieschedules">
             <div class="schedules">
                 
+
+
                 <div class="theater-container">
-                    <button class="theater-button" onclick="toggleSchedule('schedule1')"></button>
+
+                    <button class="theater-button" onclick="toggleSchedule('schedule1')">Today</button>
                     <div id="schedule1" class="schedule collapse show">
-                        <nav class="times">
-                            <a href="" class="time-slot"></a>
-                        </nav>
+                        <div class="times" id="today">
+                        </div>
                     </div>
+
                 </div>
 
+
                 <div class="theater-container">
-                    <button class="theater-button" onclick="toggleSchedule('schedule2')"></button>
+                    <button class="theater-button" onclick="toggleSchedule('schedule2')">Tomorrow</button>
                     <div id="schedule2" class="schedule collapse">
-                        <nav class="times">
-                            <a href="" class="time-slot"></a> 
-                            <a href="" class="time-slot"></a> 
-                            <a href="" class="time-slot"></a> 
-                            <a href="" class="time-slot"></a>
-                        </nav>
+                        <div class="times" id="tomorrow">
+                           
+                        </div>
                     </div>
                 </div>
 
                 <div class="theater-container">
-                    <button class="theater-button" onclick="toggleSchedule('schedule3')"></button>
+                    <button class="theater-button" onclick="toggleSchedule('schedule3')">After Tomorrow</button>
                     <div id="schedule3" class="schedule collapse">
-                        <nav class="times">
-                            <a href="" class="time-slot"></a> 
-                            <a href="" class="time-slot"></a> 
-                            <a href="" class="time-slot"></a> 
-                            <a href="" class="time-slot"></a>
-                        </nav>
+                        <div class="times" id="afterTomorrow">
+                     
+                        </div>
                     </div>
                 </div>
             </div>
@@ -151,6 +149,7 @@
 
         </section>
     </footer>
+    <script src="../js/movieinfo.js"></script>
 
     <script>
         function toggleSchedule(id) {
@@ -169,29 +168,39 @@
         }
 
     </script>
+
+    
+   
     <script type="module">
-        import {getMovieDetails} from "./js/services/dataService.js"
-
+        import {getMovieDetails} from "../js/services/dataService.js"
+        
         $(document).ready(function(){
-            async function call_db_data(){
-                const movies = await getMovieDetails(25);
+            const urlParams = new URLSearchParams(window.location.search)
+            const movieId = urlParams.get('movieId')
+            console.log(movieId)
+            async function call_db_data(movieId){
+                const movies = await getMovieDetails(movieId);
                 console.log(movies)
+
+                insertMovieData(movies)
             } 
-            call_db_data()
-
-
+            call_db_data(movieId)
+    
+    
             // async function call_db_data(){
             //     await getMovieDetails(3427);
             // } 
             // call_db_data()
-
+    
             // async function call_db_data(){
             //     await get_booked_seats(30);
             // } 
             // call_db_data()
         });
     </script>
-    <script src="../js/movieinfo.js"></script>
+
+    
+    
 </body>
 
 </html>
