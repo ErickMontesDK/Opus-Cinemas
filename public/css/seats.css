@@ -65,7 +65,8 @@ main {
     background-color: var(--white);
     border: 0px;
     border-radius: 12px;
-    padding: 7px 0px;
+    width: 35px;
+    height: 35px;
     margin: 5px;
 }
 .rowName {
@@ -145,12 +146,14 @@ main {
     margin-top: -20px;
     flex-wrap: wrap;
 }
-#seatsSelected div {
+#seatsSelected button {
     background-color: var(--white);
     width: 40px;
     height: 40px;
     color: var(--black);
     margin: 10px;
+    padding: auto;
+    border: none;
     border-radius: 10px;
     text-align: center;
     line-height: 40px;
@@ -164,6 +167,10 @@ main {
     border-radius: 10px;
     cursor: pointer;
     margin-top: 20px;
+}
+#continuePayment:disabled {
+    background-color: var(--lighGrey);
+    cursor: not-allowed;
 }
 #infoAmount {
     font-size: 25px;
@@ -189,6 +196,14 @@ main {
 }
 .selectedSeat {
     background-color: var(--blue);
+    color: var(--white);
+}
+
+#remainingSeats, #overSeats {
+    margin: -10px auto 35px auto;
+}
+#overSeats {
+    display: none;
 }
 
 @media (max-width: 992px) {
