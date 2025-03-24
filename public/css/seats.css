@@ -162,6 +162,21 @@ main {
     border-radius: 10px;
     text-align: center;
     line-height: 40px;
+    position: relative;
+}
+
+#seatsSelected button:hover{
+    background-color: var(--black);
+    filter: opacity(.8);
+}
+#seatsSelected button:hover::after{
+    content: "X";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--white);
+    font-size: 25px;
 }
 #continuePayment {
     background-color: var(--yellow);
