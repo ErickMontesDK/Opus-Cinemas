@@ -28,23 +28,18 @@ async function fetchFromDatabase(endpoint, options = {}) {
 }
 
 
-export async function get_booked_tickets(uuid) {
+export async function getUserBookedTickets(uuid) {    
     console.log("tickets uuid: " + uuid);
-    console.log("Limit", limit_time)
-    const response = await fetch(`/.netlify/functions/ticketsHandling?limit_time=${limit_time}&uuid=${uuid}`,
-        {
-            method: 'GET', 
-            headers: {'Content-Type': 'application/json'},
-        }
-    );
-
-    if (!response.ok) {
-        throw new Error(`Error: ${response.status} - ${response.statusText}`);
+    const endpoint = `/.netlify/functions/ticketsHandling?limit_time=${limit_time}&uuid=${uuid}`
+    const options = {
+        method: 'GET', 
+        headers: {'Content-Type': 'application/json'},
     }
 
-    const data = await response.json();
-    return data;
+    const response = fetchFromDatabase(endpoint, options);
+    return await response
 }
+
 export async function getBookedTicketsFromDb(showtimeId) {
     console.log("Search limited to date:",limit_time)
     const endpoint = `/.netlify/functions/ticketsHandling?limit_time=${limit_time}&showtime_id=${showtimeId}`

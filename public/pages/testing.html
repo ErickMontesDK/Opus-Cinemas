@@ -66,8 +66,17 @@
     <script>
     </script>
     <script type="module">
-        import { getMovies, getMovieDetails } from "../js/services/dataService.js"
+        import { getMovies, getMovieDetails, getBookingInfo } from "../js/services/dataService.js"
         $(document).ready(function(){
+
+             async function call_db_data(){
+                const booking_info = await getBookingInfo("ed55f192-a264-4dcb-9d85-cef6f7107563");
+                console.log("booking_info",booking_info);
+
+            }
+            call_db_data()
+
+
             async function callingMovies(){
                 console.log("Searching for 25 list of movies")
                 const movies = await getMovies(25);
