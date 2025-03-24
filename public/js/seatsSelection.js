@@ -1,7 +1,10 @@
 
-const ticketPrice = 15
 
-$(document).ready(function () {
+document.addEventListener('updatedTicketsAvailabilty', (event)=>{
+    const ticketPrice = 15
+    const [availableSeats, bookedSeats] = event.detail;
+    const maxTickets = availableSeats > 8 ? 8 : availableSeats;
+
     function calculateTotalPrice(){
         let ticketNumber = parseInt($('#numberTickets').text());
         const price = ticketNumber * ticketPrice
@@ -16,7 +19,7 @@ $(document).ready(function () {
         $('#numberTickets').text(ticketNumber);
         calculateTotalPrice(); 
         
-        if (ticketNumber === 8){
+        if (ticketNumber === maxTickets){
             $('#ticketAdd').prop('disabled', true);
         }
         if (ticketNumber > 1){
@@ -29,7 +32,7 @@ $(document).ready(function () {
         $('#numberTickets').text(ticketNumber);
         calculateTotalPrice(); 
         
-        if (ticketNumber < 8){
+        if (ticketNumber < maxTickets){
             $('#ticketAdd').prop('disabled', false);
         }
         if (ticketNumber === 1){
@@ -48,7 +51,7 @@ $(document).ready(function () {
 
     function addSeatSelected(ticketNumber){
         const seatsContainer = $('#seatsSelected');
-        seatsContainer.append(`<button class="seats">${ticketNumber}</button>`);
+        seatsContainer.append(`<button class="seats" data-value="${ticketNumber}">${ticketNumber}</button>`);
     }
 
     function removeSeatSelected(ticketNumber){
@@ -99,9 +102,46 @@ $(document).ready(function () {
         $(`#seatsDraw .seat:contains(${$(this).text()})`).removeClass('selectedSeat');
         verifiedSeatAndTickets();
     })
-
-
-
     });
 
-});
+
+    $('#continuePayment').click(function(){
+        const numberOfTickets = parseInt($('#numberTickets').text());
+        const seatsSelected = $('#seatsSelected .seats')
+
+        const seatsNumbers = seatsSelected.map(function() {
+            return $(this).attr('data-value');
+        }).get();
+
+        console.log(numberOfTickets, seatsNumbers);
+
+        if (numberOfTickets === seatsNumbers.length) {
+            const ticketsSelected = seatsNumbers.map(seatNumber => {
+
+                const previousBookedRecord = bookedSeats.find(bookedSeat => bookedSeat.seat_number === seatNumber)
+
+                if(previousBookedRecord){
+                    if (previousBookedRecord.status == "reserved" && previousBookedRecord.available){
+                        return {id: previousBookedRecord.id, seat_number: seatNumber}
+                    } else {
+                        alert('Seat'+ seatNumber +'is not available or reserved');
+                        throw new Error("Error when trying to select the seats");
+                    }
+                } else {
+                    return {id: null, seat_number:seatNumber}
+                }
+            });
+
+            console.log(ticketsSelected)
+            document.dispatchEvent(new CustomEvent('seatsObjectReady',{
+                detail: ticketsSelected,
+            }))
+            
+        } else {
+            alert('Please select all seats');
+        }
+    });
+
+})
+
+

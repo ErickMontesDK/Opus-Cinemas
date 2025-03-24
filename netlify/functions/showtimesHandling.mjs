@@ -12,8 +12,6 @@ export const handler = async (event) => {
             case 'GET': {
                 const { movieId, startDate, startTime, end_time, selectedShowtimeId } = queryStringParameters;
 
-                console.log("query parameters: ",movieId,startDate,startTime)
-
                 if (movieId && startDate && startTime) {
                     let { data:showtimes_db, error } = await supabase
                         .from('showtimes')
@@ -33,7 +31,6 @@ export const handler = async (event) => {
                         .select('*')
                         .eq('id', parseInt(selectedShowtimeId));
                         
-                    console.log("showtime_list", showtimeData)
                     if (error) {
                         console.log("error", error.message);
                         throw new Error("Error searching showtimes for the movie:", error);
