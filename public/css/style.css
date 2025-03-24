@@ -103,3 +103,30 @@ footer{
 hr{
     border: 1px solid white;
 }
+
+main {
+    position: relative;
+}
+#loadingScreen {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: var(--yellow);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#loadingScreen * {
+    color:var(--black);
+    
+}
+#loadContainer {
+    position: relative;
+}
+#popcornLoad {
+    width: 50px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

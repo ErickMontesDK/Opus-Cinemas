@@ -91,6 +91,17 @@
         </nav>
     </header>
     <main>
+        <section id="loadingScreen">
+            <h1>Loading...</h1>
+            <div id="loadContainer">
+                <div class="spinner-border" style="width: 70px; height: 70px;" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <img src="../asset/img/popcorn-svgrepo-com.svg" alt="popcorn" id="popcornLoad">
+            </div>
+        </section>
+
+
         <section id="menuContainer" class="row">
             <div class="col-12 col-lg-6" id="interactiveSide">
                 <div id="progressButtons">
@@ -322,6 +333,8 @@
             $('#auditoriumName').text(showtimeData.auditorium);
             $('#movieInfoPage').prop('href', `/pages/movie-info.html?movieId=${showtimeData.movieId}`);
             document.body.style.backgroundImage = `url("${showtimeData.moviePoster}")`;
+
+            $('#loadingScreen').fadeOut('fast');
         }
 
         
