@@ -1,0 +1,33 @@
+#errorScreen {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    align-items: center;
+    height: 100%;
+    min-height: 467px;
+    background-color: var(--yellow);
+    padding: 50px;
+}
+#errorScreen * {
+    color: var(--black)
+}
+#brokenFilm {
+    top: 0px;
+    width: 100px;
+}
+a#mainReturn {
+    margin-top: 20px;
+    background-color: var(--black);
+    color: var(--yellow);
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: 3px solid var(--yellow);
+    text-decoration: none;
+
+}
+
+a#mainReturn:hover {
+    background-color: var(--yellow);
+    color: var(--black);
+    border: 3px solid var(--black);
+}
