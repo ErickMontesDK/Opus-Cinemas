@@ -22,7 +22,6 @@ export const handler = async (event) => {
                     if (error) {
                         console.log("Error: " + error.message);
                         throw new Error(error?.message);
-
                     }
                     
                     return { statusCode: 200, body: JSON.stringify(unav_seats) };
@@ -40,8 +39,8 @@ export const handler = async (event) => {
                         throw new Error(error?.message);
 
                     }
-                    
                     return { statusCode: 200, body: JSON.stringify(ticketsBookedByUser) };
+
                 } else if (saleId) {
                     console.log("Sale ID: " + saleId);
                     let { data: ticketsBookedBySale, error } = await supabase
@@ -78,7 +77,7 @@ export const handler = async (event) => {
                     return { statusCode: 200, body: JSON.stringify(updatedTicketsData) };
 
                 } else if (ticketsUuid && saleId){
-
+                    console.log("enter in this thing", ticketsUuid, saleId);
                     const { data: updatedTicketsSaleData, error } = await supabase
                         .from('tickets')
                         .update([

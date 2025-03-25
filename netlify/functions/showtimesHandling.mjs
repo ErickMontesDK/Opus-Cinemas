@@ -12,8 +12,6 @@ export const handler = async (event) => {
             case 'GET': {
                 const { movieId, startDate, startTime, end_time, selectedShowtimeId } = queryStringParameters;
 
-                console.log("query parameters: ",movieId,startDate,startTime)
-
                 if (movieId && startDate && startTime) {
                     let { data:showtimes_db, error } = await supabase
                         .from('showtimes')
@@ -33,7 +31,6 @@ export const handler = async (event) => {
                         .select('*')
                         .eq('id', parseInt(selectedShowtimeId));
                         
-                    console.log("showtime_list", showtimeData)
                     if (error) {
                         console.log("error", error.message);
                         throw new Error("Error searching showtimes for the movie:", error);
@@ -61,11 +58,23 @@ export const handler = async (event) => {
 
 
             case 'PUT':{
-                const {showtimeId, numberSeats} = JSON.parse(body);
+                const {selectedShowtimeId, numberTicketsBought} = JSON.parse(body);
+
+                const { data: currentShowtime, error: fetchError } = await supabase
+                    .from('showtimes')
+                    .select('available_seats')
+                    .eq('id', parseInt(selectedShowtimeId))
+                    .single();
+
+                if (fetchError) throw new Error(`Error fetching showtime: ${fetchError.message}`);
+                if (!currentShowtime) throw new Error('Showtime no encontrado');
+
+                const numberSeats = currentShowtime.available_seats - numberTicketsBought;
+
                 const { data: showtimeData, error } = await supabase
                     .from('showtimes')
                     .update({available_seats: numberSeats})
-                    .eq('id', parseInt(showtimeId))
+                    .eq('id', parseInt(selectedShowtimeId))
                     .select('*');
                     
                 if (error) {

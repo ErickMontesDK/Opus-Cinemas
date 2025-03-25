@@ -5,6 +5,7 @@ function insertShowingsInContainer(showings, containerId) {
             const timeSlotElement = document.createElement('a');
             timeSlotElement.classList.add('time-slot');
             timeSlotElement.innerText = `${showing.start_time.slice(0,-3)}`;
+            timeSlotElement.href = `/pages/seatSelection.html?showtimeId=${showing.id}`
             console.log(timeSlotElement)
             document.getElementById(containerId).appendChild(timeSlotElement);  
         });
@@ -63,6 +64,8 @@ function insertMovieData(movieData){
     
     document.getElementById('genre').innerText = `Genre: ${movieData.genres}`;
     
+
+    $('#loadingScreen').fadeOut(`fast`)
 
 }
 
