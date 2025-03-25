@@ -4,7 +4,6 @@ import { createClient } from '@supabase/supabase-js';
 
 
 export const handler = async (event) => {
-    console.log("hello i'm the handler")
     const supabase = createClient(supabaseUrl, supabaseKey);
 
     try {
@@ -27,13 +26,13 @@ export const handler = async (event) => {
 
             }
             case 'POST':
-                const {saleData} = JSON.parse(body);
-                console.log("saleData",saleData);
-                if ( saleData ) {
+                const {paymentDataToProcess} = JSON.parse(body);
+                console.log("saleData",paymentDataToProcess);
+                if ( paymentDataToProcess ) {
     
                     const { data: insertSaleData, error } = await supabase
                         .from('sales')
-                        .insert( [saleData] )
+                        .insert( [paymentDataToProcess] )
                         .select('*');
             
                     if (error) {
@@ -43,7 +42,7 @@ export const handler = async (event) => {
                     }
                     return { statusCode: 200, body: JSON.stringify(insertSaleData) };
                 } else {
-                    throw new Error("asds");
+                    throw new Error("Error: " + error.message);
                     
                 }
                 break;

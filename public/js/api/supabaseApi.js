@@ -64,78 +64,59 @@ export async function getAuditoriumInDbById(auditoriumId) {
     return await response
 }
     
-export async function insert_payment(saleData){
-    console.log("entro a insert_payment", saleData)
-    const databaseResponse = await fetch(`/.netlify/functions/salesHandling`,
-        {
-            method: 'POST', 
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ saleData })
-        },
-    );
-
-    if (!databaseResponse.ok) {
-        throw new Error(`Error: ${databaseResponse.status} - ${databaseResponse.statusText}`);
+export async function insertPaymentInDB(paymentDataToProcess){
+    console.log("entro a insert_payment", paymentDataToProcess)
+    const endpoint = `/.netlify/functions/salesHandling`;
+    const options = {    
+        method: 'POST', 
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ paymentDataToProcess })
     }
 
-    const insertedSaleData = await databaseResponse.json();
-    return insertedSaleData;
+    const response = fetchFromDatabase(endpoint, options);
+    return await response
 }
     
 export async function insertMultipleTicketsInDb(newTickets){
     console.log("entro a updateMultipleTicketsInDb")
-    const databaseResponse = await fetch(`/.netlify/functions/ticketsHandling`,
-        {
-            method: 'POST', 
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ newTickets })
-        },
-    );
 
-    if (!databaseResponse.ok) {
-        throw new Error(`Error: ${databaseResponse.status} - ${databaseResponse.statusText}`);
+    const endpoint = `/.netlify/functions/ticketsHandling`;
+    const options = {    
+        method: 'POST', 
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ newTickets })
     }
 
-    const insertedTicketsData = await databaseResponse.json();
-    return insertedTicketsData;
+    const response = fetchFromDatabase(endpoint, options);
+    return await response
 }
 
 
 export async function updateMultipleTicketsInDb(ticketIdsToUpdate, fieldsToUpdate){
     console.log("entro a updateMultipleTicketsInDb")
-    const databaseResponse = await fetch(`/.netlify/functions/ticketsHandling`,
-        {
-            method: 'PUT', 
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ ticketIdsToUpdate, fieldsToUpdate })
-        },
-    );
-
-    if (!databaseResponse.ok) {
-        throw new Error(`Error: ${databaseResponse.status} - ${databaseResponse.statusText}`);
+    const endpoint = `/.netlify/functions/ticketsHandling`;
+    const options = {    
+        method: 'PUT', 
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ ticketIdsToUpdate, fieldsToUpdate })
     }
 
-    const updatedTicketsData = await databaseResponse.json();
-    return updatedTicketsData;
+    const response = fetchFromDatabase(endpoint, options);
+    return await response
 }
 
 
 export async function updateTicketsBySale(ticketsUuid, saleId){
-    console.log("entro a update_tickets_salesid")
-    const databaseResponse = await fetch(`/.netlify/functions/ticketsHandling`,
-        {
-            method: 'PUT', 
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ ticketsUuid, saleId })
-        },
-    );
-
-    if (!databaseResponse.ok) {
-        throw new Error(`Error: ${databaseResponse.status} - ${databaseResponse.statusText}`);
+    console.log("entro a update_tickets_salesid", ticketsUuid, saleId)
+    const endpoint = `/.netlify/functions/ticketsHandling`;
+    const options = {    
+        method: 'PUT', 
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ ticketsUuid, saleId })
     }
 
-    const updatedTicketsData = await databaseResponse.json();
-    return updatedTicketsData;
+    const response = fetchFromDatabase(endpoint, options);
+    return await response
 }
 
 
@@ -152,23 +133,20 @@ export async function getShowtimeDataInDb(selectedShowtimeId) {
     return await response
 }
 
-export async function updateAvailableSeatsShowtime(selectedShowtimeId, numberSeats) {
-    console.log("start fetch for supabase showtime by id", selectedShowtimeId)
-    const response = await fetch(`/.netlify/functions/showtimesHandling`,
-        {
-            method: 'PUT', 
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ selectedShowtimeId, numberSeats })
-        }
-    );
-
-    if (!response.ok) {
-        throw new Error(`Error: ${response.status} - ${response.statusText}`);
+export async function updateAvailableSeatsShowtime(selectedShowtimeId, numberTicketsBought) {
+    console.log("start fetch for supabase showtime by id", selectedShowtimeId, numberTicketsBought);
+    const endpoint = `/.netlify/functions/showtimesHandling`;
+    const options = {
+        method: 'PUT', 
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ selectedShowtimeId, numberTicketsBought })
     }
-
-    const data = await response.json();
-    return data;
+    const response = fetchFromDatabase(endpoint, options);
+    return await response
 }
+
+
+
 export async function getShowtimesPerMovieDb(movieId, date, startTime) {
     console.log("Getting showtimes for Movie", movieId, date)
     const endpoint = `/.netlify/functions/showtimesHandling?movieId=${movieId}&startDate=${date}&startTime=${startTime}`;
@@ -208,39 +186,28 @@ export async function getAvailableAuditorium(showtime){
 
 
 
-export async function get_sale_by_uuid(uuid) {
-    console.log("entro a get_sale_by_uuid", uuid)
-    const databaseResponse = await fetch(`/.netlify/functions/salesHandling?saleUuid=${uuid}`,
-        {
-            method: 'GET', 
-            headers: {'Content-Type': 'application/json'},
-        },
-    );
-
-    if (!databaseResponse.ok) {
-        throw new Error(`Error: ${databaseResponse.status} - ${databaseResponse.statusText}`);
+export async function getSaleByUuid(saleUuid) {
+    console.log("entro a get_sale_by_uuid", saleUuid)
+    const endpoint =`/.netlify/functions/salesHandling?saleUuid=${saleUuid}`
+    const options = {
+        method: 'GET', 
+        headers: {'Content-Type': 'application/json'},
     }
 
-    const saleData = await databaseResponse.json();
-    return saleData;
+    const data = await fetchFromDatabase(endpoint, options);
+    return data;
 }
 
-export async function get_tickets_by_sale(sale_id) {
-    console.log("start fetch for supabase get_tickets_by_sale", sale_id)
-    const response = await fetch(`/.netlify/functions/ticketsHandling?saleId=${sale_id}`,
-        {
-            method: 'GET', 
-            headers: {'Content-Type': 'application/json'},
-        }
-    );
-
-    if (!response.ok) {
-        throw new Error(`Error: ${response.status} - ${response.statusText}`);
+export async function getTicketsBySale(saleId) {
+    console.log("start fetch for supabase get_tickets_by_sale", saleId)
+    const endpoint =`/.netlify/functions/ticketsHandling?saleId=${saleId}`
+    const options = {
+        method: 'GET', 
+        headers: {'Content-Type': 'application/json'},
     }
 
-    const data = await response.json();
+    const data = await fetchFromDatabase(endpoint, options);
     return data;
-
 }
 
 

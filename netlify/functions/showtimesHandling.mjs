@@ -58,11 +58,24 @@ export const handler = async (event) => {
 
 
             case 'PUT':{
-                const {showtimeId, numberSeats} = JSON.parse(body);
+                const {selectedShowtimeId, numberTicketsBought} = JSON.parse(body);
+                console.log("aqui esta la raza", selectedShowtimeId, numberTicketsBought);
+
+                const { data: currentShowtime, error: fetchError } = await supabase
+                    .from('showtimes')
+                    .select('available_seats')
+                    .eq('id', parseInt(selectedShowtimeId))
+                    .single();
+
+                if (fetchError) throw new Error(`Error fetching showtime: ${fetchError.message}`);
+                if (!currentShowtime) throw new Error('Showtime no encontrado');
+
+                const numberSeats = currentShowtime.available_seats - numberTicketsBought;
+
                 const { data: showtimeData, error } = await supabase
                     .from('showtimes')
                     .update({available_seats: numberSeats})
-                    .eq('id', parseInt(showtimeId))
+                    .eq('id', parseInt(selectedShowtimeId))
                     .select('*');
                     
                 if (error) {
