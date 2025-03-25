@@ -12,7 +12,6 @@ export const handler = async (event) => {
         switch (httpMethod) {
             case 'GET': {
                 const { start_date, start_time, end_time, auditoriumId } = queryStringParameters;
-                console.log(start_date, start_time, end_time, auditoriumId);
                 if (start_date) {
                     
                     const { data: auditoriums, error } = await supabase

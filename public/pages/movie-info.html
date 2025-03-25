@@ -62,57 +62,70 @@
         </nav>
     </header>
 
-    <div class="moviepage">
-        <section class="movie">
-            <div id="poster"></div>
-            <div>
-                <h1 id="title"></h1>
-                <p id="synopsis"></p>
-                <p id="rating"></p>
-                <p id="advisory"></p>
-                <p id="duration"></p>
-                <p id="genre"></p>
-                <p id="director"></p>
-                <div id="trailer"></div>
-            </div>   
-        </section>
-
-        <section class="movieschedules">
-            <div class="schedules">
-                
-
-
-                <div class="theater-container">
-
-                    <button class="theater-button" onclick="toggleSchedule('schedule1')">Today</button>
-                    <div id="schedule1" class="schedule collapse show">
-                        <div class="times" id="today">
-                        </div>
-                    </div>
-
+    
+    <main>
+        <section id="loadingScreen">
+            <h1>Loading...</h1>
+            <div id="loadContainer">
+                <div class="spinner-border" style="width: 70px; height: 70px;" role="status">
+                    <span class="visually-hidden">Loading...</span>
                 </div>
-
-
-                <div class="theater-container">
-                    <button class="theater-button" onclick="toggleSchedule('schedule2')">Tomorrow</button>
-                    <div id="schedule2" class="schedule collapse">
-                        <div class="times" id="tomorrow">
-                           
-                        </div>
-                    </div>
-                </div>
-
-                <div class="theater-container">
-                    <button class="theater-button" onclick="toggleSchedule('schedule3')">After Tomorrow</button>
-                    <div id="schedule3" class="schedule collapse">
-                        <div class="times" id="afterTomorrow">
-                     
-                        </div>
-                    </div>
-                </div>
+                <img src="../asset/img/popcorn-svgrepo-com.svg" alt="popcorn" id="popcornLoad">
             </div>
         </section>
-    </div>
+        <div class="moviepage">
+            <section class="movie">
+                <div id="poster"></div>
+                <div>
+                    <h1 id="title"></h1>
+                    <p id="synopsis"></p>
+                    <p id="rating"></p>
+                    <p id="advisory"></p>
+                    <p id="duration"></p>
+                    <p id="genre"></p>
+                    <p id="director"></p>
+                    <div id="trailer"></div>
+                </div>   
+            </section>
+    
+            <section class="movieschedules">
+                <div class="schedules">
+                    
+    
+    
+                    <div class="theater-container">
+    
+                        <button class="theater-button" onclick="toggleSchedule('schedule1')">Today</button>
+                        <div id="schedule1" class="schedule collapse show">
+                            <div class="times" id="today">
+                            </div>
+                        </div>
+    
+                    </div>
+    
+    
+                    <div class="theater-container">
+                        <button class="theater-button" onclick="toggleSchedule('schedule2')">Tomorrow</button>
+                        <div id="schedule2" class="schedule collapse">
+                            <div class="times" id="tomorrow">
+                               
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="theater-container">
+                        <button class="theater-button" onclick="toggleSchedule('schedule3')">After Tomorrow</button>
+                        <div id="schedule3" class="schedule collapse">
+                            <div class="times" id="afterTomorrow">
+                         
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </main>
 
     <footer>
 
