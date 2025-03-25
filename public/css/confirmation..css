@@ -1,18 +1,108 @@
-.message{
-    border: 1px;
-    justify-content: center;
-    background-color: grey;
-    border-radius: 10px;
-    color: white;
-    padding: 35px;
-}
-.confirmation{
-    display: flex;
-    justify-content: space-evenly;
-}
-.imageconf{
-    justify-content: center;
-}
 body{
+    background-color: white;
+}
+.confirmationticket {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
     background-color: black;
+    width: fit-content;
+    height: fit-content;
+    position: relative;
+    overflow: hidden;
+}
+
+.ticket {
+    width: 260px;
+    background: white;
+    border-radius: 15px;
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+    padding-bottom: 20px;
+    height: fit-content;
+    border: 1px solid white;
+}
+
+.ticket img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+
+}
+
+.qr {
+    background: white;
+    display: inline-block;
+    border-radius: 20px;
+    margin: -60px auto 0px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    
+
+}
+
+.notch {
+    position: absolute;
+    width: 40px;
+    height: 20px;
+    background: #181818;
+    border-radius: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.notch.top {
+    top: -10px;
+    z-index: 5;
+
+}
+
+.notch.bottom {
+    bottom: -10px;
+    z-index: 5;
+}
+
+.qr > img {
+    height: 120px;
+}
+
+.details {
+    padding: 10px;
+    font-size: 14px;
+}
+
+
+.dashed-line {
+    width: 80%;
+    border-top: 5px dashed black;
+    margin: 10px auto;
+}
+.messagecon{
+    color: white;
+    background-color: #3b3a37;
+    padding: 25px;
+    border-radius: 15px;
+    width: 350px;
+    height: fit-content;
+    justify-content: center;
+    text-align: center;
+
+}
+.completeconfirmation{
+    display: flex;
+    justify-content: space-around;
+    gap: 100px;
+    background-color: black;
+    width: fit-content;
+    padding: 30px;
+    border-radius: 10px;
+    margin-right: 25%;
+    margin-left: 25%;
+    
+}
+.btndownload{
+    background-color: transparent;
+    color: white;
 }

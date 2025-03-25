@@ -3,20 +3,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="../css/confirmation..css">
+    
+   <link rel="stylesheet" href="../css/confirmation..css">
+   
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gugi&family=Orbitron:wght@400..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <title>Opus Cinemas</title>
+    <!--This link charges JQuery-->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <!--This link charges Bootstrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!--This link charges conection with Supabase-->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
 </head>
 <body>
-    <div class="confirmation">
-        <div class="message">
-            <h2>Thanks for buying!</h2>
-            <p>Your tickets were already sent to your email address, but you can download them right here</p>
-        </div>
 
-        <div class="imageconf">
-            <img src="https://upload.wikimedia.org/wikipedia/en/9/93/Star_Wars_Episode_III_Revenge_of_the_Sith_poster.jpg" alt="">
+    <header>
+        <nav class="navbar bg-body-tertiary">
+            <div class="container-fluid" style="background-color: var(--black);">
+                <div style="display: inline;">
+
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    
+                    <a class="navbar-brand" href="#" id="header">
+                        <img src="../asset/img/Logo.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+                        Opus-Cinemas
+                    </a>
+                </div>
+                
+                <span class="navbar-text" id="header-link">
+                    <a href="https://www.facebook.com/" target="_blank"><i class="fab fa-facebook header-icon-custom mx-2"></i></a>
+                    <a href="https://x.com/" target="_blank"><i class="fab fa-twitter header-icon-custom mx-2"></i></a>
+                    <a href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram header-icon-custom mx-2"></i></a>
+                </span>
+                
+                <div class="collapse navbar-collapse" id="navbarNav" style="background-color: var(--grey);">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">About Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Promotions</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Pre-Sales</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Events</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+<br>
+
+    <section class="completeconfirmation">
+
+
+        <div class="messagecon">
+            <h2>Thanks for buying!</h2>
+            <p>Your tickets were already sent to your email address, but you can download them right here</p><br><br>
+            <button class="btndownload" id="buttondownloadpdf">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+                    <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
+                    <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z"/>
+                </svg> Download tickets here
+            </button>
+            <br><br><br><br>
+            <h2>Go to main page</h2>
+        </div>
+    
+    
+        <div class="confirmationticket">
+    
+            <div class="notch top"></div>
+    
+            <div class="ticket" id="ticketpdf">
+    
+                <img src="https://resizing.flixster.com/MVCmRwei3hciatRFabqssItjcBE=/206x305/v2/https://resizing.flixster.com/VbyUoOExPrTiGYNye2vlF6aw_no=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzLzY4MjVjNjUzLWQ4OWYtNDAzYy1iOTkwLWUzNTM1NjRkYjEwYy5qcGc=" alt="Movie Poster">
+                <div class="qr" >
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/QR_Code_example.png" alt="QR Code">
+                </div>
+                <div class="dashed-line"></div>
+                <div class="details">
+                    <strong>Star Wars Episode 3</strong><br>
+                    Tuesday, Jan 04<br>
+                    4:40 PM<br>
+                    <strong>SCREEN: 7</strong> | Seats: D4, D5, D6
+                </div>
+                
+            </div>
+    
+            <div class="notch bottom"></div>
     
         </div>
-    </div>
+
+    </section><br><br>
+
+
+    <footer>
+
+        <hr>
+
+        <section class="footersection">
+
+            <div class="numberemail">
+                <h3>Contact</h3>
+                <p>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone-fill" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z" />
+                    </svg>
+                    +1 (236) 444 9999
+                </p>
+
+                <p>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-fill" viewBox="0 0 16 16">
+                        <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414zM0 4.697v7.104l5.803-3.558zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586zm3.436-.586L16 11.801V4.697z" />
+                    </svg>
+                    <a href="mailto:info@cinename.ca" class="footertext">info@opuscinema.com</a>
+                </p>
+            </div>
+
+            <div class="footertextdiv">
+                
+                <p>
+                    <a href="#" class="footertext">Cookie Settings</a> |
+                    <a href="#" class="footertext">Terms of Use</a> |
+                    <a href="#" class="footertext">Privacy Policy</a>
+                </p>
+                <p>Developed by Team Number 1 for Internet Programming Course</p>
+            </div>
+
+        </section>
+    </footer>
+    <script>
+        function printTickerPdf() {
+            
+            var element = document.getElementById('ticketpdf');
+            html2pdf(element);
+            
+        }
+        document.getElementById('buttondownloadpdf').addEventListener('click', function(){
+            printTickerPdf()
+        })
+    </script>
 </body>
 </html>
