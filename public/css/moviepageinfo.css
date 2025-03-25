@@ -74,7 +74,7 @@
     align-items: flex-start;
     justify-content: space-between;
     padding: 20px;
-    margin: 20px;
+    /* margin: 20px; */
     gap: 200px;
 }
 
