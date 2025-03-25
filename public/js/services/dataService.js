@@ -1,7 +1,7 @@
 // import { ,get_booked_tickets, get_showtimesPerMovie_db,get_data_by_id, get_showtime_seats, insert_payment, insert_tickets, update_tickets_salesid, get_sale_by_uuid, get_tickets_by_sale} from "../api/supabase_api.js";
-import {get_booked_tickets, get_tickets_by_sale, get_sale_by_uuid, insert_payment, getAuditoriumInDbById, getShowtimeDataInDb, getShowtimesPerMovieDb, getBookedTicketsFromDb, insertShowtimeRecordDb, updateMultipleTicketsInDb, insertMultipleTicketsInDb, updateTicketsBySale, updateAvailableSeatsShowtime, getAvailableAuditorium } from "../api/supabaseApi.js";
+import {getUserBookedTickets, getTicketsBySale, getSaleByUuid, insertPaymentInDB, getAuditoriumInDbById, getShowtimeDataInDb, getShowtimesPerMovieDb, getBookedTicketsFromDb, insertShowtimeRecordDb, updateMultipleTicketsInDb, insertMultipleTicketsInDb, updateTicketsBySale, updateAvailableSeatsShowtime, getAvailableAuditorium } from "../api/supabaseApi.js";
 import { fetchMovieInformationFromAPI, fetchMoviesFromAPI, fetchMoviesSchedulesFromAPI } from "../api/moviegluApi.js";  
-import { adjustedDatetime, convert_date_iso } from "../utils.js";
+import { adjustedDatetime, convert_date_iso as convertDateIso } from "../utils.js";
 
 function getReleaseStatus(currentDate, movieReleaseDate){
     const releaseDate = new Date(movieReleaseDate);
@@ -17,7 +17,7 @@ function getReleaseStatus(currentDate, movieReleaseDate){
     }
 }
 
-export async function getMovies(numberOfMovies, date=convert_date_iso().split("T")[0]) {
+export async function getMovies(numberOfMovies, date=convertDateIso().split("T")[0]) {
     const dateTime = date+"T05:00:00"
     const moviesListResponse  = await fetchMoviesFromAPI(numberOfMovies);
     const schedulesResponse  = await fetchMoviesSchedulesFromAPI(dateTime);
@@ -75,7 +75,7 @@ async function consultMovieSchedules(movieId, datetime, movieDurationInMin){
 }
 
 
-export async function getMovieDetails(movieId, datetime=convert_date_iso()) {
+export async function getMovieDetails(movieId, datetime=convertDateIso()) {
     try {
         console.log("getMovieDetails", movieId);
         let responseMovieDetails = await fetchMovieInformationFromAPI(movieId);
@@ -162,9 +162,42 @@ async function insertShowtimesInDb(movieId, date, duration, showtimes){
 
 
 export async function getBookedSeats(showtimeId=30){
-    console.log("getting booked seats for showtime:", showtimeId)
-    const seats = await getBookedTicketsFromDb(showtimeId);
-    return seats;
+    try {
+        console.log("getting booked seats for showtime:", showtimeId)
+        
+        if(showtimeId){
+            const showtimeData = await getShowtimeDataInDb(showtimeId);
+            
+            if(showtimeData.length > 0){
+                const { movie_id: movieId, auditorium_id: auditoriumId, start_date: date, start_time: hour, available_seats: totalSeats } = showtimeData[0];
+    
+                const [ bookedSeats, movieData, auditoriumData ] = await Promise.all([
+                    getBookedTicketsFromDb(showtimeId),
+                    fetchMovieInformationFromAPI(movieId),
+                    getAuditoriumInDbById(auditoriumId)
+                ]);
+
+                console.log(movieData);
+                const booking_data = {
+                    movieTitle: movieData.film_name,
+                    moviePoster: movieData.images?.poster['1']?.medium?.film_image || null,
+                    movieId,
+                    auditorium: auditoriumData[0].name,
+                    bookedSeats,
+                    date,
+                    hour,
+                    totalSeats
+                }
+                return booking_data;
+            } 
+        }
+    
+        throw new Error("Error loading showtime information");
+        
+    } catch (error) {
+        console.log("Error", error);
+    }
+    
 }
 
 export async function registerTickets(seats, showtimeId, ticketTypeId=1, price=15){
@@ -178,9 +211,10 @@ export async function registerTickets(seats, showtimeId, ticketTypeId=1, price=1
                 ticket_type_id: ticketTypeId,
                 price,
                 status: "reserved",
-                reserved_at: convert_date_iso(),
+                reserved_at: convertDateIso(),
                 uuid: ticketUuid
             };
+
             let newTickets = [];
             let expiredReservationIds = [];
     
@@ -188,9 +222,11 @@ export async function registerTickets(seats, showtimeId, ticketTypeId=1, price=1
                 if (seat.id !== null){
                     expiredReservationIds.push(seat.id) 
                 } else {
-                    const customTicketData = {...commonTicketData};
-                    customTicketData.seat_number = seat.seat_number;
-                    customTicketData.showtime_id = showtimeId;
+                    const customTicketData = {
+                        ...commonTicketData,
+                        seat_number : seat.seat_number,
+                        showtime_id : showtimeId
+                    };
                     newTickets.push(customTicketData);
                 }
             });
@@ -206,7 +242,7 @@ export async function registerTickets(seats, showtimeId, ticketTypeId=1, price=1
             if(updatedTicketsData.length < 0 && updatedTicketsData.length < 0){
                 throw new Error("No tickets were booked");
             } else {
-                sessionStorage.setItem('ticket_uuid', ticketUuid);
+                sessionStorage.setItem('ticketToken', ticketUuid);
                 return ticketUuid;
             }
         } else {
@@ -214,82 +250,91 @@ export async function registerTickets(seats, showtimeId, ticketTypeId=1, price=1
         }
         
     } catch (error) {
-        console.log("error registering tickets", error.message);
+        console.log("Error registering tickets", error.message);
         throw new Error("Error registering tickets: " + error.message);
     }
 }
 
-export async function get_booked_info(uuid){
-    const tickets = await get_booked_tickets(uuid);
-    console.log("Booked tickets", tickets);
-    let total_amount = 0;
-    let seats_reserved = [];
-    let showtime_id;
+export async function getBookingInfo(uuid){
+    try {
+        const tickets = await getUserBookedTickets(uuid);
+    
+        const totalAmount = tickets.reduce((sum, ticket) => sum + ticket.price, 0);
+        const seatsReserved = tickets.map(ticket => ticket.seat_number);
+        const showtimeId = tickets[0]?.showtime_id;
 
-    for(let ticket of tickets){
-        total_amount += ticket.price;
-        seats_reserved.push(ticket.seat_number);
+        if(showtimeId){
+            const showtimeData = await getShowtimeDataInDb(showtimeId);
 
-        if (ticket == tickets[0]){
-            showtime_id = ticket.showtime_id;
-            continue;
+            if(showtimeData.length > 0){
+                const { movie_id: movieId, auditorium_id: auditoriumId, start_date: date, start_time: hour, available_seats: totalSeats } = showtimeData[0];
+
+                const [ movieData, auditoriumData ] = await Promise.all([
+                    fetchMovieInformationFromAPI(movieId),
+                    getAuditoriumInDbById(auditoriumId)
+                ]);
+
+
+                const bookingData = {
+                    movie: {
+                        title: movieData.film_name,
+                        poster: movieData.images.poster[1].medium.film_image,
+                        age_rated_image: movieData.age_rating[0].age_rating_image,
+                        age_rated: movieData.age_rating[0].rating
+                    },
+                    auditorium: auditoriumData[0].name,
+                    seatsReserved,
+                    total_amount: totalAmount,
+                    date,
+                    hour,
+                    available_seats: totalSeats     
+                }
+                return bookingData;
+            } 
         }
+
+        throw new Error("Booked information was not found");  
+    } catch (error) {
+        console.log("Error getting booking information: ", error.message);
+        throw new Error("Error getting booking information: " + error.message);
     }
-    if(showtime_id){
-        const showtime = await getShowtimeDataInDb(showtime_id);
-
-        if(showtime.length > 0){
-            let movie_id =showtime[0].movie_id
-            let auditorium_id = showtime[0].auditorium_id
-            const available_seats = showtime[0].available_seats
-
-            const movie = await fetchMovieInformationFromAPI(movie_id);
-            const auditorium = await getAuditoriumInDbById(auditorium_id);
-
-            console.log("keep rolling",showtime, movie_id, auditorium_id, movie)
-            const booking_data = {
-                movie: {
-                    title: movie.film_name,
-                    poster: movie.images.poster[1].medium.film_image,
-                    age_rated_image: movie.age_rating[0].age_rating_image,
-                    age_rated: movie.age_rating[0].rating
-                },
-                auditorium: auditorium[0].name,
-                seats_reserved,
-                total_amount,
-                available_seats
-            }
-            return booking_data;
-        } 
-    }
-
-    throw new Error("Booked information was not found");
+    
 }
 
-export async function payment_process(uuid, email, total, showtime_id, available_seats){
-    const sale = {
+export async function paymentProcess(paymentInformation){
+    const { email, totalPrice, showtimeId, ticketUuid } = paymentInformation;
+
+    const paymentDataToProcess = {
         email,
-        total,
-        showtime_id,
-        payment_time: convert_date_iso(),
+        total: totalPrice,
+        showtime_id: showtimeId,
+        payment_time: convertDateIso()
     };
 
     try {
-        const response = await insert_payment(sale);
-        console.log(response);
-        const sale_record = response[0];
-        const sale_id = sale_record.id;
-        const sale_uuid = sale_record.uuid;
+        const paymentResponse = await insertPaymentInDB(paymentDataToProcess);
+        
+        if(paymentResponse.length > 0 ){
+            const paymentRecord = paymentResponse[0];
+            const { id: saleId, uuid: saleUuid } = paymentRecord
+            
+            const updatedTickets = await updateTicketsBySale(ticketUuid, saleId);
+            if(updatedTickets.length > 0){
+                const updatedShowtime = await updateAvailableSeatsShowtime(showtimeId, updatedTickets.length);
+
+                if (updatedShowtime.length > 0){
+                    console.log("updateTicketsBySale",updatedTickets);
+                    sessionStorage.setItem('paymentToken', saleUuid);
+                    console.log(updatedShowtime);
+                    return saleUuid;
+                }
+
+            } else {
+                throw new Error("No tickets were updated after payment");
+            }
+        }
+
     
-        const tickets_updated = await updateTicketsBySale(uuid,sale_id)
-        console.log(tickets_updated);
-        console.log("sale_record", sale_record);
-        available_seats = available_seats - tickets_updated.length;
-        // console.log("tickets_updated", tickets_updated);
-        // sessionStorage.setItem('payment_uuid', sale_uuid);
-        const showtimeUpdated = updateAvailableSeatsShowtime(showtime_id, available_seats)
-        console.log(showtimeUpdated);
-        return sale_uuid;
     } catch (error) {
         console.error(error.message);
         throw new Error("Error processing payment");
@@ -297,54 +342,50 @@ export async function payment_process(uuid, email, total, showtime_id, available
     }
 }        
 
-export async function get_payment_confirmation(uuid){
+export async function getPaymentConfirmation(saleUuid){
     try {
-        const response = await get_sale_by_uuid(uuid);
-        console.log("sale",response);
-        const sale = response[0];
-        const email = sale.email;
-    
-        let total_amount = sale.total;
-        let seats_reserved = [];
-        let showtime_id = sale.showtime_id;
-    
-        const tickets = await get_tickets_by_sale(sale.id);
-        console.log(tickets);
-        for(let ticket of tickets){
-            seats_reserved.push(ticket.seat_number);
-        }
+        const saleResponse = await getSaleByUuid(saleUuid);
+        console.log("sale",saleResponse);
 
-        if(showtime_id){
-            const showtime = await getShowtimeDataInDb(showtime_id);
-    
-            if(showtime.length > 0){
-                let movie_id =showtime[0].movie_id
-                let auditorium_id = showtime[0].auditorium_id
-    
-                const movie = await fetchMovieInformationFromAPI(movie_id);
-                const auditorium = await getAuditoriumInDbById(auditorium_id);
-    
-    
+        if (saleResponse.length > 0){
+            const saleRecord = saleResponse[0];
+            const email = saleRecord.email;
+            let totalAmount = saleRecord.total;
+            let showtimeId = saleRecord.showtime_id;
+
+            const tickets = await getTicketsBySale(saleRecord.id);
+
+            const seatsReserved = tickets.map(ticket => ticket.seat_number)
+            const showtimeData = await getShowtimeDataInDb(showtimeId);
+
+            if(showtimeData.length > 0){
+                const { movie_id: movieId, auditorium_id: auditoriumId, start_date: date, start_time: hour, available_seats: totalSeats } = showtimeData[0];
+
+                const [ movieData, auditoriumData ] = await Promise.all([
+                    fetchMovieInformationFromAPI(movieId),
+                    getAuditoriumInDbById(auditoriumId)
+                ]);
+
                 const sale_data = {
                     movie: {
-                        title: movie.film_name,
-                        poster: movie.images.poster[1].medium.film_image,
-                        age_rated_image: movie.age_rating[0].age_rating_image,
-                        age_rated: movie.age_rating[0].rating
+                        title: movieData.film_name,
+                        poster: movieData.images.poster[1].medium.film_image,
+                        age_rated_image: movieData.age_rating[0].age_rating_image,
+                        age_rated: movieData.age_rating[0].rating
                     },
-                    auditorium: auditorium[0].name,
-                    seats_reserved,
-                    total_amount,
+                    auditorium: auditoriumData[0].name,
+                    seatsReserved,
+                    totalAmount,
                     email
                 }
                 return sale_data;
-            } 
-        
-        }
+            }
+            throw new Error("No showtime information was found");
+        } 
+        throw new Error("Payment confirmation information was not found");
         
     } catch (error) {
         throw new Error("Error at processing the payment request: " + error);
-        
     }
     
 }

@@ -1,0 +1,259 @@
+body {
+    background-color: var(--black);
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#menuContainer {
+    background-color: var(--black);
+    padding: 20px;
+    width: 90%;
+    margin: 60px auto 60px auto;
+    border-radius: 20px;
+    border: 7px solid var(--white);
+}
+
+#menuContainer {
+    color: var(--white);
+}
+#progressButtons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+#stepBar {
+    margin-bottom: 15px;
+}
+
+#stepBar a {
+    border-radius: 20px;
+    border: 5px solid var(--white);
+    margin-right: 10px;
+    padding: 6px 15px;
+    cursor: pointer;
+}
+#currentStep {
+    background-color: var(--white);
+}
+
+#seatsDraw {
+    display: grid;
+    grid-template-columns: repeat(14, 1fr);
+    font-size: 13px;
+    margin-bottom: 25px;
+}
+#screenDraw {
+    width: 90%;
+    margin: auto;
+    background-color: var(--white);
+    padding: 8px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+#screenTitle {
+    min-width: 100%;
+    text-align: center;
+}
+.seat {
+    background-color: var(--white);
+    border: 0px;
+    border-radius: 12px;
+    width: 35px;
+    height: 35px;
+    margin: 5px;
+}
+#seatsDraw .seat:not(.unavailableSeat):not(:disabled):hover {
+    background-color: var(--grey);
+    border: 3px solid var(--white);
+    color: var(--white)
+}
+.rowName {
+    text-align: center;
+    margin: 5px;
+    padding: 7px;
+}
+
+.emptyPlace {
+    visibility: hidden;
+}
+.emptyRow {
+    visibility: hidden;
+    grid-column: span 14;
+    height: 20px;
+}
+
+#formSide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#formContainer {
+    background-color: var(--grey);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 40px ;
+    width: 85%;
+    margin: 30px;
+}
+
+#movieData {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    width: 100%;
+}
+#movieData > span {
+    margin-left: 10px;
+}
+
+#ticketInput {
+    display: flex;
+    align-items: center;
+    background-color: var(--yellow);
+    width: fit-content;
+    padding: 7px;
+    color: var(--black);
+    border-radius: 20px;
+    margin: auto;
+    margin-bottom: 20px;
+}
+#ticketInput button {
+    height: 30px;
+    width: 30px;
+    border-radius: 10px;
+    border: none;
+    background-color: var(--white);
+}
+#displayInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+#numberTickets {
+    font-size: 25px;
+}
+
+#seatsSelected {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    margin-top: -20px;
+    flex-wrap: wrap;
+}
+#seatsSelected button {
+    background-color: var(--white);
+    width: 40px;
+    height: 40px;
+    color: var(--black);
+    margin: 10px;
+    padding: auto;
+    border: none;
+    border-radius: 10px;
+    text-align: center;
+    line-height: 40px;
+    position: relative;
+}
+
+#seatsSelected button:hover{
+    background-color: var(--black);
+    filter: opacity(.8);
+}
+#seatsSelected button:hover::after{
+    content: "X";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--white);
+    font-size: 25px;
+}
+#continuePayment {
+    background-color: var(--yellow);
+    color: var(--black);
+    font-size: 20px;
+    border: none;
+    padding: 20px 25px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+#continuePayment:disabled {
+    background-color: var(--lighGrey);
+    cursor: not-allowed;
+}
+#infoAmount {
+    font-size: 25px;
+    margin-top: 20px;
+}
+
+#movieTitle {
+    font-size: 25px;
+}
+
+#infoSeats div{
+    display: flex;
+    align-items: end;
+    justify-content: center;
+}
+#infoSeats .seat {
+    width: 40px;
+    height: 40px;
+}
+
+.unavailableSeat {
+    background-color: var(--red);
+    color: var(--white);
+}
+.selectedSeat {
+    background-color: var(--blue);
+    color: var(--white);
+}
+
+#remainingSeats, #overSeats {
+    margin: -10px auto 35px auto;
+}
+#overSeats {
+    display: none;
+}
+
+body {
+    background-color: var(--black);
+    background-size: cover;
+    position: relative;
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: inherit; 
+    filter: blur(7px) brightness(0.3)  sepia(.4); 
+    z-index:-1;
+}
+
+.aDisabled {
+    cursor: not-allowed;
+    pointer-events: none;
+}
+#stepBar a:not(.aDisabled):hover {
+    border: 5px solid var(--yellow);
+}
+
+@media (max-width: 992px) {
+    #formContainer {
+        width: 100%;
+    }
+}
+
