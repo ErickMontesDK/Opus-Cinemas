@@ -171,7 +171,7 @@ export async function getBookedSeats(showtimeId=30){
             if(showtimeData.length > 0){
                 const { movie_id: movieId, auditorium_id: auditoriumId, start_date: date, start_time: hour, available_seats: totalSeats } = showtimeData[0];
     
-                const [ bookedSeats, movieData, auditoriumData ] = Promise.all([
+                const [ bookedSeats, movieData, auditoriumData ] = await Promise.all([
                     getBookedTicketsFromDb(showtimeId),
                     fetchMovieInformationFromAPI(movieId),
                     getAuditoriumInDbById(auditoriumId)
