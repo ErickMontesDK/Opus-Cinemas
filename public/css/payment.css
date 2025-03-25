@@ -1,0 +1,69 @@
+body {
+    background-color: var(--black);
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.menuContainer {
+    background-color: var(--black);
+    padding: 20px;
+    width: 90%;
+    margin: 60px auto 60px auto;
+    border-radius: 20px;
+    border: 7px solid var(--white);
+}
+
+.circle {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+    border: 2px solid var(--white);
+    background: var(--black);
+    justify-content: center;
+}
+
+.active {
+    background: var(--white);
+}
+
+.opusCinemaFormLabel {
+    color: var(--white);
+    padding-top: 15px;
+}
+
+.opusCinemaForm, .opusCinemaForm:focus {
+    color: var(--white);
+    background: var(--black);
+    border: none;
+    border-radius: 0px; /* To not to show curve in underline */
+    border-bottom: 2px solid var(--white);
+    outline: none !important; /* undisplay the outline when it focused */
+}
+
+.opusCinemaForm::placeholder {
+    color: var(--white);
+}
+
+.opusCinemaTicketInfo {
+    background-color: var(--grey);
+    color: var(--white);
+    border-radius: 15px;
+    padding:15px 20px 15px 20px;
+}
+
+.opusCinemaButton {
+    font-family: "Gugi", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    display: flex;
+    justify-content: center;
+    background-color: var(--yellow);
+    border-radius: 20px;
+    padding: 15px 10% 15px 10%;
+    margin-top: 20px;
+}
