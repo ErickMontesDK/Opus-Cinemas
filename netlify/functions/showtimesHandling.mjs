@@ -59,7 +59,6 @@ export const handler = async (event) => {
 
             case 'PUT':{
                 const {selectedShowtimeId, numberTicketsBought} = JSON.parse(body);
-                console.log("aqui esta la raza", selectedShowtimeId, numberTicketsBought);
 
                 const { data: currentShowtime, error: fetchError } = await supabase
                     .from('showtimes')
