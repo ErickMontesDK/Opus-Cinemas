@@ -1,7 +1,15 @@
+body {
+    background-color: var(--yellow);
+   
+    z-index: -2;
+}
+
 #banner {
     position: relative;
     width: 100%;
-    height: 190px;
+    height: 350px;
+    background-color: var(--black);
+    padding: 10px;
 }
 
 #bannerFiller {
@@ -11,12 +19,67 @@
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.8);
-    z-index: -1;
-    filter: blur(5px);
+    filter: blur(5px)  grayscale(.9);
 }
 #banner #mainPic {
     position: absolute;
     top: 0;
     right: 0;
     height: 100%;
+    z-index: 1;
+    border-radius: 10px;
+    box-shadow:0 0 15px 10px rgba(0, 0,0, .3)
+}
+#banner h1{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 48px;
+    color: var(--yellow);
+    text-shadow: 1.5px 1.5px 1.5px rgba(0, 0, 0);
+
+}
+
+#description {
+    padding: 30px 90px;
+}
+#description h2 {
+    width: 100%;
+    margin: 50px auto;
+    text-align: center;
+    font-size: 45px;
+}
+#description h3 {
+    margin: 25px 0;
+    text-decoration: underline;
+}
+#description p {
+    line-height: 1.8;
+    margin-left: 30px;
+}
+#description *{
+    color:var(--black);
+}
+#promotional {
+    float: right;
+    border: 5px solid var(--black);
+    border-radius: 10px;
+    margin: 20px;
+}
+#popcorn {
+    width: 40px;
+}
+i {
+    font-style: italic;
+    font-weight: bold;
+}
+hr {
+    color: var(--black);
+    margin: 50px 0;
+}
+#teamData {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
