@@ -121,7 +121,6 @@ main {
     
 }
 #loadContainer {
-    min-height: 500px;
     position: relative;
 }
 #popcornLoad {
