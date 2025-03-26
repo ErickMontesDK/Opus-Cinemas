@@ -130,10 +130,10 @@
                     <div id="formContainer">
                         <p>Movie title: <span id="movieTitle"></span></p>
                         <p>Date: <span id="showtimeDate"></span></p>
-                        <p>Auditorium: <span id="auditoriumName">9</span></p>
-                        <p>Number of tickets: <span id="numberOfTickets">1</span></p>
-                        <p>Selected seats: <span id="selectedSeats">a11</span></p>
-                        <p>Price: $<span id="totalAmount">99.99</span></p>
+                        <p>Auditorium: <span id="auditoriumName"></span></p>
+                        <p>Number of tickets: <span id="numberOfTickets"></span></p>
+                        <p>Selected seats: <span id="selectedSeats"></span></p>
+                        <p>Price: $<span id="totalAmount"></span></p>
                     </div>
                 </div>
             </div>
@@ -185,42 +185,67 @@
         </section>
     </footer>
     <script type="module">
-        import { getBookingInfo } from "./js/services/dataService.js";
-
+        import { getBookingInfo } from "../js/services/dataService.js";
         $(document).ready(function () {
             async function setBookingInfo() {
                 // get ticket uuid from url parameter.
                 const queryString = window.location.search;
                 const urlParams = new URLSearchParams(queryString);
-                const ticketUuid = urlParams.get('ticketToken');
+                const ticketToken = urlParams.get('ticketToken');
 
                 // get booked info by ticket uuid.
-                const bookingInfo = getBookingInfo(ticketUuid);
+                const bookingInfo = await getBookingInfo(ticketToken);
 
                 // set booking info to elements.
-                movieTitleElement = document.getElementById('movieTitle');
+                const movieTitleElement = document.getElementById("movieTitle");
                 movieTitleElement.textContent = bookingInfo.movie.title;
 
-                showtimeElement = document.getElementById('showtimeDate');
+                const showtimeElement = document.getElementById("showtimeDate");
                 showtimeElement.textContent = bookingInfo.date;
 
-                auditoriumElement = document.getElementById('auditoriumName');
+                const auditoriumElement = document.getElementById("auditoriumName");
                 auditoriumElement.textContent = bookingInfo.auditorium;
 
-                numberOfTicketsElement = document.getElementById('numberOfTickets');
+                const numberOfTicketsElement = document.getElementById("numberOfTickets");
                 numberOfTicketsElement.textContent = bookingInfo.seatsReserved.length;
 
                 const seats = bookingInfo.seatsReserved;
-                const seatsText = seats.map(seat => seats.seat_number).join(', ');
-                selectedSeatsElement = document.getElementById('selectedSeats');
+                seats.sort();
+
+                let seatsText = ""
+                for (let i = 0; i < seats.length; i++) {
+                    if (i === 0) {
+                        seatsText += `${seats[i]}`;
+                    } else {
+                        seatsText += `, ${seats[i]}`;
+                    }
+                }
+
+                const selectedSeatsElement = document.getElementById("selectedSeats");
                 selectedSeatsElement.textContent = seatsText;
 
-                totalAmountElement = document.getElementById('totalAmount');
-                totalAmountElement.textContent = bookingInfo.totalAmount;
+                const totalAmountElement = document.getElementById("totalAmount");
+                totalAmountElement.textContent = bookingInfo.total_amount;
             }
 
             setBookingInfo();
+
+            // Event listener for "finish" button
+            document.getElementById('finish').addEventListener('click', function () {
+                const paymentInformation = {
+                    ticketToken: ticketToken,
+                    email: document.getElementById('Email').innerText,
+                    totalPrice: bookingInfo.total_amount,
+                    showtimeId: 30
+                    availableSeats: 91
+                }
+
+                makeQrcode();
+
+                sendEmail();
+            })
         })
+
 
 
         function makeQrcode() {
@@ -236,17 +261,17 @@
             // get ticket uuid from url parameter.
             const queryString = window.location.search;
             const urlParams = new URLSearchParams(queryString);
-            const ticketUuid = urlParams.get('ticketToken');
+            const ticketToken = urlParams.get('ticketToken');
 
             // get booked info by ticket uuid.
-            const bookingInfo = getBookingInfo(ticketUuid);
+            const bookingInfo = getBookingInfo(ticketToken);
             const seats = bookingInfo.seatsReserved;
 
             emailjs.send(
                 "SERVICE_ID",
                 "TEMPLATE_ID",
                 {
-                    reservationId: ticketUuid,
+                    reservationId: ticketToken,
                     date: bookingInfo.date,
                     movieTitle: bookingInfo.movie.title,
                     auditorium: bookingInfo.auditorium,

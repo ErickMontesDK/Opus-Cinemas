@@ -91,14 +91,25 @@
         </nav>
     </header>
     <main>
+        <section id="loadingScreen">
+            <h1>Loading...</h1>
+            <div id="loadContainer">
+                <div class="spinner-border" style="width: 70px; height: 70px;" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <img src="../asset/img/popcorn-svgrepo-com.svg" alt="popcorn" id="popcornLoad">
+            </div>
+        </section>
+
+
         <section id="menuContainer" class="row">
             <div class="col-12 col-lg-6" id="interactiveSide">
                 <div id="progressButtons">
                     <div id="stepBar">
-                        <a class="progressButton"></a>
-                        <a class="progressButton" id="currentStep"></a>
-                        <a class="progressButton"></a>
-                        <a class="progressButton"></a>
+                        <a class="progressButton" id="movieInfoPage"></a>
+                        <a class="progressButton aDisabled" id="currentStep"></a>
+                        <a class="progressButton aDisabled"></a>
+                        <a class="progressButton aDisabled"></a>
                     </div>
                     <p>Booking</p>
                 </div>
@@ -106,104 +117,104 @@
                     <div id="screenDraw"></div>
                     <p id="screenTitle">Screen</p>
                     <div id="seatsDraw">
-                        <button class="emptyPlace"></button>
-                        <button class="seat">A01</button>
-                        <button class="seat">A02</button>
-                        <button class="seat">A03</button>
-                        <button class="seat">A04</button>
-                        <button class="seat">A05</button>
-                        <button class="seat">A06</button>
-                        <button class="seat">A07</button>
-                        <button class="seat">A08</button>
-                        <button class="seat">A09</button>
-                        <button class="seat">A10</button>
-                        <button class="seat">A11</button>
+                        <button class="emptyPlace" id="empty-1"></button>
+                        <button class="seat" id="A01">A01</button>
+                        <button class="seat" id="A02">A02</button>
+                        <button class="seat" id="A03">A03</button>
+                        <button class="seat" id="A04">A04</button>
+                        <button class="seat" id="A05">A05</button>
+                        <button class="seat" id="A06">A06</button>
+                        <button class="seat" id="A07">A07</button>
+                        <button class="seat" id="A08">A08</button>
+                        <button class="seat" id="A09">A09</button>
+                        <button class="seat" id="A10">A10</button>
+                        <button class="seat" id="A11">A11</button>
                         <button class="emptyPlace"></button>
                         <div class="rowName">A</div>
                         <button class="emptyPlace"></button>
-                        <button class="seat">B01</button>
-                        <button class="seat">B02</button>
-                        <button class="seat">B03</button>
-                        <button class="seat">B04</button>
-                        <button class="seat">B05</button>
-                        <button class="seat">B06</button>
-                        <button class="seat">B07</button>
-                        <button class="seat">B08</button>
-                        <button class="seat">B09</button>
-                        <button class="seat">B10</button>
-                        <button class="seat">B11</button>
+                        <button class="seat" id="B01">B01</button>
+                        <button class="seat" id="B02">B02</button>
+                        <button class="seat" id="B03">B03</button>
+                        <button class="seat" id="B04">B04</button>
+                        <button class="seat" id="B05">B05</button>
+                        <button class="seat" id="B06">B06</button>
+                        <button class="seat" id="B07">B07</button>
+                        <button class="seat" id="B08">B08</button>
+                        <button class="seat" id="B09">B09</button>
+                        <button class="seat" id="B10">B10</button>
+                        <button class="seat" id="B11">B11</button>
                         <button class="emptyPlace"></button>
                         <div class="rowName">B</div>
                         <button class="emptyPlace"></button>
-                        <button class="seat">C01</button>
-                        <button class="seat">C02</button>
-                        <button class="seat">C03</button>
-                        <button class="seat">C04</button>
-                        <button class="seat">C05</button>
-                        <button class="seat">C06</button>
-                        <button class="seat">C07</button>
-                        <button class="seat">C08</button>
-                        <button class="seat">C09</button>
-                        <button class="seat">C10</button>
-                        <button class="seat">C11</button>
+                        <button class="seat" id="C01">C01</button>
+                        <button class="seat" id="C02">C02</button>
+                        <button class="seat" id="C03">C03</button>
+                        <button class="seat" id="C04">C04</button>
+                        <button class="seat" id="C05">C05</button>
+                        <button class="seat" id="C06">C06</button>
+                        <button class="seat" id="C07">C07</button>
+                        <button class="seat" id="C08">C08</button>
+                        <button class="seat" id="C09">C09</button>
+                        <button class="seat" id="C10">C10</button>
+                        <button class="seat" id="C11">C11</button>
                         <button class="emptyPlace"></button>
                         <div class="rowName">C</div>
                         <button class="emptyPlace"></button>
-                        <button class="seat">D01</button>
-                        <button class="seat">D02</button>
-                        <button class="seat">D03</button>
-                        <button class="seat">D04</button>
-                        <button class="seat">D05</button>
-                        <button class="seat">D06</button>
-                        <button class="seat">D07</button>
-                        <button class="seat">D08</button>
-                        <button class="seat">D09</button>
-                        <button class="seat">D10</button>
-                        <button class="seat">D11</button>
-                        <button class="emptyPlace"></button>
+                        <button class="seat" id="D01">D01</button>
+                        <button class="seat" id="D02">D02</button>
+                        <button class="seat" id="D03">D03</button>
+                        <button class="seat" id="D04">D04</button>
+                        <button class="seat" id="D05">D05</button>
+                        <button class="seat" id="D06">D06</button>
+                        <button class="seat" id="D07">D07</button>
+                        <button class="seat" id="D08">D08</button>
+                        <button class="seat" id="D09">D09</button>
+                        <button class="seat" id="D10">D10</button>
+                        <button class="seat" id="D11">D11</button>
+                        <button class="emptyPlace" ></button>
                         <div class="rowName">D</div>
-                        <button class="emptyRow"></button>
-                        <button class="seat">E01</button>
-                        <button class="seat">E02</button>
-                        <button class="seat">E03</button>
-                        <button class="seat">E04</button>
-                        <button class="seat">E05</button>
-                        <button class="seat">E06</button>
-                        <button class="seat">E07</button>
-                        <button class="seat">E08</button>
-                        <button class="seat">E09</button>
-                        <button class="seat">E10</button>
-                        <button class="seat">E11</button>
-                        <button class="seat">E12</button>
-                        <button class="seat">E13</button>
+                        <button class="emptyRow" ></button>
+                        <button class="seat" id="E01">E01</button>
+                        <button class="seat" id="E02">E02</button>
+                        <button class="seat" id="E03">E03</button>
+                        <button class="seat" id="E04">E04</button>
+                        <button class="seat" id="E05">E05</button>
+                        <button class="seat" id="E06">E06</button>
+                        <button class="seat" id="E07">E07</button>
+                        <button class="seat" id="E08">E08</button>
+                        <button class="seat" id="E09">E09</button>
+                        <button class="seat" id="E10">E10</button>
+                        <button class="seat" id="E11">E11</button>
+                        <button class="seat" id="E12">E12</button>
+                        <button class="seat" id="E13">E13</button>
                         <div class="rowName">E</div>
-                        <button class="seat">F01</button>
-                        <button class="seat">F02</button>
-                        <button class="seat">F03</button>
-                        <button class="seat">F04</button>
-                        <button class="seat">F05</button>
-                        <button class="seat">F06</button>
-                        <button class="seat">F07</button>
-                        <button class="seat">F08</button>
-                        <button class="seat">F09</button>
-                        <button class="seat">F10</button>
-                        <button class="seat">F11</button>
-                        <button class="seat">F12</button>
-                        <button class="seat">F13</button>
+                        <button class="seat" id="F01">F01</button>
+                        <button class="seat" id="F02">F02</button>
+                        <button class="seat" id="F03">F03</button>
+                        <button class="seat" id="F04">F04</button>
+                        <button class="seat" id="F05">F05</button>
+                        <button class="seat" id="F06">F06</button>
+                        <button class="seat" id="F07">F07</button>
+                        <button class="seat" id="F08">F08</button>
+                        <button class="seat" id="F09">F09</button>
+                        <button class="seat" id="F10">F10</button>
+                        <button class="seat" id="F11">F11</button>
+                        <button class="seat" id="F12">F12</button>
+                        <button class="seat" id="F13">F13</button>
                         <div class="rowName">F</div>
-                        <button class="seat">G01</button>
-                        <button class="seat">G02</button>
-                        <button class="seat">G03</button>
-                        <button class="seat">G04</button>
-                        <button class="seat">G05</button>
-                        <button class="seat">G06</button>
-                        <button class="seat">G07</button>
-                        <button class="seat">G08</button>
-                        <button class="seat">G09</button>
-                        <button class="seat">G10</button>
-                        <button class="seat">G11</button>
-                        <button class="seat">G12</button>
-                        <button class="seat">G13</button>
+                        <button class="seat" id="G01">G01</button>
+                        <button class="seat" id="G02">G02</button>
+                        <button class="seat" id="G03">G03</button>
+                        <button class="seat" id="G04">G04</button>
+                        <button class="seat" id="G05">G05</button>
+                        <button class="seat" id="G06">G06</button>
+                        <button class="seat" id="G07">G07</button>
+                        <button class="seat" id="G08">G08</button>
+                        <button class="seat" id="G09">G09</button>
+                        <button class="seat" id="G10">G10</button>
+                        <button class="seat" id="G11">G11</button>
+                        <button class="seat" id="G12">G12</button>
+                        <button class="seat" id="G13">G13</button>
                         <div class="rowName">G</div>
                     </div>
                     <div class="row" id="infoSeats">
@@ -226,47 +237,31 @@
                 <div id="formContainer">
                     <p id="movieTitle">Movie title</p>
                     <div id="movieData">
-                        <p>Date: <span id="showtimeDate">03/03/2025</span></p>
-                        <p>Auditorium: <span id="auditoriumName">9</span></p>
+                        <p>Date & Time: <span id="showtimeDate"></span></p>
+                        <p>Auditorium: <span id="auditoriumName"></span></p>
                         <p>Select the number of tickets</p>
                         <div id="ticketInput">
-                            <button id="ticketRest" type="button">-</button>
+                            <button id="ticketSubtract" type="button" disabled>-</button>
                             <div id="displayInfo">
-                                <span id="numberTickets">0</span>
+                                <span id="numberTickets">1</span>
                                 <span>Tickets</span>
                             </div>
                             <button id="ticketAdd" type="button">+</button>
                         </div>
-                        <p>Please, select your seats:</p>
+                        <p>Please select your seats:</p>
+                        <p id="remainingSeats">Seats left to select: <span class="seatsLeft">1</span></p>
+                        <p id="overSeats">You need to deselect: <span class="seatsLeft">1</span> seats</p>
                         <div id="seatsSelected">
-                            <div class="seats">a11</div>
-                            <div class="seats">a12</div>
-                            <div class="seats">a13</div>
-                            <div class="seats">a11</div>
-                            <div class="seats">a12</div>
-                            <div class="seats">a13</div>
-                            <div class="seats">a11</div>
-                            <div class="seats">a12</div>
-                            <div class="seats">a13</div>
-                            <div class="seats">a11</div>
-                            <div class="seats">a12</div>
-                            <div class="seats">a13</div>
-                            <div class="seats">a11</div>
-                            <div class="seats">a12</div>
-                            <div class="seats">a13</div>
                         </div>
-                        <p id="infoAmount">Price: $<span id="total">20.24</span></p>
+                        <p id="infoAmount">Price: $<span id="totalPrice">0000</span></p>
                     </div>
-                    <button type="button" id="continuePayment">Proceed to Pay</button>
+                    <button type="button" id="continuePayment" disabled>Proceed to Pay</button>
                     
 
                 </div>
             </div>
-
+            
         </section>
-
-        
-        
     </main>
     <footer>
 
@@ -307,14 +302,62 @@
 
         </section>
     </footer>
-
-    <!-- Configuration and methods to use supabase are here-->
+    <script>
+        const urlParams = new URLSearchParams(window.location.search)
+        const showtimeId = urlParams.get('showtimeId');
+        </script>
+    <script src="../js/seatsSelection.js"></script>
+    
     <script type="module">
-        import { getMovies } from "./js/services/dataService.js"
+        import { getBookedSeats, registerTickets } from "../js/services/dataService.js"
 
+        async function sendBookingInformation(ticketsSelected){
+            try {
+                const ticketToken = await registerTickets(ticketsSelected, showtimeId);
+                window.location.href = `/pages/payment?ticketToken=${ticketToken}`;
+            } catch (error) {
+                console.error('Error sending tickets to db:', error);
+                alert('Error processing your tickets. Please try again later');
+            }
+        }
 
+        function updateScreenWithShowtimeData(showtimeData){
+            showtimeData.bookedSeats.forEach(bookedSeat => {
+                if( !bookedSeat.available ){
+                    $(`#${bookedSeat.seat_number}`).addClass('unavailableSeat').prop('disabled', true);
+                }
+            })
+            console.log(showtimeData)
+            $('#movieTitle').text(showtimeData.movieTitle);
+            $('#showtimeDate').text(`${showtimeData.date} at ${showtimeData.hour.slice(0,-3)}`);
+            $('#auditoriumName').text(showtimeData.auditorium);
+            $('#movieInfoPage').prop('href', `/pages/movie-info.html?movieId=${showtimeData.movieId}`);
+            document.body.style.backgroundImage = `url("${showtimeData.moviePoster}")`;
 
+            $('#loadingScreen').fadeOut('fast');
+        }
 
+        
+        
+        async function loadingSeatSelectionScreen(showtimeId){
+            const showtimeData = await getBookedSeats(showtimeId);
+            
+            if (showtimeData){
+                updateScreenWithShowtimeData(showtimeData);
+                
+                document.dispatchEvent(new CustomEvent('updatedTicketsAvailabilty',{
+                    detail: [showtimeData.totalSeats,showtimeData.bookedSeats]                }))
+                }
+
+                document.addEventListener('seatsObjectReady', (event)=>{
+                    const ticketsSelected = event.detail
+                    console.log(ticketsSelected);
+
+                    sendBookingInformation(ticketsSelected);
+                })
+        } 
+                    
+        loadingSeatSelectionScreen(showtimeId);
     </script>
 
 </body>
