@@ -287,6 +287,7 @@ export async function getBookingInfo(uuid){
                     total_amount: totalAmount,
                     date,
                     hour,
+                    showtimeId,
                     available_seats: totalSeats     
                 }
                 return bookingData;
