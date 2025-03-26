@@ -267,7 +267,7 @@
                     sendEmail(ticketToken, bookingInfo, seatsText);
 
                     const salesId = await paymentProcess(paymentInformation);
-                    window.location.href = `/pages/confimation?${salesId}`;
+                    window.location.href = `/pages/confimation?salesId=${salesId}`;
                 })
             }
 
