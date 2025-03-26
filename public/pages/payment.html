@@ -4,6 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Gugi&family=Orbitron:wght@400..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
     <title>Opus Cinemas Payment</title>
     <!--This link charges JQuery-->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
@@ -17,6 +22,14 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <!--This link charges EmailJS-->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function () {
+            emailjs.init('ksRmP6b9X-EX7Vc8n');
+        })();
+    </script>
+
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/payment.css">
 </head>
@@ -84,6 +97,16 @@
         </nav>
     </header>
     <main>
+        <section id="loadingScreen">
+            <h1>Loading...</h1>
+            <div id="loadContainer">
+                <div class="spinner-border" style="width: 70px; height: 70px;" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <img src="../asset/img/popcorn-svgrepo-com.svg" alt="popcorn" id="popcornLoad">
+            </div>
+        </section>
+
         <section class="menuContainer">
             <div style="text-align: center;">
                 <div id="progressButtons">
@@ -185,7 +208,7 @@
         </section>
     </footer>
     <script type="module">
-        import { getBookingInfo } from "../js/services/dataService.js";
+        import { getBookingInfo, paymentProcess } from "../js/services/dataService.js";
         $(document).ready(function () {
             async function setBookingInfo() {
                 // get ticket uuid from url parameter.
@@ -202,6 +225,7 @@
 
                 const showtimeElement = document.getElementById("showtimeDate");
                 showtimeElement.textContent = bookingInfo.date;
+
 
                 const auditoriumElement = document.getElementById("auditoriumName");
                 auditoriumElement.textContent = bookingInfo.auditorium;
@@ -226,24 +250,29 @@
 
                 const totalAmountElement = document.getElementById("totalAmount");
                 totalAmountElement.textContent = bookingInfo.total_amount;
+
+                $('#loadingScreen').fadeOut('fast');
+
+                // Event listener for "finish" button
+                document.getElementById('finish').addEventListener('click', async function () {
+                    const paymentInformation = {
+                        ticketUuid: ticketToken,
+                        email: document.getElementById('Email').innerText,
+                        totalPrice: bookingInfo.total_amount,
+                        showtimeId: bookingInfo.showtimeId,
+                    };
+
+                    // makeQrcode();
+
+                    sendEmail(ticketToken, bookingInfo, seatsText);
+
+                    const salesId = await paymentProcess(paymentInformation);
+                    window.location.href = `/pages/confimation?${salesId}`;
+                })
             }
 
             setBookingInfo();
 
-            // Event listener for "finish" button
-            document.getElementById('finish').addEventListener('click', function () {
-                const paymentInformation = {
-                    ticketToken: ticketToken,
-                    email: document.getElementById('Email').innerText,
-                    totalPrice: bookingInfo.total_amount,
-                    showtimeId: bookingInfo.showtimeId,
-                    availableSeats: 91
-                }
-
-                makeQrcode();
-
-                sendEmail();
-            })
         })
 
 
@@ -252,39 +281,31 @@
 
         }
 
-        function sendEmail() {
+        function sendEmail(ticketToken, bookingInfo, seatsText) {
             // Information for access EmailJS
             const SERVICE_ID = 'service_6fuavc8';
             const TEMPLATE_ID = 'template_rbimual';
-            const USER_ID = 'O-ykf58ySZdcbqVZJ';
-
-            // get ticket uuid from url parameter.
-            const queryString = window.location.search;
-            const urlParams = new URLSearchParams(queryString);
-            const ticketToken = urlParams.get('ticketToken');
-
-            // get booked info by ticket uuid.
-            const bookingInfo = getBookingInfo(ticketToken);
-            const seats = bookingInfo.seatsReserved;
 
             emailjs.send(
-                "SERVICE_ID",
-                "TEMPLATE_ID",
+                SERVICE_ID,
+                TEMPLATE_ID,
                 {
+                    name: document.getElementById('Name').value,
                     reservationId: ticketToken,
                     date: bookingInfo.date,
                     movieTitle: bookingInfo.movie.title,
                     auditorium: bookingInfo.auditorium,
                     numberOfTickets: bookingInfo.seatsReserved.length,
-                    seats: seats.map(seat => seats.seat_number).join(', '),
-                    price: bookingInfo.totalAmount
-                },
-                "USER_ID"
+                    seats: seatsText,
+                    price: bookingInfo.total_amount,
+                    email: document.getElementById('Email').value
+                }
             ).then((response) => {
-                console.log("SUCCESS!", response.status, response.text);
+                console.log("The message has been successfuly sent.", response.status, response.text);
             }, (error) => {
-                console.log("FAILED...", error);
-            });
+                console.log("The message has been failed to send", error);
+            }
+            );
         }
 
 
