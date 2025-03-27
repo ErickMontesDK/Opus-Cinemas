@@ -1,5 +1,5 @@
 // netlify/functions/listMovies.js
-import { movieglu_headers, cinema_id_movieglu } from './config.js';
+import { movieglu_headers } from './config.js';
 
 export const handler = async (event) => {
     try {

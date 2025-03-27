@@ -4,6 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Gugi&family=Orbitron:wght@400..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
     <title>Opus Cinemas Payment</title>
     <!--This link charges JQuery-->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
@@ -17,6 +22,16 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <!--This link charges EmailJS-->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function () {
+            emailjs.init('ksRmP6b9X-EX7Vc8n');
+        })();
+    </script>
+    <!--This link charges creating QRcode-->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/payment.css">
 </head>
@@ -32,7 +47,7 @@
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <!--This part is for Logo-->
-                    <a class="navbar-brand" href="#" id="header" style="display: flex; align-items: center;">
+                    <a class="navbar-brand" href="../index.html" id="header" style="display: flex; align-items: center;">
                         <img src="../asset/img/Logo.svg" alt="Logo" width="32" height="32"
                             class="d-inline-block align-text-top mx-1">
                         Opus-Cinemas
@@ -67,16 +82,16 @@
                 <div class="collapse navbar-collapse" id="navbarNav" style="background-color: var(--grey);">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link" href="#">About Us</a>
+                            <a class="nav-link" href="./about.html">About Us</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Promotions</a>
+                            <a class="nav-link" href="../index.html#promotions">Promotions</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Pre-Sales</a>
+                            <a class="nav-link" href="./presales.html">Pre-Sales</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Events</a>
+                            <a class="nav-link" href="./events.html">Events</a>
                         </li>
                     </ul>
                 </div>
@@ -84,6 +99,16 @@
         </nav>
     </header>
     <main>
+        <section id="loadingScreen">
+            <h1>Loading...</h1>
+            <div id="loadContainer">
+                <div class="spinner-border" style="width: 70px; height: 70px;" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <img src="../asset/img/popcorn-svgrepo-com.svg" alt="popcorn" id="popcornLoad">
+            </div>
+        </section>
+
         <section class="menuContainer">
             <div style="text-align: center;">
                 <div id="progressButtons">
@@ -129,7 +154,7 @@
                 <div class="col-12 col-lg-5 opusCinemaTicketInfo">
                     <div id="formContainer">
                         <p>Movie title: <span id="movieTitle"></span></p>
-                        <p>Date: <span id="showtimeDate"></span></p>
+                        <p>Date and Time: <span id="showtimeDate"></span><span id="showtimeTime"></span></p>
                         <p>Auditorium: <span id="auditoriumName"></span></p>
                         <p>Number of tickets: <span id="numberOfTickets"></span></p>
                         <p>Selected seats: <span id="selectedSeats"></span></p>
@@ -185,7 +210,8 @@
         </section>
     </footer>
     <script type="module">
-        import { getBookingInfo } from "../js/services/dataService.js";
+        import { getBookingInfo, paymentProcess } from "../js/services/dataService.js";
+        import { makeQrCode } from "../js/makeQrCode.js";
         $(document).ready(function () {
             async function setBookingInfo() {
                 // get ticket uuid from url parameter.
@@ -200,8 +226,11 @@
                 const movieTitleElement = document.getElementById("movieTitle");
                 movieTitleElement.textContent = bookingInfo.movie.title;
 
-                const showtimeElement = document.getElementById("showtimeDate");
-                showtimeElement.textContent = bookingInfo.date;
+                const showtimeDateElement = document.getElementById("showtimeDate");
+                showtimeDateElement.textContent = bookingInfo.date;
+
+                const showtimeElement = document.getElementById("showtimeTime");
+                showtimeElement.textContent = bookingInfo.hour;
 
                 const auditoriumElement = document.getElementById("auditoriumName");
                 auditoriumElement.textContent = bookingInfo.auditorium;
@@ -226,65 +255,70 @@
 
                 const totalAmountElement = document.getElementById("totalAmount");
                 totalAmountElement.textContent = bookingInfo.total_amount;
+
+                $('#loadingScreen').fadeOut('fast');
+
+                // Event listener for "finish" button
+                document.getElementById('finish').addEventListener('click', async function () {
+                    const paymentInformation = {
+                        ticketUuid: ticketToken,
+                        email: document.getElementById('Email').innerText,
+                        totalPrice: bookingInfo.total_amount,
+                        showtimeId: bookingInfo.showtimeId,
+                    };
+
+                    const salesId = await paymentProcess(paymentInformation);
+
+                    const movieInformation = {
+                        salesId: salesId,
+                        date: bookingInfo.date,
+                        time: bookingInfo.hour,
+                        movieTitle: bookingInfo.movie.title,
+                        auditorium: bookingInfo.auditorium,
+                        seats: seats
+                    }
+
+                    const canvas = document.createElement('canvas');
+                    makeQrCode(canvas, movieInformation);
+
+                    const base64Image = canvas.toDataURL("image/png");
+                    sendEmail(ticketToken, bookingInfo, seatsText, base64Image);
+
+                    window.location.href = `/pages/confimation?salesId=${salesId}`;
+                })
             }
 
             setBookingInfo();
 
-            // Event listener for "finish" button
-            document.getElementById('finish').addEventListener('click', function () {
-                const paymentInformation = {
-                    ticketToken: ticketToken,
-                    email: document.getElementById('Email').innerText,
-                    totalPrice: bookingInfo.total_amount,
-                    showtimeId: bookingInfo.showtimeId,
-                    availableSeats: 91
-                }
-
-                makeQrcode();
-
-                sendEmail();
-            })
         })
 
-
-
-        function makeQrcode() {
-
-        }
-
-        function sendEmail() {
+        function sendEmail(ticketToken, bookingInfo, seatsText, base64Image) {
             // Information for access EmailJS
             const SERVICE_ID = 'service_6fuavc8';
             const TEMPLATE_ID = 'template_rbimual';
-            const USER_ID = 'O-ykf58ySZdcbqVZJ';
-
-            // get ticket uuid from url parameter.
-            const queryString = window.location.search;
-            const urlParams = new URLSearchParams(queryString);
-            const ticketToken = urlParams.get('ticketToken');
-
-            // get booked info by ticket uuid.
-            const bookingInfo = getBookingInfo(ticketToken);
-            const seats = bookingInfo.seatsReserved;
 
             emailjs.send(
-                "SERVICE_ID",
-                "TEMPLATE_ID",
+                SERVICE_ID,
+                TEMPLATE_ID,
                 {
+                    name: document.getElementById('Name').value,
                     reservationId: ticketToken,
                     date: bookingInfo.date,
+                    time: bookingInfo.hour,
                     movieTitle: bookingInfo.movie.title,
                     auditorium: bookingInfo.auditorium,
                     numberOfTickets: bookingInfo.seatsReserved.length,
-                    seats: seats.map(seat => seats.seat_number).join(', '),
-                    price: bookingInfo.totalAmount
-                },
-                "USER_ID"
+                    seats: seatsText,
+                    price: bookingInfo.total_amount,
+                    email: document.getElementById('Email').value,
+                    qrCodeImage: base64Image
+                }
             ).then((response) => {
-                console.log("SUCCESS!", response.status, response.text);
+                console.log("The message has been successfuly sent.", response.status, response.text);
             }, (error) => {
-                console.log("FAILED...", error);
-            });
+                console.log("The message has been failed to send", error);
+            }
+            );
         }
 
 

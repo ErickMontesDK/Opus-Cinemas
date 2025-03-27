@@ -1,7 +1,6 @@
-// import { ,get_booked_tickets, get_showtimesPerMovie_db,get_data_by_id, get_showtime_seats, insert_payment, insert_tickets, update_tickets_salesid, get_sale_by_uuid, get_tickets_by_sale} from "../api/supabase_api.js";
 import {getUserBookedTickets, getTicketsBySale, getSaleByUuid, insertPaymentInDB, getAuditoriumInDbById, getShowtimeDataInDb, getShowtimesPerMovieDb, getBookedTicketsFromDb, insertShowtimeRecordDb, updateMultipleTicketsInDb, insertMultipleTicketsInDb, updateTicketsBySale, updateAvailableSeatsShowtime, getAvailableAuditorium } from "../api/supabaseApi.js";
 import { fetchMovieInformationFromAPI, fetchMoviesFromAPI, fetchMoviesSchedulesFromAPI } from "../api/moviegluApi.js";  
-import { adjustedDatetime, convert_date_iso as convertDateIso } from "../utils.js";
+import { adjustedDatetime, convertDateIso as convertDateIso } from "../utils.js";
 
 function getReleaseStatus(currentDate, movieReleaseDate){
     const releaseDate = new Date(movieReleaseDate);
