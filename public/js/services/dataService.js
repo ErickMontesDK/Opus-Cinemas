@@ -17,6 +17,7 @@ function getReleaseStatus(currentDate, movieReleaseDate){
 }
 
 export async function getMovies(numberOfMovies, date=convertDateIso().split("T")[0]) {
+
     const dateTime = date+"T05:00:00"
     const moviesListResponse  = await fetchMoviesFromAPI(numberOfMovies);
     const schedulesResponse  = await fetchMoviesSchedulesFromAPI(dateTime);
@@ -155,7 +156,6 @@ async function insertShowtimesInDb(movieId, date, duration, showtimes){
     }
     return showtimesClean;
 }
-
 
 
 
@@ -376,7 +376,8 @@ export async function getPaymentConfirmation(saleUuid){
                     auditorium: auditoriumData[0].name,
                     seatsReserved,
                     totalAmount,
-                    email
+                    date,
+                    hour
                 }
                 return sale_data;
             }
