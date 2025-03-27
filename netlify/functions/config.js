@@ -1,4 +1,4 @@
-import { convert_date_iso } from './utils.js';
+import { convertDateIso } from './utils.js';
 
 export const moviegluHeaders = {
     'client': 'SDPR',
@@ -7,7 +7,7 @@ export const moviegluHeaders = {
     'territory': process.env.MOVIEGLU_TERRITORY,
     'api-version': 'v201',
     'geolocation': process.env.MOVIEGLU_GEOLOCATION,
-    'device-datetime': convert_date_iso()
+    'device-datetime': convertDateIso()
 };
 
 export const moviegluCinemaId = 8845;

@@ -46,10 +46,7 @@ export const handler = async (event) => {
                     
                 }
                 break;
-            // case 'PUT':
-            //     const { uuid, sales_id, price, tickets_ids, reserved_at } = JSON.parse(body);
-
-            //     break;
+          
             default:
                 return {
                     statusCode: 405,
