@@ -1,6 +1,7 @@
-body{
+body {
     background-color: white;
 }
+
 .confirmationticket {
     display: flex;
     justify-content: center;
@@ -39,7 +40,7 @@ body{
     margin: -100px auto 0px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     padding: 10px;
-    
+
 
 }
 
@@ -64,7 +65,7 @@ body{
     z-index: 5;
 }
 
-.qr > img {
+.qr>img {
     height: 110px;
 }
 
@@ -79,7 +80,8 @@ body{
     border-top: 5px dashed black;
     margin: 10px auto;
 }
-.messagecon{
+
+.messagecon {
     color: white;
     background-color: #3b3a37;
     padding: 25px;
@@ -90,19 +92,50 @@ body{
     text-align: center;
 
 }
-.completeconfirmation{
+
+.completeconfirmation {
     display: flex;
     justify-content: space-around;
     gap: 100px;
     background-color: black;
     width: fit-content;
-    padding: 30px;
+    padding: 50px;
     border-radius: 10px;
     margin-right: 25%;
     margin-left: 25%;
-    
+
 }
-.btndownload{
+
+.btndownload {
     background-color: transparent;
     color: white;
+    background: none;
+    cursor: pointer;
+}
+
+.randomtext {
+    position: absolute;
+    top: 28%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    font-size: 2rem;
+    color: #f2d03a;
+    z-index: 2;
+
+}
+.leftside{
+    display: grid;
+}
+
+.circle {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+    border: 2px solid var(--white);
+    background: var(--black);
+    justify-content: center;
+}
+.active {
+    background: var(--white);
 }

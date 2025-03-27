@@ -390,7 +390,3 @@ export async function getPaymentConfirmation(saleUuid){
     }
     
 }
-
-
-
-
