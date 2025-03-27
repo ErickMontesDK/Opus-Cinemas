@@ -1,26 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Gugi&family=Orbitron:wght@400..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Gugi&family=Orbitron:wght@400..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
     <title>Opus Cinemas</title>
     <!--This link charges JQuery-->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <!--This link charges Bootstrap-->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Bootstrap JS + Popper.js (to use the carousel component) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
     <!--This link charges conection with Supabase-->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/moviepageinfo.css">
+    <link rel="stylesheet" href="../css/events.css">
+
 </head>
 
 <body>
-    
     <header>
         <nav class="navbar bg-body-tertiary">
             <div class="container-fluid" style="background-color: var(--black);">
@@ -82,72 +90,70 @@
             </div>
         </nav>
     </header>
-
-    
     <main>
-        <section id="loadingScreen">
-            <h1>Loading...</h1>
-            <div id="loadContainer">
-                <div class="spinner-border" style="width: 70px; height: 70px;" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-                <img src="../asset/img/popcorn-svgrepo-com.svg" alt="popcorn" id="popcornLoad">
-            </div>
-        </section>
-        <div class="moviepage">
-            <section class="movie">
-                <div id="poster"></div>
-                <div>
-                    <h1 id="title"></h1>
-                    <p id="synopsis"></p>
-                    <p id="rating"></p>
-                    <p id="advisory"></p>
-                    <p id="duration"></p>
-                    <p id="genre"></p>
-                    <p id="director"></p>
-                    <div id="trailer"></div>
-                </div>   
-            </section>
-    
-            <section class="movieschedules">
-                <div class="schedules">
-                    
-    
-    
-                    <div class="theater-container">
-    
-                        <button class="theater-button" onclick="toggleSchedule('schedule1')">Today</button>
-                        <div id="schedule1" class="schedule collapse show">
-                            <div class="times" id="today">
-                            </div>
-                        </div>
-    
-                    </div>
-    
-    
-                    <div class="theater-container">
-                        <button class="theater-button" onclick="toggleSchedule('schedule2')">Tomorrow</button>
-                        <div id="schedule2" class="schedule collapse">
-                            <div class="times" id="tomorrow">
-                               
-                            </div>
-                        </div>
-                    </div>
-    
-                    <div class="theater-container">
-                        <button class="theater-button" onclick="toggleSchedule('schedule3')">After Tomorrow</button>
-                        <div id="schedule3" class="schedule collapse">
-                            <div class="times" id="afterTomorrow">
-                         
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+        <div id="banner">
+            <h1>Events & Festivals</h1>
+            <p>
+                Unlock limited-time deals for the ultimate movie experience. Act fast - these offers won't last!
+            </p>
         </div>
 
+        <section id="events">
+            <div class="row">
+                <div class="col-12 col-lg-4">
+                    <div class="card">
+                        <div class="imgContainer">
+                            <img src="https://cdn.displate.com/artwork/270x380/2024-11-27/0db5fe03-2296-4da1-93af-512b3fee281c.jpg" class="card-img-top" alt="horrorImg">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Midnight Scream Fest</h5>
+                            <p class="card-text">
+                                Vancouver’s spookiest cinematic tradition returns! A week of horror classics, indie chillers, and surprise screenings of banned films too intense for mainstream theaters.
+                            </p>
+                        </div>
+                        <div class="card-footer">
+                            <small >October 24-31, 2025</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-4">
+                    <div class="card">
+                        <div class="imgContainer">
+                            <img src="https://infocusfilmschool.com/wp-content/uploads/2016/06/film-making-courses-teach-students-to-film-anywhere.jpg" class="card-img-top" alt="horrorImg">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">CCTB Student Film Showcase</h5>
+                            <p class="card-text">
+                                The raw talent of tomorrow’s filmmakers shines in this three-day spotlight on shorts created by Canadian College students.
+                            </p>
+                            <p>Live director Q&As with free coffee and donuts for attendees.</p>
+                        </div>
+                        <div class="card-footer">
+                            <small >November 14-16, 2025</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-4">
+                    <div class="card">
+                        <div class="imgContainer">
+                            <img src="https://cache.getarchive.net/Prod/thumb/cdn2/L3Bob3RvLzE5MzkvMTIvMzEvcG9zdGVyLWdvbmUtd2l0aC10aGUtd2luZC0wMi1kYzhjNDQtMTAyNC5qcGc%3D/320/366/jpg" class="card-img-top" alt="horrorImg">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Silver Screen Sundays</h5>
+                            <p class="card-text">
+                                Rediscover black-and-white masterpieces the way they were meant to be seen – on film, 
+                                with an intermission and old-school concession stand prices.
+                            </p>
+                        </div>
+                        <div class="card-footer">
+                            <small>Every Sunday in December 2025</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+ 
     </main>
-
     <footer>
 
         <hr>
@@ -157,22 +163,26 @@
             <div class="numberemail">
                 <h3>Contact</h3>
                 <p>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone-fill" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z" />
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-telephone-fill" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z" />
                     </svg>
                     +1 (236) 444 9999
                 </p>
 
                 <p>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-fill" viewBox="0 0 16 16">
-                        <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414zM0 4.697v7.104l5.803-3.558zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586zm3.436-.586L16 11.801V4.697z" />
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-envelope-fill" viewBox="0 0 16 16">
+                        <path
+                            d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414zM0 4.697v7.104l5.803-3.558zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586zm3.436-.586L16 11.801V4.697z" />
                     </svg>
                     <a href="mailto:info@cinename.ca" class="footertext">info@opuscinema.com</a>
                 </p>
             </div>
 
             <div class="footertextdiv">
-                
+
                 <p>
                     <a href="#" class="footertext">Cookie Settings</a> |
                     <a href="#" class="footertext">Terms of Use</a> |
@@ -183,58 +193,10 @@
 
         </section>
     </footer>
-    <script src="../js/movieinfo.js"></script>
-
-    <script>
-        function toggleSchedule(id) {
-            var schedule = document.getElementById(id);
-            var schedule2 = document.getElementById('schedule2')
-            var schedule3 = document.getElementById('schedule3')
-            var schedule1 = document.getElementById('schedule1')
-            schedule1.classList.remove('hide');
-            schedule2.classList.remove('hide');
-            schedule3.classList.remove('hide');
-
-            schedule1.classList.remove('show');
-            schedule2.classList.remove('show');
-            schedule3.classList.remove('show');
-            schedule.classList.add('show');
-        }
-
-    </script>
 
     
-   
-    <script type="module">
-        import {getMovieDetails} from "../js/services/dataService.js"
-        
-        $(document).ready(function(){
-            const urlParams = new URLSearchParams(window.location.search)
-            const movieId = urlParams.get('movieId')
-            console.log(movieId)
-            async function call_db_data(movieId){
-                const movies = await getMovieDetails(movieId);
-                console.log(movies)
 
-                insertMovieData(movies)
-            } 
-            call_db_data(movieId)
-    
-    
-            // async function call_db_data(){
-            //     await getMovieDetails(3427);
-            // } 
-            // call_db_data()
-    
-            // async function call_db_data(){
-            //     await get_booked_seats(30);
-            // } 
-            // call_db_data()
-        });
-    </script>
 
-    
-    
 </body>
 
 </html>

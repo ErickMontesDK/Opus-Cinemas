@@ -51,13 +51,21 @@ h1,h2,h3,#header {
     color: var(--yellow);
     text-decoration: none;
 }
-
-.header-icon-custom {
-    font-size: 30px;
+.nav-link:hover {
+    color: var(--yellow);
+    text-decoration: none;
 }
 
+header svg:hover{
+    color: var(--white)
+}
+#header:hover, .navbar-toggler span:hover{
+    filter: grayscale(1) brightness(3);
+}
+
+
 .header-icon-custom:hover {
-    color: var(--yellow);
+    background-color: var(--white);
 }
 
 .navbar-nav {
@@ -82,8 +90,10 @@ h1,h2,h3,#header {
 footer{
     padding: 20px 40px; 
     text-align: center; 
-    color :white; 
     background:black 
+}
+footer * {
+    color: var(--white);
 }
 .footertext{
     text-decoration: none;

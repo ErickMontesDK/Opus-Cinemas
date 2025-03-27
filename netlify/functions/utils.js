@@ -9,7 +9,7 @@ const hour_options = {
 }
 
 
-export const convert_date_iso = (datestring = `${ new Date().toLocaleString('en-US', hour_options)}`) => {
+export const convertDateIso = (datestring = `${ new Date().toLocaleString('en-US', hour_options)}`) => {
     const [datePart, timePart] = datestring.split(', ');
     const [month, day, year] = datePart.split('/');
     const iso_date = `${year}-${month}-${day}T${timePart}`
