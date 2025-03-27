@@ -29,6 +29,8 @@
             emailjs.init('ksRmP6b9X-EX7Vc8n');
         })();
     </script>
+    <!--This link charges creating QRcode-->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/payment.css">
@@ -152,7 +154,7 @@
                 <div class="col-12 col-lg-5 opusCinemaTicketInfo">
                     <div id="formContainer">
                         <p>Movie title: <span id="movieTitle"></span></p>
-                        <p>Date: <span id="showtimeDate"></span></p>
+                        <p>Date and Time: <span id="showtimeDate"></span><span id="showtimeTime"></span></p>
                         <p>Auditorium: <span id="auditoriumName"></span></p>
                         <p>Number of tickets: <span id="numberOfTickets"></span></p>
                         <p>Selected seats: <span id="selectedSeats"></span></p>
@@ -209,6 +211,7 @@
     </footer>
     <script type="module">
         import { getBookingInfo, paymentProcess } from "../js/services/dataService.js";
+        import { makeQrCode } from "../js/makeQrCode.js";
         $(document).ready(function () {
             async function setBookingInfo() {
                 // get ticket uuid from url parameter.
@@ -223,9 +226,11 @@
                 const movieTitleElement = document.getElementById("movieTitle");
                 movieTitleElement.textContent = bookingInfo.movie.title;
 
-                const showtimeElement = document.getElementById("showtimeDate");
-                showtimeElement.textContent = bookingInfo.date;
+                const showtimeDateElement = document.getElementById("showtimeDate");
+                showtimeDateElement.textContent = bookingInfo.date;
 
+                const showtimeElement = document.getElementById("showtimeTime");
+                showtimeElement.textContent = bookingInfo.hour;
 
                 const auditoriumElement = document.getElementById("auditoriumName");
                 auditoriumElement.textContent = bookingInfo.auditorium;
@@ -262,11 +267,23 @@
                         showtimeId: bookingInfo.showtimeId,
                     };
 
-                    // makeQrcode();
-
-                    sendEmail(ticketToken, bookingInfo, seatsText);
-
                     const salesId = await paymentProcess(paymentInformation);
+
+                    const movieInformation = {
+                        salesId: salesId,
+                        date: bookingInfo.date,
+                        time: bookingInfo.hour,
+                        movieTitle: bookingInfo.movie.title,
+                        auditorium: bookingInfo.auditorium,
+                        seats: seats
+                    }
+
+                    const canvas = document.createElement('canvas');
+                    makeQrCode(canvas, movieInformation);
+
+                    const base64Image = canvas.toDataURL("image/png");
+                    sendEmail(ticketToken, bookingInfo, seatsText, base64Image);
+
                     window.location.href = `/pages/confimation?salesId=${salesId}`;
                 })
             }
@@ -275,13 +292,7 @@
 
         })
 
-
-
-        function makeQrcode() {
-
-        }
-
-        function sendEmail(ticketToken, bookingInfo, seatsText) {
+        function sendEmail(ticketToken, bookingInfo, seatsText, base64Image) {
             // Information for access EmailJS
             const SERVICE_ID = 'service_6fuavc8';
             const TEMPLATE_ID = 'template_rbimual';
@@ -293,12 +304,14 @@
                     name: document.getElementById('Name').value,
                     reservationId: ticketToken,
                     date: bookingInfo.date,
+                    time: bookingInfo.hour,
                     movieTitle: bookingInfo.movie.title,
                     auditorium: bookingInfo.auditorium,
                     numberOfTickets: bookingInfo.seatsReserved.length,
                     seats: seatsText,
                     price: bookingInfo.total_amount,
-                    email: document.getElementById('Email').value
+                    email: document.getElementById('Email').value,
+                    qrCodeImage: base64Image
                 }
             ).then((response) => {
                 console.log("The message has been successfuly sent.", response.status, response.text);
