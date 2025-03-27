@@ -210,7 +210,7 @@
         </section>
     </footer>
     <script type="module">
-        import { getBookingInfo, paymentProcess } from "../js/services/dataService.js";
+        import { getBookingInfo, paymentProcess, sendEmail } from "../js/services/dataService.js";
         import { makeQrCode } from "../js/makeQrCode.js";
         $(document).ready(function () {
             async function setBookingInfo() {
@@ -282,7 +282,22 @@
                     makeQrCode(canvas, movieInformation);
 
                     const base64Image = canvas.toDataURL("image/png");
-                    sendEmail(ticketToken, bookingInfo, seatsText, base64Image);
+                    const emailInformation = {
+                        name: document.getElementById('Name').value,
+                        reservationId: ticketToken,
+                        date: bookingInfo.date,
+                        time: bookingInfo.hour,
+                        movieTitle: bookingInfo.movie.title,
+                        auditorium: bookingInfo.auditorium,
+                        numberOfTickets: bookingInfo.seatsReserved.length,
+                        seats: seatsText,
+                        price: bookingInfo.total_amount,
+                        email: document.getElementById('Email').value,
+                        qrCodeImage: base64Image,
+                    }
+                    console.log("sosososososo", emailInformation)
+                    await sendEmail(emailInformation)
+                    // sendEmail(ticketToken, bookingInfo, seatsText, base64Image);
 
                     window.location.href = `/pages/confimation?salesId=${salesId}`;
                 })
@@ -292,34 +307,34 @@
 
         })
 
-        function sendEmail(ticketToken, bookingInfo, seatsText, base64Image) {
+        // function sendEmail(ticketToken, bookingInfo, seatsText, base64Image) {
             // Information for access EmailJS
-            const SERVICE_ID = 'service_6fuavc8';
-            const TEMPLATE_ID = 'template_rbimual';
+            // const SERVICE_ID = 'service_6fuavc8';
+            // const TEMPLATE_ID = 'template_rbimual';
 
-            emailjs.send(
-                SERVICE_ID,
-                TEMPLATE_ID,
-                {
-                    name: document.getElementById('Name').value,
-                    reservationId: ticketToken,
-                    date: bookingInfo.date,
-                    time: bookingInfo.hour,
-                    movieTitle: bookingInfo.movie.title,
-                    auditorium: bookingInfo.auditorium,
-                    numberOfTickets: bookingInfo.seatsReserved.length,
-                    seats: seatsText,
-                    price: bookingInfo.total_amount,
-                    email: document.getElementById('Email').value,
-                    qrCodeImage: base64Image
-                }
-            ).then((response) => {
-                console.log("The message has been successfuly sent.", response.status, response.text);
-            }, (error) => {
-                console.log("The message has been failed to send", error);
-            }
-            );
-        }
+            // emailjs.send(
+            //     SERVICE_ID,
+            //     TEMPLATE_ID,
+            //     {
+            //         name: document.getElementById('Name').value,
+            //         reservationId: ticketToken,
+            //         date: bookingInfo.date,
+            //         time: bookingInfo.hour,
+            //         movieTitle: bookingInfo.movie.title,
+            //         auditorium: bookingInfo.auditorium,
+            //         numberOfTickets: bookingInfo.seatsReserved.length,
+            //         seats: seatsText,
+            //         price: bookingInfo.total_amount,
+            //         email: document.getElementById('Email').value,
+            //         qrCodeImage: base64Image
+            //     }
+            // ).then((response) => {
+            //     console.log("The message has been successfuly sent.", response.status, response.text);
+            // }, (error) => {
+            //     console.log("The message has been failed to send", error);
+            // }
+            // );
+        // }
 
 
     </script>

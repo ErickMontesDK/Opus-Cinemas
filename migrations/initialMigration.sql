@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS Sales (
     total NUMERIC(10, 2) NOT NULL,
     refunded BOOLEAN DEFAULT FALSE,
     payment_time TIMESTAMPTZ DEFAULT NOW(),
-    uuid UUID DEFAULT gen_random_uuid()
+    uuid UUID DEFAULT gen_random_uuid() NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS TicketTypes (
@@ -51,6 +51,7 @@ CREATE TABLE IF NOT EXISTS TicketTypes (
 );
 
 CREATE TABLE IF NOT EXISTS Tickets (
+    id SERIAL,
     seat_number seats_number NOT NULL,
     showtime_id INT REFERENCES Showtimes(id) NOT NULL,
     sales_id INT REFERENCES Sales(id),
@@ -83,6 +84,14 @@ VALUES
     ('Aud 13'),
     ('Aud 14'),
     ('Aud 15');
+    ('Aud 16');
+    ('Aud 17');
+    ('Aud 18');
+    ('Aud 19');
+    ('Aud 20');
+    ('Aud 21');
+    ('Aud 22');
+    ('Aud 23');
 
 
 DO $$ 

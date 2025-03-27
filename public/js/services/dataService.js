@@ -1,6 +1,7 @@
 import {getUserBookedTickets, getTicketsBySale, getSaleByUuid, insertPaymentInDB, getAuditoriumInDbById, getShowtimeDataInDb, getShowtimesPerMovieDb, getBookedTicketsFromDb, insertShowtimeRecordDb, updateMultipleTicketsInDb, insertMultipleTicketsInDb, updateTicketsBySale, updateAvailableSeatsShowtime, getAvailableAuditorium } from "../api/supabaseApi.js";
 import { fetchMovieInformationFromAPI, fetchMoviesFromAPI, fetchMoviesSchedulesFromAPI } from "../api/moviegluApi.js";  
 import { adjustedDatetime, convertDateIso as convertDateIso } from "../utils.js";
+import { sendEmailToClient } from "../api/emailService.js";
 
 function getReleaseStatus(currentDate, movieReleaseDate){
     const releaseDate = new Date(movieReleaseDate);
@@ -63,6 +64,8 @@ async function consultMovieSchedules(movieId, datetime, movieDurationInMin){
     try {
         const [date, time] = datetime.split("T");
         let showtimes = await getShowtimesPerMovieDb(movieId, date, time);
+        console.log(showtimes)
+        console.log(showtimes.length)
         
         if (showtimes.length == 0){
             let apiSchedulesResponse = await fetchMoviesSchedulesFromAPI(datetime);
@@ -461,3 +464,21 @@ export async function getPaymentConfirmation(saleUuid){
     }
     
 }
+
+export async function sendEmail(bookingInfo){
+    try {
+        console.log("Sending email");
+        const response = await sendEmailToClient(bookingInfo);
+        console.log("Email sent successfully", response);
+        
+    } catch (error) {
+        console.error("Error in getPaymentConfirmation:", error); 
+        sessionStorage.setItem("lastError", JSON.stringify({
+            message: error.message,
+            stack: error.stack,
+            timestamp: new Date().toISOString()
+        }));
+        window.location.href = "./../../pages/error.html";
+
+    }
+};

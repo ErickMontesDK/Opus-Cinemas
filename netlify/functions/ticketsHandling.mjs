@@ -77,7 +77,7 @@ export const handler = async (event) => {
                     return { statusCode: 200, body: JSON.stringify(updatedTicketsData) };
 
                 } else if (ticketsUuid && saleId){
-                    console.log("enter in this thing", ticketsUuid, saleId);
+                
                     const { data: updatedTicketsSaleData, error } = await supabase
                         .from('tickets')
                         .update([
