@@ -15,34 +15,35 @@ body {
 }
 
 .ticket {
-    width: 260px;
+    width: 280px;
     background: white;
     border-radius: 15px;
     text-align: center;
     overflow: hidden;
     position: relative;
-    padding-bottom: 20px;
+    padding-bottom: 10px;
     height: fit-content;
     border: 1px solid white;
 }
 
-.ticket img {
+.fallback-image {
     width: 100%;
     height: 260px;
     object-fit: cover;
 
 }
 
-.qr {
+.qrim {
     background: white;
     display: inline-block;
     border-radius: 20px;
-    margin: -100px auto 0px;
+    margin: -120px auto 0px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     padding: 10px;
-
-
+    transform: scale(0.8);  
+    transform-origin: center;
 }
+
 
 .notch {
     position: absolute;
@@ -65,9 +66,6 @@ body {
     z-index: 5;
 }
 
-.qr>img {
-    height: 110px;
-}
 
 .details {
     padding: 10px;
@@ -80,7 +78,7 @@ body {
     border-top: 5px dashed black;
     margin: 10px auto;
 }
-
+ 
 .messagecon {
     color: white;
     background-color: #3b3a37;
@@ -103,7 +101,7 @@ body {
     border-radius: 10px;
     margin-right: 25%;
     margin-left: 25%;
-
+    
 }
 
 .btndownload {
@@ -113,16 +111,49 @@ body {
     cursor: pointer;
 }
 
+#imageposter-container {
+    width: 100%;  /* Ensure the container takes up the full width of its parent */
+    height: 400px;  /* Set a fixed height or adjust as needed */
+    background-color: #FFEB3B;  /* Light yellow background */
+    display: flex;
+    justify-content: center;  /* Center the content horizontally */
+    align-items: center;  /* Center the content vertically */
+    position: relative;  /* Position relative for absolute children (like the image) */
+}
+
+#imageposter {
+    width: 300px;  /* Adjust width as necessary */
+    height: 20x;  /* Let height adjust proportionally */
+    border-radius: 10px;  /* Optional: rounded corners */
+    object-fit: contain;  /* Make sure the image fits inside the container without distortion */
+    z-index: 0;  /* Ensure the image appears above the background */
+}
+
+
+.fallback-image {
+    width: 100%;
+    height: 100%;  /* Make the fallback image fill the container */
+    object-fit: cover;  /* Ensure the image covers the entire container */
+    border-radius: 10px;  /* Optional: rounded corners */
+    background-color: #FFEB3B;  /* Light yellow background in case image doesn't exist */
+}
+
 .randomtext {
     position: absolute;
-    top: 28%;
+    top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) rotate(-45deg);
-    font-size: 2rem;
+    transform: translate(-50%, -50%) rotate(-20deg);
+    font-size: 1.5rem;
+    font-weight: bold;
     color: #f2d03a;
-    z-index: 2;
-
+    background: rgba(0, 0, 0, 0.6); 
+    padding: 5px 10px;
+    border-radius: 5px;
+    z-index: 0; 
 }
+
+
+
 .leftside{
     display: grid;
 }
@@ -138,4 +169,20 @@ body {
 }
 .active {
     background: var(--white);
+}
+
+
+body {
+    background-color: var(--black);
+    background-size: cover;
+    position: relative;
+}
+body::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: inherit; 
+    filter: blur(7px) brightness(0.3)  sepia(.4); 
+    z-index:-1;
 }
