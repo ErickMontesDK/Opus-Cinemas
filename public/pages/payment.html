@@ -98,6 +98,7 @@
             </div>
         </nav>
     </header>
+    
     <main>
         <section id="loadingScreen">
             <h1>Loading...</h1>
@@ -299,7 +300,7 @@
                     await sendEmail(emailInformation)
                     // sendEmail(ticketToken, bookingInfo, seatsText, base64Image);
 
-                    window.location.href = `/pages/confimation?salesId=${salesId}`;
+                    window.location.href = `/pages/confirmation?salesId=${salesId}`;
                 })
             }
 

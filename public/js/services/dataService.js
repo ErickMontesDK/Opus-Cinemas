@@ -205,7 +205,6 @@ async function insertShowtimesInDb(movieId, date, duration, showtimes){
 
 
 
-
 export async function getBookedSeats(showtimeId=30){
     try {
         console.log("getting booked seats for showtime:", showtimeId)
