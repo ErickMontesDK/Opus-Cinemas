@@ -129,7 +129,7 @@
                             <!-- Email -->
                             <label for="Email" class="form-label opusCinemaFormLabel">Email address</label>
                             <input type="email" class="form-control opusCinemaForm" id="Email"
-                                placeholder="example@example.com" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}"
+                                placeholder="example@example.com" pattern = "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
                                 required>
                             <span id="emailNotification"></span>
                             <!-- Name -->
@@ -220,6 +220,7 @@
     <script type="module">
         import { getBookingInfo, paymentProcess, getBookedSeats } from "../js/services/dataService.js";
         import { makeQrCode } from "../js/makeQrCode.js";
+        import { sendEmailToClient } from "../js/api/emailService.js"
         $(document).ready(function () {
             async function setBookingInfo() {
                 // get ticket uuid from url parameter.
@@ -273,9 +274,9 @@
 
                 // Event listener for "finish" button
                 document.getElementById('finish').addEventListener('click', async function () {
+                    event.preventDefault();
                     const form = document.querySelector('form');
                     if (!form.checkValidity()) { // check the information if it is valid.
-                        event.preventDefault();
                         alert('There is an error in the information you entered. Please check again.');
                     } else {
                         const paymentInformation = {
@@ -300,7 +301,22 @@
                         makeQrCode(canvas, movieInformation);
 
                         const base64Image = canvas.toDataURL("image/png");
-                        sendEmail(ticketToken, bookingInfo, seatsText, base64Image);
+                        const emailInformation = {
+                            name: document.getElementById('Name').value,
+                            reservationId: ticketToken,
+                            date: bookingInfo.date,
+                            time: bookingInfo.hour,
+                            movieTitle: bookingInfo.movie.title,
+                            auditorium: bookingInfo.auditorium,
+                            numberOfTickets: bookingInfo.seatsReserved.length,
+                            seats: seatsText,
+                            price: bookingInfo.total_amount,
+                            email: document.getElementById('Email').value,
+                            qrCodeImage: base64Image
+                        }
+
+                        console.log(emailInformation);
+                        await sendEmailToClient(emailInformation);
 
                         window.location.href = `/pages/confirmation?salesId=${salesId}`;
                     }
@@ -310,37 +326,6 @@
             setBookingInfo();
 
         })
-
-        function sendEmail(ticketToken, bookingInfo, seatsText, base64Image) {
-            // Information for access EmailJS
-            const SERVICE_ID = 'service_6fuavc8';
-            const TEMPLATE_ID = 'template_rbimual';
-
-            emailjs.send(
-                SERVICE_ID,
-                TEMPLATE_ID,
-                {
-                    name: document.getElementById('Name').value,
-                    reservationId: ticketToken,
-                    date: bookingInfo.date,
-                    time: bookingInfo.hour,
-                    movieTitle: bookingInfo.movie.title,
-                    auditorium: bookingInfo.auditorium,
-                    numberOfTickets: bookingInfo.seatsReserved.length,
-                    seats: seatsText,
-                    price: bookingInfo.total_amount,
-                    email: document.getElementById('Email').value,
-                    qrCodeImage: base64Image
-                }
-            ).then((response) => {
-                console.log("The message has been successfuly sent.", response.status, response.text);
-            }, (error) => {
-                console.log("The message has been failed to send", error);
-            }
-            );
-        }
-
-
     </script>
 </body>
 
