@@ -141,7 +141,13 @@
 
     
 
-
+    <script>
+        const errorData = JSON.parse(sessionStorage.getItem("lastError"));
+        if (errorData) {
+          console.log("Stack trace:", errorData.stack);
+          
+        }
+      </script>
 </body>
 
 </html>

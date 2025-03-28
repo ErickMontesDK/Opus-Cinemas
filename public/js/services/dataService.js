@@ -1,6 +1,7 @@
 import {getUserBookedTickets, getTicketsBySale, getSaleByUuid, insertPaymentInDB, getAuditoriumInDbById, getShowtimeDataInDb, getShowtimesPerMovieDb, getBookedTicketsFromDb, insertShowtimeRecordDb, updateMultipleTicketsInDb, insertMultipleTicketsInDb, updateTicketsBySale, updateAvailableSeatsShowtime, getAvailableAuditorium } from "../api/supabaseApi.js";
 import { fetchMovieInformationFromAPI, fetchMoviesFromAPI, fetchMoviesSchedulesFromAPI } from "../api/moviegluApi.js";  
 import { adjustedDatetime, convertDateIso as convertDateIso } from "../utils.js";
+import { sendEmailToClient } from "../api/emailService.js";
 
 function getReleaseStatus(currentDate, movieReleaseDate){
     const releaseDate = new Date(movieReleaseDate);
@@ -17,34 +18,45 @@ function getReleaseStatus(currentDate, movieReleaseDate){
 }
 
 export async function getMovies(numberOfMovies, date=convertDateIso().split("T")[0]) {
-    const dateTime = date+"T05:00:00"
-    const moviesListResponse  = await fetchMoviesFromAPI(numberOfMovies);
-    const schedulesResponse  = await fetchMoviesSchedulesFromAPI(dateTime);
-
-    let moviesList = moviesListResponse.films;
-    let moviesSchedules = schedulesResponse.films;
-
-    const cleanedMovies = moviesList.map(movie =>{
-        const movieSchedulesData = moviesSchedules.find(movieData => movieData.film_id == movie.film_id);
-        const releaseStatus = getReleaseStatus(date, movie.release_dates[0].release_date)
+    try {
+        const dateTime = date+"T05:00:00"
+        const moviesListResponse  = await fetchMoviesFromAPI(numberOfMovies);
+        const schedulesResponse  = await fetchMoviesSchedulesFromAPI(dateTime);
+    
+        let moviesList = moviesListResponse.films;
+        let moviesSchedules = schedulesResponse.films;
+    
+        const cleanedMovies = moviesList.map(movie =>{
+            const movieSchedulesData = moviesSchedules.find(movieData => movieData.film_id == movie.film_id);
+            const releaseStatus = getReleaseStatus(date, movie.release_dates[0].release_date)
+            
+            let movieGenres = [];
+            if (movieSchedulesData){
+                movieGenres = movieSchedulesData.genres.map(genre => genre.genre_name)
+            }
+    
+            return {
+                id: movie.film_id,
+                title: movie.film_name,
+                poster: movie.images.poster[1].medium.film_image,
+                trailer: movie.film_trailer,
+                ageRating: movie.age_rating[0].rating,
+                ageAdvisory: movie.age_rating[0].age_advisory,
+                genres: movieGenres,
+                releaseStatus
+            }
+        });
+        return cleanedMovies;
         
-        let movieGenres = [];
-        if (movieSchedulesData){
-            movieGenres = movieSchedulesData.genres.map(genre => genre.genre_name)
-        }
-
-        return {
-            id: movie.film_id,
-            title: movie.film_name,
-            poster: movie.images.poster[1].medium.film_image,
-            trailer: movie.film_trailer,
-            ageRating: movie.age_rating[0].rating,
-            ageAdvisory: movie.age_rating[0].age_advisory,
-            genres: movieGenres,
-            releaseStatus
-        }
-    });
-    return cleanedMovies;
+    } catch (error) {
+        console.error("Error en getMovies:", error); 
+        sessionStorage.setItem("lastError", JSON.stringify({
+            message: error.message,
+            stack: error.stack,
+            timestamp: new Date().toISOString()
+        }));
+        window.location.href = "./../../pages/error.html";
+    }
 }
 
 
@@ -52,6 +64,8 @@ async function consultMovieSchedules(movieId, datetime, movieDurationInMin){
     try {
         const [date, time] = datetime.split("T");
         let showtimes = await getShowtimesPerMovieDb(movieId, date, time);
+        console.log(showtimes)
+        console.log(showtimes.length)
         
         if (showtimes.length == 0){
             let apiSchedulesResponse = await fetchMoviesSchedulesFromAPI(datetime);
@@ -68,8 +82,13 @@ async function consultMovieSchedules(movieId, datetime, movieDurationInMin){
         } 
         return showtimes;
     } catch (error) {
-        console.log("Error consulting schedules", error);
-        throw new Error("Error consulting schedules: " + error.message);
+        console.error("Error en consultMovieSchedules:", error); 
+        sessionStorage.setItem("lastError", JSON.stringify({
+            message: error.message,
+            stack: error.stack,
+            timestamp: new Date().toISOString()
+        }));
+        window.location.href = "./../../pages/error.html";
     }
 }
 
@@ -112,50 +131,76 @@ export async function getMovieDetails(movieId, datetime=convertDateIso()) {
     
         return cleanedFilmData;
     } catch (error) {
-        console.log("Error consulting schedules", error);
-        throw new Error("Error consulting schedules: " + error.message);
+        console.error("Error in getMovieDetails:", error); 
+        sessionStorage.setItem("lastError", JSON.stringify({
+            message: error.message,
+            stack: error.stack,
+            timestamp: new Date().toISOString()
+        }));
+        window.location.href = "./../../pages/error.html";
     }
 }
 
 
 const getEndFunctionHour = (start_time, minutes) => {
-    const [start_hour, start_minutes] = start_time.split(':').map(number => parseInt(number))
-
-    let end_minutes = start_minutes + minutes;
-    let end_hour = end_minutes >= 60? start_hour + Math.floor(end_minutes/60) : start_hour;
-    end_hour = end_hour >=24? end_hour - 24 : end_hour;
-    end_minutes = end_minutes % 60;
-
-    return `${end_hour.toString().padStart(2, '0')}:${end_minutes.toString().padStart(2, '0')}`
+    try {
+        const [start_hour, start_minutes] = start_time.split(':').map(number => parseInt(number))
+    
+        let end_minutes = start_minutes + minutes;
+        let end_hour = end_minutes >= 60? start_hour + Math.floor(end_minutes/60) : start_hour;
+        end_hour = end_hour >=24? end_hour - 24 : end_hour;
+        end_minutes = end_minutes % 60;
+    
+        return `${end_hour.toString().padStart(2, '0')}:${end_minutes.toString().padStart(2, '0')}`
+        
+    } catch (error) {
+        console.error("Error in getEndFunctionHour:", error); 
+        sessionStorage.setItem("lastError", JSON.stringify({
+            message: error.message,
+            stack: error.stack,
+            timestamp: new Date().toISOString()
+        }));
+        window.location.href = "./../../pages/error.html";
+    }
 }
 
 async function insertShowtimesInDb(movieId, date, duration, showtimes){
-    const showtimesClean = [];
-
-    for (let showing in showtimes){
-        const showingType = showing;
-        const showtimesHours = showtimes[showingType].times;
-
-        for (let showtimeHour of showtimesHours){            
-            let showtimeDbFields = {
-                start_time: showtimeHour.start_time,
-                start_date: date,
-                end_time:  getEndFunctionHour(showtimeHour.start_time, duration),
-                movie_id: parseInt(movieId),
-                available_seats: 91
-            };
-            const auditoriumsAvailable = await getAvailableAuditorium(showtimeDbFields);
-            showtimeDbFields.auditorium_id = auditoriumsAvailable[0].id;
-
-            const insertShowtimeResponse = await insertShowtimeRecordDb(showtimeDbFields);
-            const showtimeRecord = insertShowtimeResponse[0];
-            console.log("showtime inserted: ", showtimeRecord);
-            showtimesClean.push(showtimeRecord);
+    try {
+        const showtimesClean = [];
+    
+        for (let showing in showtimes){
+            const showingType = showing;
+            const showtimesHours = showtimes[showingType].times;
+    
+            for (let showtimeHour of showtimesHours){            
+                let showtimeDbFields = {
+                    start_time: showtimeHour.start_time,
+                    start_date: date,
+                    end_time:  getEndFunctionHour(showtimeHour.start_time, duration),
+                    movie_id: parseInt(movieId),
+                    available_seats: 91
+                };
+                const auditoriumsAvailable = await getAvailableAuditorium(showtimeDbFields);
+                showtimeDbFields.auditorium_id = auditoriumsAvailable[0].id;
+    
+                const insertShowtimeResponse = await insertShowtimeRecordDb(showtimeDbFields);
+                const showtimeRecord = insertShowtimeResponse[0];
+                console.log("showtime inserted: ", showtimeRecord);
+                showtimesClean.push(showtimeRecord);
+            }
         }
+        return showtimesClean;
+        
+    } catch (error) {
+        console.error("Error in insertShowtimesInDb:", error); 
+        sessionStorage.setItem("lastError", JSON.stringify({
+            message: error.message,
+            stack: error.stack,
+            timestamp: new Date().toISOString()
+        }));
+        window.location.href = "./../../pages/error.html";
     }
-    return showtimesClean;
 }
-
 
 
 
@@ -194,7 +239,13 @@ export async function getBookedSeats(showtimeId=30){
         throw new Error("Error loading showtime information");
         
     } catch (error) {
-        console.log("Error", error);
+        console.error("Error in getBookedSeats:", error); 
+        sessionStorage.setItem("lastError", JSON.stringify({
+            message: error.message,
+            stack: error.stack,
+            timestamp: new Date().toISOString()
+        }));
+        window.location.href = "./../../pages/error.html";
     }
     
 }
@@ -249,8 +300,13 @@ export async function registerTickets(seats, showtimeId, ticketTypeId=1, price=1
         }
         
     } catch (error) {
-        console.log("Error registering tickets", error.message);
-        throw new Error("Error registering tickets: " + error.message);
+        console.error("Error in registerTickets:", error); 
+        sessionStorage.setItem("lastError", JSON.stringify({
+            message: error.message,
+            stack: error.stack,
+            timestamp: new Date().toISOString()
+        }));
+        window.location.href = "./../../pages/error.html";
     }
 }
 
@@ -295,8 +351,13 @@ export async function getBookingInfo(uuid){
 
         throw new Error("Booked information was not found");  
     } catch (error) {
-        console.log("Error getting booking information: ", error.message);
-        throw new Error("Error getting booking information: " + error.message);
+        console.error("Error in getBookingInfo:", error); 
+        sessionStorage.setItem("lastError", JSON.stringify({
+            message: error.message,
+            stack: error.stack,
+            timestamp: new Date().toISOString()
+        }));
+        window.location.href = "./../../pages/error.html";
     }
     
 }
@@ -336,8 +397,13 @@ export async function paymentProcess(paymentInformation){
 
     
     } catch (error) {
-        console.error(error.message);
-        throw new Error("Error processing payment");
+        console.error("Error in paymentProcess:", error); 
+        sessionStorage.setItem("lastError", JSON.stringify({
+            message: error.message,
+            stack: error.stack,
+            timestamp: new Date().toISOString()
+        }));
+        window.location.href = "./../../pages/error.html";
         
     }
 }        
@@ -376,7 +442,8 @@ export async function getPaymentConfirmation(saleUuid){
                     auditorium: auditoriumData[0].name,
                     seatsReserved,
                     totalAmount,
-                    email
+                    date,
+                    hour
                 }
                 return sale_data;
             }
@@ -385,7 +452,32 @@ export async function getPaymentConfirmation(saleUuid){
         throw new Error("Payment confirmation information was not found");
         
     } catch (error) {
-        throw new Error("Error at processing the payment request: " + error);
+        console.error("Error in getPaymentConfirmation:", error); 
+        sessionStorage.setItem("lastError", JSON.stringify({
+            message: error.message,
+            stack: error.stack,
+            timestamp: new Date().toISOString()
+        }));
+        window.location.href = "./../../pages/error.html";
+
     }
     
 }
+
+export async function sendEmail(bookingInfo){
+    try {
+        console.log("Sending email");
+        const response = await sendEmailToClient(bookingInfo);
+        console.log("Email sent successfully", response);
+        
+    } catch (error) {
+        console.error("Error in getPaymentConfirmation:", error); 
+        sessionStorage.setItem("lastError", JSON.stringify({
+            message: error.message,
+            stack: error.stack,
+            timestamp: new Date().toISOString()
+        }));
+        window.location.href = "./../../pages/error.html";
+
+    }
+};
