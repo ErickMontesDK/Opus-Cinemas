@@ -17,14 +17,21 @@ main {
     border: 7px solid var(--white);
 }
 
-.circle {
+.progressButton {
     display: inline-block;
     width: 20px;
     height: 20px;
     border-radius: 20px;
-    border: 2px solid var(--white);
+    border: 5px solid var(--white);
     background: var(--black);
     justify-content: center;
+    cursor: pointer;
+    padding: 6px 15px;
+}
+
+.aDisabled {
+    cursor: not-allowed;
+    pointer-events: none;
 }
 
 .active {
@@ -46,7 +53,7 @@ main {
 }
 
 .opusCinemaForm::placeholder {
-    color: var(--white);
+    color: var(--grey);
 }
 
 .opusCinemaTicketInfo {
