@@ -315,7 +315,6 @@
                             qrCodeImage: base64Image
                         }
 
-                        console.log(emailInformation);
                         await sendEmailToClient(emailInformation);
 
                         window.location.href = `/pages/confirmation?salesId=${salesId}`;
