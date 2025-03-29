@@ -82,64 +82,79 @@
 
     <br />
 
-    <section class="completeconfirmation">
-        <div class="leftside">
-            <div style="text-align: center" class="menucontainer">
-                <div id="progressButtons">
-                    <a class="circle" href="~"></a>
-                    <a class="circle" href="~"></a>
-                    <a class="circle" href="~"></a>
-                    <a class="circle active" href="~"></a>
+    <main>
+        <section id="loadingScreen">
+            <h1>Loading...</h1>
+            <div id="loadContainer">
+                <div class="spinner-border" style="width: 70px; height: 70px;" role="status">
+                    <span class="visually-hidden">Loading...</span>
                 </div>
-                <h1 style="color: var(--white)">Payment</h1>
+                <img src="../asset/img/popcorn-svgrepo-com.svg" alt="popcorn" id="popcornLoad">
             </div>
+        </section>
 
-            <div class="messagecon">
-                <h2>Thanks for buying!</h2>
-                <p>
-                    Your tickets were already sent to your email address, but you can
-                    download them right here
-                </p>
-                <br /><br />
-                <button class="btndownload" id="buttondownloadpdf">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-download" viewBox="0 0 16 16">
-                        <path
-                            d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
-                        <path
-                            d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z" />
-                    </svg>
-                    Download tickets here
-                </button>
-                <br /><br /><br /><br />
-                <h2>Go to main page</h2>
-            </div>
-        </div>
-
-        <div class="confirmationticket" id="ticketpdf">
-            <div class="notch top"></div>
-
-            <div class="ticket">
-                <div id="imageposter-container">
-                    <div src="../asset/img/Logo.svg" alt="Movie Poster" id="imageposter" class="fallback-image"></div>
+        <section class="completeconfirmation">
+            <div class="leftside">
+                <div style="text-align: center" class="menucontainer">
+                    <div id="progressButtons">
+                        <a class="circle" href="~"></a>
+                        <a class="circle" href="~"></a>
+                        <a class="circle" href="~"></a>
+                        <a class="circle active" href="~"></a>
+                    </div>
+                    <h1 style="color: var(--white)">Payment</h1>
                 </div>
-
-                <div class="qri" id="qr"></div>
-
-                <div class="dashed-line"></div>
-                <div class="details">
-                    <strong id="movieTitle"></strong>
-                    <p id="movieDate"></p>
-                    <p id="movieHour"></p>
-                    <strong id="movieAuditorium"></strong>
-                    <p id="movieSeats"></p>
+    
+                <div class="messagecon">
+                    <h2>Thanks for buying!</h2>
+                    <p>
+                        Your tickets were already sent to your email address, but you can
+                        download them right here
+                    </p>
+                    <br /><br />
+                    <button class="btndownload" id="buttondownloadpdf">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-download" viewBox="0 0 16 16">
+                            <path
+                                d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
+                            <path
+                                d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z" />
+                        </svg>
+                        Download tickets here
+                    </button>
+                    <br /><br /><br /><br />
+                    <h2>Go to main page</h2>
                 </div>
             </div>
+    
+            <div class="confirmationticket" id="ticketpdf">
+                <div class="notch top"></div>
+    
+                <div class="ticket">
+                    <div id="imageposter-container">
+                        <div src="../asset/img/Logo.svg" alt="Movie Poster" id="imageposter" class="fallback-image"></div>
+                    </div>
+    
+                    <div class="qri" id="qr"></div>
+    
+                    <div class="dashed-line"></div>
+                    <div class="details">
+                        <strong id="movieTitle"></strong>
+                        <p id="movieDate"></p>
+                        <p id="movieHour"></p>
+                        <strong id="movieAuditorium"></strong>
+                        <p id="movieSeats"></p>
+                    </div>
+                </div>
+    
+                <div class="notch bottom"></div>
+            </div>
+        </section>
+        <br /><br />
 
-            <div class="notch bottom"></div>
-        </div>
-    </section>
-    <br /><br />
+
+    </main>
+
 
     <footer>
         <hr />
@@ -260,21 +275,21 @@
             imageContainer.innerHTML = "";
 
             const image = document.createElement("img");
-image.src = "../asset/img/Logo.svg"; // Use the logo image instead of movie poster
-image.alt = movieInformation.movieTitle;
-image.style.width = "400px";  // Increase the width to make it wider
-image.style.height = "auto";  // Let the height adjust proportionally
-image.style.borderRadius = "10px";  // Keep the rounded corners
-image.style.objectFit = "contain";  // Ensure the image fits nicely inside the container
-image.style.marginLeft = "-50px";  // Move the image 50px to the left (adjust as needed)
+            image.src = "../asset/img/Logo.svg"; // Use the logo image instead of movie poster
+            image.alt = movieInformation.movieTitle;
+            image.style.width = "400px";  // Increase the width to make it wider
+            image.style.height = "auto";  // Let the height adjust proportionally
+            image.style.borderRadius = "10px";  // Keep the rounded corners
+            image.style.objectFit = "contain";  // Ensure the image fits nicely inside the container
+            image.style.marginLeft = "-50px";  // Move the image 50px to the left (adjust as needed)
 
-// Apply the light yellow background color to the image container
-const imagePosterContainer = document.getElementById('imageposter-container');
-imagePosterContainer.style.backgroundColor = "#FFEB3B";  // Light yellow background
+            // Apply the light yellow background color to the image container
+            const imagePosterContainer = document.getElementById('imageposter-container');
+            imagePosterContainer.style.backgroundColor = "#FFEB3B";  // Light yellow background
 
 
             imageContainer.appendChild(image);
-            console.log(image);
+            $('#loadingScreen').fadeOut('fast');
         }
 
         const queryString = window.location.search;

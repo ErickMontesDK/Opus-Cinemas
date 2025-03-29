@@ -74,3 +74,13 @@ main {
     padding: 15px 10% 15px 10%;
     margin-top: 20px;
 }
+
+input.error:focus {
+    border: 2px solid red;
+}
+input.error {
+    background-color: var(--red);
+}
+input.verified {
+    border: 2px solid green;
+}
