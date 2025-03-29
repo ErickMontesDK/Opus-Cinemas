@@ -37,7 +37,6 @@ export const handler = async (event) => {
                     if (error) {
                         console.log("Error: " + error.message);
                         throw new Error(error?.message);
-
                     }
                     return { statusCode: 200, body: JSON.stringify(ticketsBookedByUser) };
 
