@@ -125,6 +125,7 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 100;
 }
 #loadingScreen * {
     color:var(--black);

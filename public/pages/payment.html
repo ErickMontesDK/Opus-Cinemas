@@ -131,17 +131,17 @@
                             <span id="nameNotification"></span>
                             <label for="CreditCard" class="form-label opusCinemaFormLabel">Credit Card Number</label>
                             <input type="text" class="form-control opusCinemaForm" id="CreditCard"
-                                placeholder="1234567890123456" pattern="\d{16}" required>
+                                placeholder="1234567890123456" pattern="\d{16}" required maxlength="16">
                             <div style="display: flex; justify-content: space-between;">
                                 <div style="width: 45%;">
                                     <label for="expiryDate" class="form-label opusCinemaFormLabel">Expirely Date</label>
                                     <input type="text" class="form-control opusCinemaForm" id="expiryDate"
-                                        placeholder="MM/YY" pattern="(0[1-9]|1[0-2])\/\d{2}" required>
+                                        placeholder="MM/YY" pattern="(0[1-9]|1[0-2])\/\d{2}" required maxlength="5">
                                 </div>
                                 <div style="width: 45%;">
                                     <label for="cvc" class="form-label opusCinemaFormLabel">CVC</label>
                                     <input type="text" class="form-control opusCinemaForm" id="cvc" placeholder="123"
-                                        pattern="\d{3,4}" required>
+                                        pattern="\d{3,4}" required maxlength="3">
                                 </div>
                             </div>
                         </div>
@@ -158,7 +158,7 @@
                     </div>
                 </div>
                 <div style="display: flex; justify-content: center;">
-                    <button id="finish" class="opusCinemaButton">
+                    <button id="finish" type="submit" class="opusCinemaButton">
                         Finish
                     </button>
                 </div>
@@ -209,7 +209,54 @@
         import { getBookingInfo, paymentProcess, getBookedSeats } from "../js/services/dataService.js";
         import { makeQrCode } from "../js/makeQrCode.js";
         import { sendEmailToClient } from "../js/api/emailService.js"
-        $(document).ready(function () {
+        $(document).ready(function () {          
+            document.getElementById("CreditCard").addEventListener('input', function(event){
+                const input = document.getElementById("CreditCard")
+                input.value = input.value.replace(/\D/g, '');
+
+                input.classList.remove('error', 'verified');
+                
+                if (input.value.length === 16) {
+                    input.classList.add('verified');
+                } else {
+                    input.classList.add('error');
+                }
+            });
+            document.getElementById("cvc").addEventListener('input', function(event){
+                const input = document.getElementById("cvc")
+                input.value = input.value.replace(/\D/g, '');
+
+                input.classList.remove('error', 'verified');
+                
+                if (input.value.length === 3) {
+                    input.classList.add('verified');
+                } else {
+                    input.classList.add('error');
+                }
+            });
+            document.getElementById("expiryDate").addEventListener('input', function(event){
+                const input = document.getElementById("expiryDate")
+                input.value = input.value.replace(/\D/g, '');
+
+                input.classList.remove('error', 'verified');
+                if (input.value.length > 2){
+                    input.value = input.value.substring(0,2)+"/"+input.value.substring(2,4);
+                }
+                
+            });
+
+            document.getElementById("expiryDate").addEventListener('blur', function(){
+                const input = document.getElementById("expiryDate")
+                const isValid = /^(0[1-9]|1[0-2])\/\d{2}$/.test(input.value);
+
+                    if (isValid) {
+                        input.classList.add('verified');
+                    } else {
+                        input.classList.add('error');
+                    }
+                }
+            );
+
             async function setBookingInfo() {
                 const queryString = window.location.search;
                 const urlParams = new URLSearchParams(queryString);
@@ -241,6 +288,9 @@
                         seatsText += `, ${seats[i]}`;
                     }
                 }
+
+        
+
 
                 const selectedSeatsElement = document.getElementById("selectedSeats");
                 selectedSeatsElement.textContent = seatsText;
