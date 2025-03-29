@@ -47,9 +47,9 @@ main {
     color: var(--white);
     background: var(--black);
     border: none;
-    border-radius: 0px; /* To not to show curve in underline */
+    border-radius: 0px;
     border-bottom: 2px solid var(--white);
-    outline: none !important; /* undisplay the outline when it focused */
+    outline: none !important;
 }
 
 .opusCinemaForm::placeholder {
