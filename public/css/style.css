@@ -40,12 +40,10 @@ h1,h2,h3,#header {
     border: none;
 }
 
-/* To Change the color of the menu button */
 .navbar-toggler-icon {
     background-image: url('data:image/svg+xml;charset=utf8,%3Csvg viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath stroke="%23F1CD55" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" d="M4 7h22M4 15h22M4 23h22"/%3E%3C/svg%3E');
 }
 
-/* The link in a header which color and underline set as a default value for design consistency */
 #header-link a:link,
 #header-link a:visited {
     color: var(--yellow);
@@ -71,8 +69,6 @@ header svg:hover{
 .navbar-nav {
     flex-direction: row;
 }
-
-/* To align menu contnts space-around */
 
 .nav-item {
     display: flex;

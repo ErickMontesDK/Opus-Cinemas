@@ -33,19 +33,16 @@
         <nav class="navbar bg-body-tertiary">
             <div class="container-fluid" style="background-color: var(--black);">
                 <div style="display: flex; align-items: center;">
-                    <!--This part is for Menu Button-->
                     <button class=" navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-                    <!--This part is for Logo-->
                     <a class="navbar-brand" href="./index.html" id="header" style="display: flex; align-items: center;">
                         <img src="./asset/img/Logo.svg" alt="Logo" width="32" height="32"
                             class="d-inline-block align-text-top mx-1">
                         Opus-Cinemas
                     </a>
                 </div>
-                <!--This part is for SMS icons-->
                 <span class="navbar-text" id="header-link">
                     <a href="https://www.facebook.com/" target="_blank">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
@@ -56,8 +53,7 @@
                     </a>
                     <a href="https://x.com/" target="_blank">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                            class="bi bi-twitter mx-1"
-                            viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                            class="bi bi-twitter mx-1" viewBox="0 0 512 512">
                             <path
                                 d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" />
                         </svg>
@@ -70,7 +66,6 @@
                         </svg>
                     </a>
                 </span>
-                <!--This part is for Menu Contets-->
                 <div class="collapse navbar-collapse" id="navbarNav" style="background-color: var(--grey);">
                     <ul class="navbar-nav">
                         <li class="nav-item">
@@ -91,7 +86,6 @@
         </nav>
     </header>
     <main>
-        <!-- Carousel -->
         <div id="carouselIndicators" class="carousel slide">
             <div class="carousel-indicators">
                 <button type="button" data-bs-target="#carouselIndicators" data-bs-slide-to="0" class="active"
@@ -135,36 +129,15 @@
                 <span class="visually-hidden">Next</span>
             </button>
         </div>
-
-        <!-- Movie Cards for Latest Movies -->
-        <!-- <div style="background-color: var(--black);">
-            <div>
-                <h2>Latest Movies</h2>
-            </div>
-            <div class="movieCards" id="latestMovies">
-                    
-            </div>
-        </div> -->
-
-        <!-- Movie Cards for Now Playing -->
         <div background-color: var(--white);>
             <div>
                 <h2>Now Playing</h2>
 
             </div>
             <div class="movieCards" id="movieCards">
-                <!-- Movie Cards will be dynamically created here -->
                 <p id="initialMovieCards">Now loading...</p>
             </div>
         </div>
-
-        <!-- Movie Cards for Extra Movie -->
-        <!-- <div>
-            <h2>Coming Soon</h2>
-        </div>
-        <div class="">
-
-        </div> -->
         <section id="promotions">
             <div id="banner">
                 <h2>Promotions</h2>
@@ -175,62 +148,71 @@
             <div id="carouselContainer">
                 <div id="promoCarousel" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
-                      <div class="carousel-item active">
-                        <div class="card promo-card">
-                            <div class="card-header">
-                                STUDENT SPECIAL
-                            </div>
-                            <div class="card-body" id="comboPromo">
-                                <h5 class="card-title">🎓 CCTB Combo Deal</h5>
-                                <p class="card-text">
-                                    <img src="https://png.pngtree.com/png-clipart/20250124/original/pngtree-movie-night-popcorn-and-drink-combo-png-image_20007455.png" alt="combo" id="comboPic">
-                                    Show your student ID and get a medium popcorn + drink for the price of small.</p>
-                            </div>
-                            <div class="card-footer">
-                                <small>Limited to 1 per visit. Valid until Dec 2025</small>
-                            </div>
-                        </div>
-                      </div>
-                      <div class="carousel-item">
-                        <div class="card promo-card">
-                            <div class="card-header">
-                                SOCIAL MEDIA
-                            </div>
-                            <div class="card-body" id="selfiePromo">
-                                <h5 class="card-title">📸 #OpusMovieNight</h5>
-                                <p class="card-text">
-                                    <img src="https://static.wixstatic.com/media/911a88_f9cbe8da53e14860ac9953682c241fc0~mv2.png/v1/fill/w_560,h_472,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Image.png" alt="selfie girl" id="selfiePic">
-                                    Post your cinema selfie with this hashtag and get a free chocolate bar on your next visit!</p>
-                            </div>
-                            <div class="card-footer">
-                                <small >Must tag @OpusCinemasExcludes premium flavors</small>
+                        <div class="carousel-item active">
+                            <div class="card promo-card">
+                                <div class="card-header">
+                                    STUDENT SPECIAL
+                                </div>
+                                <div class="card-body" id="comboPromo">
+                                    <h5 class="card-title">🎓 CCTB Combo Deal</h5>
+                                    <p class="card-text">
+                                        <img src="https://png.pngtree.com/png-clipart/20250124/original/pngtree-movie-night-popcorn-and-drink-combo-png-image_20007455.png"
+                                            alt="combo" id="comboPic">
+                                        Show your student ID and get a medium popcorn + drink for the price of small.
+                                    </p>
+                                </div>
+                                <div class="card-footer">
+                                    <small>Limited to 1 per visit. Valid until Dec 2025</small>
+                                </div>
                             </div>
                         </div>
-                      </div>
-                      <div class="carousel-item">
-                        <div class="card promo-card">
-                            <div class="card-header ">
-                                LIMITED TIME
-                            </div>
-                            <div class="card-body" id="refill">
-                                <h5 class="card-title">🍿 Free Refill Fridays</h5>
-                                <p class="card-text">
-                                    <img src="https://png.pngtree.com/png-clipart/20240927/original/pngtree-carnival-popcorn-machine-png-image_16110417.png" alt="popcorn car" id="popcornCarnival">
-                                    Buy any large popcorn on Fridays and get unlimited refills during your movie!</p>
-                            </div>
-                            <div class="card-footer">
-                                <small >Excludes premium flavors</small>
+                        <div class="carousel-item">
+                            <div class="card promo-card">
+                                <div class="card-header">
+                                    SOCIAL MEDIA
+                                </div>
+                                <div class="card-body" id="selfiePromo">
+                                    <h5 class="card-title">📸 #OpusMovieNight</h5>
+                                    <p class="card-text">
+                                        <img src="https://static.wixstatic.com/media/911a88_f9cbe8da53e14860ac9953682c241fc0~mv2.png/v1/fill/w_560,h_472,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Image.png"
+                                            alt="selfie girl" id="selfiePic">
+                                        Post your cinema selfie with this hashtag and get a free chocolate bar on your
+                                        next visit!
+                                    </p>
+                                </div>
+                                <div class="card-footer">
+                                    <small>Must tag @OpusCinemasExcludes premium flavors</small>
+                                </div>
                             </div>
                         </div>
-                      </div>
+                        <div class="carousel-item">
+                            <div class="card promo-card">
+                                <div class="card-header ">
+                                    LIMITED TIME
+                                </div>
+                                <div class="card-body" id="refill">
+                                    <h5 class="card-title">🍿 Free Refill Fridays</h5>
+                                    <p class="card-text">
+                                        <img src="https://png.pngtree.com/png-clipart/20240927/original/pngtree-carnival-popcorn-machine-png-image_16110417.png"
+                                            alt="popcorn car" id="popcornCarnival">
+                                        Buy any large popcorn on Fridays and get unlimited refills during your movie!
+                                    </p>
+                                </div>
+                                <div class="card-footer">
+                                    <small>Excludes premium flavors</small>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#promoCarousel" data-bs-slide="prev">
-                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                      <span class="visually-hidden">Previous</span>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#promoCarousel"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
                     </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#promoCarousel" data-bs-slide="next">
-                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                      <span class="visually-hidden">Next</span>
+                    <button class="carousel-control-next" type="button" data-bs-target="#promoCarousel"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
                     </button>
                 </div>
 
@@ -276,8 +258,6 @@
 
         </section>
     </footer>
-
-    <!-- Configuration and methods to use supabase are here-->
     <script type="module">
         import { getMovies } from "./js/services/dataService.js"
         const INITIAL_NUMNBERS_OF_MOVIES = 7
@@ -287,12 +267,7 @@
             async function initialization(numberOfMovies) {
                 const movies = await getMovies(numberOfMovies)
                 console.log(movies)
-
-                // statically assign movie information to carousel
                 for (let i = 0; i < 3; i++) {
-                    console.log(movies.length)
-
-                    // set information of top 3 sales movie to carousel
                     document.getElementById(`carousel${i + 1}`).src = movies[i].poster
                     document.getElementById(`carousel${i + 1}`).alt = movies[i].title
                     document.getElementById(`carouselBackground${i + 1}`).style.backgroundImage = `url(${movies[i].poster})`
@@ -302,10 +277,7 @@
                     }
                 }
 
-                // dynamically create movie cards.
                 let movieCardsHTML = setMovieCards(movies)
-
-                // add "show more" button
                 movieCardsHTML += `
                     <div>
                         <button id="showMoreMoviesBtn" style="width: 200px; height: 300px; background-color: transparent; margin-top: 7.5px; margin-left: 7.5px; margin-right: 7.5px; border-radius: 10px;">SHOW MORE</button>
@@ -315,7 +287,6 @@
                 const container = document.getElementById('movieCards')
                 container.innerHTML = movieCardsHTML
 
-                // Event listener for "show more" button
                 document.getElementById('showMoreMoviesBtn').addEventListener('click', function () {
                     showMoreMovies()
                 })
@@ -323,32 +294,26 @@
 
             async function showMoreMovies() {
                 const movies = await getMovies(NUMBERS_OF_ALL_MOVIES)
-                console.log(movies)
-
-                // dynamically create all the movie cards.
                 const movieCardsHTML = setMovieCards(movies)
                 const container = document.getElementById('movieCards')
                 container.innerHTML = movieCardsHTML
             }
-
-            // Initial set up
             initialization(INITIAL_NUMNBERS_OF_MOVIES)
         });
 
         function setMovieCards(movies) {
-                let movieCardsHTML = movies.map(movie => {
-                    let element = ""
-                    const title = `
+            let movieCardsHTML = movies.map(movie => {
+                let element = ""
+                const title = `
                         <div class="movie">
                             <a id="movieInfo${movie.id}" href="./pages/movie-info.html?movieId=${movie.id}">
                                 <img id="img${movie.id}" style="margin-top: 7.5px; margin-left: 7.5px; margin-right: 7.5px" src="${movie.poster}" alt="${movie.title}">
                             </a>
                         `
-                    element += title
+                element += title
 
-                    // add trailer button if trailer exists
-                    if(movie.trailer !=null){
-                        const trailer = `
+                if (movie.trailer != null) {
+                    const trailer = `
                             <button id="button${movie.id}" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal${movie.id}">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-play-circle mx-1" viewBox="0 0 16 16">
                                     <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
@@ -373,85 +338,18 @@
                             </div>
                         </div>
                         `
-                        element += trailer
-                    }
-                    // close <div> tag if trailer doesn't exist
-                    else {
-                        const trailer = `</div>`
-                        element += trailer
-                    }
+                    element += trailer
+                }
+                else {
+                    const trailer = `</div>`
+                    element += trailer
+                }
 
-                    return element
-                }).join('')
-                
-                // `
-                //         <div class="movie">
-                //             <a id="movieInfo${movie.id}" href="./pages/movie-info.html?movieId=${movie.id}"><img id="img${movie.id}" style="margin-top: 7.5px; margin-left: 7.5px; margin-right: 7.5px" src="${movie.poster}" alt="${movie.title}"></a>
-                //             <button id="button${movie.id}" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                //                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-play-circle mx-1" viewBox="0 0 16 16">
-                //                     <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-                //                     <path d="M6.271 5.055a.5.5 0 0 1 .52.038l3.5 2.5a.5.5 0 0 1 0 .814l-3.5 2.5A.5.5 0 0 1 6 10.5v-5a.5.5 0 0 1 .271-.445"/>
-                //                 </svg>
-                //                 <span style="text-align: center;">
-                //                     Watch Trailer
-                //                 </span>
-                //             </button>
-                //         </div>
-                //         <!--This part is for movie trailer in popup window-->
-                //         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                //             <div class="modal-dialog">
-                //                 <div class="modal-content">
-                //                     <div class="modal-header">
-                //                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                //                     </div>
-                //                     <div class="modal-body">
-                //                         <iframe src="${movie.trailer}" frameborder="5" style="width: 100%; aspect-ratio: 4/3;"></iframe>
-                //                     </div>
-                //                 </div>
-                //             </div>
-                //         </div>
-                //    `).join('')
+                return element
+            }).join('')
 
-                return movieCardsHTML
+            return movieCardsHTML
         }
-
-        // async function call_db_data(){
-        //     const seats = await get_booked_seats(30);
-        //     console.log(seats)
-        // }
-        // call_db_data()
-
-        // async function call_db_data(){
-        //     await getMovieDetails(3427);
-        // }
-        // call_db_data()
-
-        // async function call_db_data(){
-        //     const uuid = await register_tickets(['A1','A2','A3'], 30);
-        //     console.log("uuid from db",uuid);
-        //     const session_uuid = sessionStorage.getItem('ticket_uuid');
-        //     console.log("session uuid",session_uuid);
-
-        // }
-        // call_db_data()
-        // async function call_db_data(){
-        //     const booking_info = await getBookingInfo("1b895794-3ffa-4e1c-92ca-84ec035afe4a");
-        //     console.log("booking_info",booking_info);
-
-        // }
-        // call_db_data()
-        // async function call_db_data(){
-        //         const payment_uuid = await payment_process("1b895794-3ffa-4e1c-92ca-84ec035afe4a","erickmontesdk@gmail.com",45,30);
-        //         console.log("payment_uuid",payment_uuid);
-
-        //     }
-        //     call_db_data()
-
-        // async function call_db_data() {
-        //     const seats = await get_payment_confirmation("56fda436-d634-4d1d-8f50-6b2c34dbd67a");
-        //     console.log(seats)
-        // }
-        // call_db_data()
 
 
     </script>
