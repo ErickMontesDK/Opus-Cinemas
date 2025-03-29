@@ -1,13 +1,13 @@
 .carousel-inner {
-    height: 15%; /* Height of the carousel */
-    width: 100%; /* Width of the carousel */
+    height: 15%;
+    width: 100%;
     background-color: var(--black);
 }
 
 .carousel-image {
-    height: 320px; /* Height of the carousel */
-    object-fit: contain; /* To fit in the carousel */
-    object-position: top; /* Clop from the center */
+    height: 320px;
+    object-fit: contain;
+    object-position: top;
     position: relative;
     z-index: 2;
 }

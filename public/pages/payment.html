@@ -41,19 +41,17 @@
         <nav class="navbar bg-body-tertiary">
             <div class="container-fluid" style="background-color: var(--black);">
                 <div style="display: flex; align-items: center;">
-                    <!--This part is for Menu Button-->
                     <button class=" navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-                    <!--This part is for Logo-->
-                    <a class="navbar-brand" href="../index.html" id="header" style="display: flex; align-items: center;">
+                    <a class="navbar-brand" href="../index.html" id="header"
+                        style="display: flex; align-items: center;">
                         <img src="../asset/img/Logo.svg" alt="Logo" width="32" height="32"
                             class="d-inline-block align-text-top mx-1">
                         Opus-Cinemas
                     </a>
                 </div>
-                <!--This part is for SMS icons-->
                 <span class="navbar-text" id="header-link">
                     <a href="https://www.facebook.com/" target="_blank">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
@@ -64,8 +62,7 @@
                     </a>
                     <a href="https://x.com/" target="_blank">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                            class="bi bi-twitter mx-1"
-                            viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                            class="bi bi-twitter mx-1" viewBox="0 0 512 512">
                             <path
                                 d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" />
                         </svg>
@@ -78,7 +75,6 @@
                         </svg>
                     </a>
                 </span>
-                <!--This part is for Menu Contets-->
                 <div class="collapse navbar-collapse" id="navbarNav" style="background-color: var(--grey);">
                     <ul class="navbar-nav">
                         <li class="nav-item">
@@ -98,7 +94,6 @@
             </div>
         </nav>
     </header>
-    
     <main>
         <section id="loadingScreen">
             <h1>Loading...</h1>
@@ -113,61 +108,61 @@
         <section class="menuContainer">
             <div style="text-align: center;">
                 <div id="progressButtons">
-                    <a class="circle" href="~"></a>
-                    <a class="circle" href="~"></a>
-                    <a class="circle active" href="~"></a>
-                    <a class="circle" href="~"></a>
+                    <a class="progressButton" id="movieInfoPage"></a>
+                    <a class="progressButton" id="selectSeats"></a>
+                    <a class="progressButton aDisabled" id="currentStep"></a>
+                    <a class="progressButton aDisabled"></a>
                 </div>
                 <h1 style="color: var(--white);">Payment</h1>
             </div>
 
-            <div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
-                <!-- Payment Information Input Form -->
-                <div class="col-12 col-lg-5">
-                    <div class="mb-3">
-                        <!-- Email -->
-                        <label for="Email" class="form-label opusCinemaFormLabel">Email address</label>
-                        <input type="email" class="form-control opusCinemaForm" id="Email" placeholder="Email" required>
-                        <!-- Name -->
-                        <label for="Name" class="form-label opusCinemaFormLabel">Name</label>
-                        <input type="text" class="form-control opusCinemaForm" id="Name" placeholder="Name" required>
-                        <!-- Credit Card Number -->
-                        <label for="CreditCard" class="form-label opusCinemaFormLabel">Credit Card Number</label>
-                        <input type="text" class="form-control opusCinemaForm" id="CreditCard"
-                            placeholder="1234123412341234" required>
-                        <div style="display: flex; justify-content: space-between;">
-                            <!-- Expiry Date -->
-                            <div style="width: 45%;">
-                                <label for="expiryDate" class="form-label opusCinemaFormLabel">Expirely Date</label>
-                                <input type="text" class="form-control opusCinemaForm" id="expiryDate"
-                                    placeholder="MM/YY" required>
-                            </div>
-                            <!-- Security Code -->
-                            <div style="width: 45%;">
-                                <label for="cvc" class="form-label opusCinemaFormLabel">CVC</label>
-                                <input type="text" class="form-control opusCinemaForm" id="cvc" placeholder="123"
-                                    required>
+            <form id="ticketForm" novalidate>
+                <div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
+                    <div class="col-12 col-lg-5">
+                        <div class="mb-3">
+                            <label for="Email" class="form-label opusCinemaFormLabel">Email address</label>
+                            <input type="email" class="form-control opusCinemaForm" id="Email"
+                                placeholder="example@example.com"
+                                pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" required>
+                            <span id="emailNotification"></span>
+                            <label for="Name" class="form-label opusCinemaFormLabel">Name</label>
+                            <input type="text" class="form-control opusCinemaForm" id="Name" placeholder="Name"
+                                required>
+                            <span id="nameNotification"></span>
+                            <label for="CreditCard" class="form-label opusCinemaFormLabel">Credit Card Number</label>
+                            <input type="text" class="form-control opusCinemaForm" id="CreditCard"
+                                placeholder="1234567890123456" pattern="\d{16}" required>
+                            <div style="display: flex; justify-content: space-between;">
+                                <div style="width: 45%;">
+                                    <label for="expiryDate" class="form-label opusCinemaFormLabel">Expirely Date</label>
+                                    <input type="text" class="form-control opusCinemaForm" id="expiryDate"
+                                        placeholder="MM/YY" pattern="(0[1-9]|1[0-2])\/\d{2}" required>
+                                </div>
+                                <div style="width: 45%;">
+                                    <label for="cvc" class="form-label opusCinemaFormLabel">CVC</label>
+                                    <input type="text" class="form-control opusCinemaForm" id="cvc" placeholder="123"
+                                        pattern="\d{3,4}" required>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- Information of the ticket you selected -->
-                <div class="col-12 col-lg-5 opusCinemaTicketInfo">
-                    <div id="formContainer">
-                        <p>Movie title: <span id="movieTitle"></span></p>
-                        <p>Date and Time: <span id="showtimeDate"></span><span id="showtimeTime"></span></p>
-                        <p>Auditorium: <span id="auditoriumName"></span></p>
-                        <p>Number of tickets: <span id="numberOfTickets"></span></p>
-                        <p>Selected seats: <span id="selectedSeats"></span></p>
-                        <p>Price: $<span id="totalAmount"></span></p>
+                    <div class="col-12 col-lg-5 opusCinemaTicketInfo">
+                        <div id="formContainer">
+                            <p>Movie title: <span id="movieTitle"></span></p>
+                            <p>Date and Time: <span id="showtimeDate"></span><span id="showtimeTime"></span></p>
+                            <p>Auditorium: <span id="auditoriumName"></span></p>
+                            <p>Number of tickets: <span id="numberOfTickets"></span></p>
+                            <p>Selected seats: <span id="selectedSeats"></span></p>
+                            <p>Price: $<span id="totalAmount"></span></p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div style="display: flex; justify-content: center;">
-                <button id="finish" class="opusCinemaButton">
-                    Finish
-                </button>
-            </div>
+                <div style="display: flex; justify-content: center;">
+                    <button id="finish" class="opusCinemaButton">
+                        Finish
+                    </button>
+                </div>
+            </form>
         </section>
     </main>
 
@@ -211,19 +206,15 @@
         </section>
     </footer>
     <script type="module">
-        import { getBookingInfo, paymentProcess, sendEmail } from "../js/services/dataService.js";
+        import { getBookingInfo, paymentProcess, getBookedSeats } from "../js/services/dataService.js";
         import { makeQrCode } from "../js/makeQrCode.js";
+        import { sendEmailToClient } from "../js/api/emailService.js"
         $(document).ready(function () {
             async function setBookingInfo() {
-                // get ticket uuid from url parameter.
                 const queryString = window.location.search;
                 const urlParams = new URLSearchParams(queryString);
                 const ticketToken = urlParams.get('ticketToken');
-
-                // get booked info by ticket uuid.
                 const bookingInfo = await getBookingInfo(ticketToken);
-
-                // set booking info to elements.
                 const movieTitleElement = document.getElementById("movieTitle");
                 movieTitleElement.textContent = bookingInfo.movie.title;
 
@@ -257,87 +248,65 @@
                 const totalAmountElement = document.getElementById("totalAmount");
                 totalAmountElement.textContent = bookingInfo.total_amount;
 
+                $('#selectSeats').prop('href', `/pages/seatSelection.html?showtimeId=${bookingInfo.showtimeId}`);
+
+                const showtimeData = await getBookedSeats(bookingInfo.showtimeId);
+                $('#movieInfoPage').prop('href', `/pages/movie-info.html?movieId=${showtimeData.movieId}`);
+
                 $('#loadingScreen').fadeOut('fast');
 
-                // Event listener for "finish" button
                 document.getElementById('finish').addEventListener('click', async function () {
-                    const paymentInformation = {
-                        ticketUuid: ticketToken,
-                        email: document.getElementById('Email').innerText,
-                        totalPrice: bookingInfo.total_amount,
-                        showtimeId: bookingInfo.showtimeId,
-                    };
+                    event.preventDefault();
+                    const form = document.querySelector('form');
+                    if (!form.checkValidity()) {
+                        alert('There is an error in the information you entered. Please check again.');
+                    } else {
+                        const paymentInformation = {
+                            ticketUuid: ticketToken,
+                            email: document.getElementById('Email').innerText,
+                            totalPrice: bookingInfo.total_amount,
+                            showtimeId: bookingInfo.showtimeId,
+                        };
 
-                    const salesId = await paymentProcess(paymentInformation);
+                        const salesId = await paymentProcess(paymentInformation);
 
-                    const movieInformation = {
-                        salesId: salesId,
-                        date: bookingInfo.date,
-                        time: bookingInfo.hour,
-                        movieTitle: bookingInfo.movie.title,
-                        auditorium: bookingInfo.auditorium,
-                        seats: seats
+                        const movieInformation = {
+                            salesId: salesId,
+                            date: bookingInfo.date,
+                            time: bookingInfo.hour,
+                            movieTitle: bookingInfo.movie.title,
+                            auditorium: bookingInfo.auditorium,
+                            seats: seats
+                        }
+
+                        const canvas = document.createElement('canvas');
+                        makeQrCode(canvas, movieInformation);
+
+                        const base64Image = canvas.toDataURL("image/png");
+                        const emailInformation = {
+                            name: document.getElementById('Name').value,
+                            reservationId: ticketToken,
+                            date: bookingInfo.date,
+                            time: bookingInfo.hour,
+                            movieTitle: bookingInfo.movie.title,
+                            auditorium: bookingInfo.auditorium,
+                            numberOfTickets: bookingInfo.seatsReserved.length,
+                            seats: seatsText,
+                            price: bookingInfo.total_amount,
+                            email: document.getElementById('Email').value,
+                            qrCodeImage: base64Image
+                        }
+
+                        await sendEmailToClient(emailInformation);
+
+                        window.location.href = `/pages/confirmation?salesId=${salesId}`;
                     }
-
-                    const canvas = document.createElement('canvas');
-                    makeQrCode(canvas, movieInformation);
-
-                    const base64Image = canvas.toDataURL("image/png");
-                    const emailInformation = {
-                        name: document.getElementById('Name').value,
-                        reservationId: ticketToken,
-                        date: bookingInfo.date,
-                        time: bookingInfo.hour,
-                        movieTitle: bookingInfo.movie.title,
-                        auditorium: bookingInfo.auditorium,
-                        numberOfTickets: bookingInfo.seatsReserved.length,
-                        seats: seatsText,
-                        price: bookingInfo.total_amount,
-                        email: document.getElementById('Email').value,
-                        qrCodeImage: base64Image,
-                    }
-                    console.log("sosososososo", emailInformation)
-                    await sendEmail(emailInformation)
-                    // sendEmail(ticketToken, bookingInfo, seatsText, base64Image);
-
-                    window.location.href = `/pages/confirmation?salesId=${salesId}`;
                 })
             }
 
             setBookingInfo();
 
         })
-
-        // function sendEmail(ticketToken, bookingInfo, seatsText, base64Image) {
-            // Information for access EmailJS
-            // const SERVICE_ID = 'service_6fuavc8';
-            // const TEMPLATE_ID = 'template_rbimual';
-
-            // emailjs.send(
-            //     SERVICE_ID,
-            //     TEMPLATE_ID,
-            //     {
-            //         name: document.getElementById('Name').value,
-            //         reservationId: ticketToken,
-            //         date: bookingInfo.date,
-            //         time: bookingInfo.hour,
-            //         movieTitle: bookingInfo.movie.title,
-            //         auditorium: bookingInfo.auditorium,
-            //         numberOfTickets: bookingInfo.seatsReserved.length,
-            //         seats: seatsText,
-            //         price: bookingInfo.total_amount,
-            //         email: document.getElementById('Email').value,
-            //         qrCodeImage: base64Image
-            //     }
-            // ).then((response) => {
-            //     console.log("The message has been successfuly sent.", response.status, response.text);
-            // }, (error) => {
-            //     console.log("The message has been failed to send", error);
-            // }
-            // );
-        // }
-
-
     </script>
 </body>
 

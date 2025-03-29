@@ -17,18 +17,25 @@ main {
     border: 7px solid var(--white);
 }
 
-.circle {
+.progressButton {
     display: inline-block;
     width: 20px;
     height: 20px;
     border-radius: 20px;
-    border: 2px solid var(--white);
+    border: 5px solid var(--white);
     background: var(--black);
     justify-content: center;
+    cursor: pointer;
+    padding: 15px 15px;
 }
 
-.active {
-    background: var(--white);
+.aDisabled {
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+#currentStep {
+    background-color: var(--white);
 }
 
 .opusCinemaFormLabel {
@@ -40,13 +47,13 @@ main {
     color: var(--white);
     background: var(--black);
     border: none;
-    border-radius: 0px; /* To not to show curve in underline */
+    border-radius: 0px;
     border-bottom: 2px solid var(--white);
-    outline: none !important; /* undisplay the outline when it focused */
+    outline: none !important;
 }
 
 .opusCinemaForm::placeholder {
-    color: var(--white);
+    color: var(--grey);
 }
 
 .opusCinemaTicketInfo {
