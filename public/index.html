@@ -23,6 +23,9 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.2/color-thief.umd.js"></script>
+
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/home.css">
 
@@ -91,115 +94,115 @@
         </nav>
     </header>
     <main>
+        <div class="modal fade" tabindex="-1" id="trailerModal" aria-labelledby="trailerModal" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" id="closeTrailer" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="iframeContainer">
+                  
+                </div>
+              </div>
+            </div>
+          </div>
         <!-- Carousel -->
-        <div id="carouselIndicators" class="carousel slide">
-            <div class="carousel-indicators">
-                <button type="button" data-bs-target="#carouselIndicators" data-bs-slide-to="0" class="active"
-                    aria-current="true" aria-label="Slide 1"></button>
-                <button type="button" data-bs-target="#carouselIndicators" data-bs-slide-to="1"
-                    aria-label="Slide 2"></button>
-                <button type="button" data-bs-target="#carouselIndicators" data-bs-slide-to="2"
-                    aria-label="Slide 3"></button>
-            </div>
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <div class="carousel-background" id="carouselBackground1"></div>
-                    <a id="carouselLink1">
-                        <img id="carousel1" src="./asset/img/placeholder.jpg" class="d-block w-100 carousel-image"
-                            alt="loading images...">
-                    </a>
-                </div>
-                <div class="carousel-item">
-                    <div class="carousel-background" id="carouselBackground2"></div>
-                    <a id="carouselLink2">
-                        <img id="carousel2" src="./asset/img/placeholder.jpg" class="d-block w-100 carousel-image"
-                            alt="loading images...">
-                    </a>
-                </div>
-                <div class="carousel-item">
-                    <div class="carousel-background" id="carouselBackground3"></div>
-                    <a id="carouselLink3">
-                        <img id="carousel3" src="./asset/img/placeholder.jpg" class="d-block w-100 carousel-image"
-                            alt="loading images...">
-                    </a>
-                </div>
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselIndicators"
-                data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselIndicators"
-                data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-        </div>
+         <div id="mainMovies">
+
+             <div id="carouselIndicators" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                 <div class="carousel-indicators">
+                     <button type="button" data-bs-target="#carouselIndicators" data-bs-slide-to="0" class="active"
+                         aria-current="true" aria-label="Slide 1"></button>
+                     <button type="button" data-bs-target="#carouselIndicators" data-bs-slide-to="1"
+                         aria-label="Slide 2"></button>
+                     <button type="button" data-bs-target="#carouselIndicators" data-bs-slide-to="2"
+                         aria-label="Slide 3"></button>
+                 </div>
+                 <div class="carousel-inner">
+                     <div class="carousel-item active" data-bs-interval="10000">
+                         <div class="carousel-background" id="carouselBackground1" ></div>
+                         <a id="carouselLink1">
+                             <img id="carousel1" src="./asset/img/placeholder.jpg" class="d-block carousel-image"
+                                 alt="loading images...">
+                             <div class="carousel-text">
+                                 <p class="carousel-title"></p>
+                                 <p class="carousel-nowPlaying">Now Playing</p>
+                                 <p class="carousel-getTickets">Get Tickets</p>
+                             </div>
+     
+                         </a>
+                     </div>
+                     <div class="carousel-item" data-bs-interval="10000">
+                         <div class="carousel-background" id="carouselBackground2" ></div>
+                         <a id="carouselLink2">
+                             <img id="carousel2" src="./asset/img/placeholder.jpg" class="d-block carousel-image"
+                                 alt="loading images...">
+                             <div class="carousel-text">
+                                 <p class="carousel-title"></p>
+                                 <p class="carousel-nowPlaying">Now Playing</p>
+                                 <p class="carousel-getTickets">Get Tickets</p>
+                             </div>
+                             
+                         </a>
+                     </div>
+                     <div class="carousel-item" data-bs-interval="10000">
+                         <div class="carousel-background" id="carouselBackground3" ></div>
+                         <a id="carouselLink3">
+                             <img id="carousel3" src="./asset/img/placeholder.jpg" class="d-block carousel-image"
+                             alt="loading images...">
+                             <div class="carousel-text">
+                                 <p class="carousel-title"></p>
+                                 <p class="carousel-nowPlaying">Now Playing</p>
+                                 <p class="carousel-getTickets">Get Tickets</p>
+                             </div>
+                         </a>
+                     </div>
+                 </div>
+                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselIndicators"
+                     data-bs-slide="prev">
+                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                     <span class="visually-hidden">Previous</span>
+                 </button>
+                 <button class="carousel-control-next" type="button" data-bs-target="#carouselIndicators"
+                     data-bs-slide="next">
+                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                     <span class="visually-hidden">Next</span>
+                 </button>
+             </div>
+         </div>
 
         <!-- Movie Cards for Latest Movies -->
-        <!-- <div style="background-color: var(--black);">
-            <div>
-                <h2>Latest Movies</h2>
-            </div>
-            <div class="movieCards" id="latestMovies">
-                    
-            </div>
-        </div> -->
-
-        <!-- Movie Cards for Now Playing -->
-        <div background-color: var(--white);>
-            <div>
-                <h2>Now Playing</h2>
-
-            </div>
-            <div class="movieCards" id="movieCards">
-                <!-- Movie Cards will be dynamically created here -->
-                <p id="initialMovieCards">Now loading...</p>
-            </div>
-        </div>
-
-        <!-- Movie Cards for Extra Movie -->
-        <!-- <div>
-            <h2>Coming Soon</h2>
-        </div>
-        <div class="">
-
-        </div> -->
         <section id="promotions">
-            <div id="banner">
-                <h2>Promotions</h2>
-                <p>
-                    More butter, more savings! Dive into our mouthwatering snack deals and limited-time combos.
-                </p>
-            </div>
-            <div id="carouselContainer">
+            <h2>Enjoy the experience!</h2>
+            <div id="promoContainer">
                 <div id="promoCarousel" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
-                      <div class="carousel-item active">
-                        <div class="card promo-card">
+                      <div class="carousel-item active" data-bs-interval="5000">
+                        <div class="card promo-card" id="comboPromo">
                             <div class="card-header">
                                 STUDENT SPECIAL
                             </div>
-                            <div class="card-body" id="comboPromo">
+                            <div class="card-body" >
                                 <h5 class="card-title">🎓 CCTB Combo Deal</h5>
+                                <img src="https://png.pngtree.com/png-clipart/20250124/original/pngtree-movie-night-popcorn-and-drink-combo-png-image_20007455.png" alt="combo" id="comboPic">
                                 <p class="card-text">
-                                    <img src="https://png.pngtree.com/png-clipart/20250124/original/pngtree-movie-night-popcorn-and-drink-combo-png-image_20007455.png" alt="combo" id="comboPic">
                                     Show your student ID and get a medium popcorn + drink for the price of small.</p>
+
                             </div>
                             <div class="card-footer">
                                 <small>Limited to 1 per visit. Valid until Dec 2025</small>
                             </div>
                         </div>
                       </div>
-                      <div class="carousel-item">
-                        <div class="card promo-card">
+                      <div class="carousel-item" data-bs-interval="5000">
+                        <div class="card promo-card" id="selfiePromo">
                             <div class="card-header">
                                 SOCIAL MEDIA
                             </div>
-                            <div class="card-body" id="selfiePromo">
+                            <div class="card-body" >
                                 <h5 class="card-title">📸 #OpusMovieNight</h5>
+                                <img src="https://static.wixstatic.com/media/911a88_f9cbe8da53e14860ac9953682c241fc0~mv2.png/v1/fill/w_560,h_472,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Image.png" alt="selfie girl" id="selfiePic">
                                 <p class="card-text">
-                                    <img src="https://static.wixstatic.com/media/911a88_f9cbe8da53e14860ac9953682c241fc0~mv2.png/v1/fill/w_560,h_472,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Image.png" alt="selfie girl" id="selfiePic">
                                     Post your cinema selfie with this hashtag and get a free chocolate bar on your next visit!</p>
                             </div>
                             <div class="card-footer">
@@ -207,15 +210,15 @@
                             </div>
                         </div>
                       </div>
-                      <div class="carousel-item">
-                        <div class="card promo-card">
+                      <div class="carousel-item" data-bs-interval="5000">
+                        <div class="card promo-card" id="refill">
                             <div class="card-header ">
                                 LIMITED TIME
                             </div>
-                            <div class="card-body" id="refill">
+                            <div class="card-body" >
                                 <h5 class="card-title">🍿 Free Refill Fridays</h5>
+                                <img src="https://png.pngtree.com/png-clipart/20240927/original/pngtree-carnival-popcorn-machine-png-image_16110417.png" alt="popcorn car" id="popcornCarnival">
                                 <p class="card-text">
-                                    <img src="https://png.pngtree.com/png-clipart/20240927/original/pngtree-carnival-popcorn-machine-png-image_16110417.png" alt="popcorn car" id="popcornCarnival">
                                     Buy any large popcorn on Fridays and get unlimited refills during your movie!</p>
                             </div>
                             <div class="card-footer">
@@ -234,6 +237,38 @@
                     </button>
                 </div>
 
+                <div id="popularMovie">
+                    <p id="presale">Presale</p>
+                    <div id="presaleData">
+                        <img src="https://resizing.flixster.com/VbyUoOExPrTiGYNye2vlF6aw_no=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzLzY4MjVjNjUzLWQ4OWYtNDAzYy1iOTkwLWUzNTM1NjRkYjEwYy5qcGc=" alt="">
+                        <div id="presaleDataText">
+                            <p>Star Wars</p>
+                            <p>Ep. III</p>
+                            <p>April 24th</p>
+                        </div>
+                    </div>
+                    <p id="buyPresale">Buy your tickets now</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Movie Cards for Now Playing -->
+         
+        <section id="nowPlaying">
+            <div>
+                <h2>Now Playing</h2>
+            </div>
+            <div class="movieCards" id="movieCards">
+                <!-- Movie Cards will be dynamically created here -->
+                <section id="loadingNowPlaying">
+                    <p>Loading...</p>
+                    <div id="loadContainer">
+                        <div class="spinner-border" style="width: 70px; height: 70px;" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <img src="../asset/img/popcorn-svgrepo-com.svg" alt="popcorn" id="popcornLoad">
+                    </div>
+                </section>
             </div>
         </section>
     </main>
@@ -282,40 +317,45 @@
         import { getMovies } from "./js/services/dataService.js"
         const INITIAL_NUMNBERS_OF_MOVIES = 7
         const NUMBERS_OF_ALL_MOVIES = 25
-
+        
         $(document).ready(function () {
+            const colorThief = new ColorThief();
+            
             async function initialization(numberOfMovies) {
                 const movies = await getMovies(numberOfMovies)
                 console.log(movies)
 
+                $('.modal').on("hidden.bs.modal",function () {
+                    $('#trailerModal iframe').remove();
+                });
                 // statically assign movie information to carousel
                 for (let i = 0; i < 3; i++) {
                     console.log(movies.length)
 
                     // set information of top 3 sales movie to carousel
-                    document.getElementById(`carousel${i + 1}`).src = movies[i].poster
-                    document.getElementById(`carousel${i + 1}`).alt = movies[i].title
+                    const carouselImage =document.getElementById(`carousel${i + 1}`);
+                    carouselImage.src = movies[i].poster;
+                    carouselImage.alt = movies[i].title;
+
                     document.getElementById(`carouselBackground${i + 1}`).style.backgroundImage = `url(${movies[i].poster})`
+                    const carouselTitle = document.querySelector(`#carouselLink${i+1} .carousel-title`);
+                    carouselTitle.innerText = movies[i].title;
+                    
 
                     if (movies[i].trailer !== null) {
                         document.getElementById(`carouselLink${i + 1}`).href = movies[i].trailer
                     }
+
+                    
+
                 }
 
-                // dynamically create movie cards.
-                let movieCardsHTML = setMovieCards(movies)
+                $("#movieCards *").remove();
+                setMovieCards(movies)
+                $("#movieCards").append(`<div class="movie">
+                        <button id="showMoreMoviesBtn">SHOW MORE</button>
+                    </div>`);
 
-                // add "show more" button
-                movieCardsHTML += `
-                    <div>
-                        <button id="showMoreMoviesBtn" style="width: 200px; height: 300px; background-color: transparent; margin-top: 7.5px; margin-left: 7.5px; margin-right: 7.5px; border-radius: 10px;">SHOW MORE</button>
-                    </div>
-                `
-
-                const container = document.getElementById('movieCards')
-                container.innerHTML = movieCardsHTML
-
-                // Event listener for "show more" button
                 document.getElementById('showMoreMoviesBtn').addEventListener('click', function () {
                     showMoreMovies()
                 })
@@ -326,9 +366,8 @@
                 console.log(movies)
 
                 // dynamically create all the movie cards.
-                const movieCardsHTML = setMovieCards(movies)
-                const container = document.getElementById('movieCards')
-                container.innerHTML = movieCardsHTML
+                $("#movieCards *").remove();
+                setMovieCards(movies)
             }
 
             // Initial set up
@@ -336,123 +375,59 @@
         });
 
         function setMovieCards(movies) {
-                let movieCardsHTML = movies.map(movie => {
-                    let element = ""
-                    const title = `
-                        <div class="movie">
-                            <a id="movieInfo${movie.id}" href="./pages/movie-info.html?movieId=${movie.id}">
-                                <img id="img${movie.id}" style="margin-top: 7.5px; margin-left: 7.5px; margin-right: 7.5px" src="${movie.poster}" alt="${movie.title}">
-                            </a>
-                        `
-                    element += title
+            movies.forEach(movie => {
 
-                    // add trailer button if trailer exists
-                    if(movie.trailer !=null){
-                        const trailer = `
-                            <button id="button${movie.id}" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal${movie.id}">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-play-circle mx-1" viewBox="0 0 16 16">
-                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-                                    <path d="M6.271 5.055a.5.5 0 0 1 .52.038l3.5 2.5a.5.5 0 0 1 0 .814l-3.5 2.5A.5.5 0 0 1 6 10.5v-5a.5.5 0 0 1 .271-.445"/>
-                                </svg>
-                                <span style="text-align: center;">
-                                    Watch Trailer
-                                </span>
-                            </button>
-                        </div>
-                        <!--This part is for movie trailer in popup window-->
-                        <div class="modal fade" id="Modal${movie.id}" tabindex="-1" aria-labelledby="${movie.id}" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <iframe src="${movie.trailer}" frameborder="5" style="width: 100%; aspect-ratio: 4/3;"></iframe>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        `
-                        element += trailer
-                    }
-                    // close <div> tag if trailer doesn't exist
-                    else {
-                        const trailer = `</div>`
-                        element += trailer
-                    }
+                const movieCard = $("<div></div>");
+                movieCard.addClass('movie');
 
-                    return element
-                }).join('')
-                
-                // `
-                //         <div class="movie">
-                //             <a id="movieInfo${movie.id}" href="./pages/movie-info.html?movieId=${movie.id}"><img id="img${movie.id}" style="margin-top: 7.5px; margin-left: 7.5px; margin-right: 7.5px" src="${movie.poster}" alt="${movie.title}"></a>
-                //             <button id="button${movie.id}" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                //                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-play-circle mx-1" viewBox="0 0 16 16">
-                //                     <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-                //                     <path d="M6.271 5.055a.5.5 0 0 1 .52.038l3.5 2.5a.5.5 0 0 1 0 .814l-3.5 2.5A.5.5 0 0 1 6 10.5v-5a.5.5 0 0 1 .271-.445"/>
-                //                 </svg>
-                //                 <span style="text-align: center;">
-                //                     Watch Trailer
-                //                 </span>
-                //             </button>
-                //         </div>
-                //         <!--This part is for movie trailer in popup window-->
-                //         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                //             <div class="modal-dialog">
-                //                 <div class="modal-content">
-                //                     <div class="modal-header">
-                //                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                //                     </div>
-                //                     <div class="modal-body">
-                //                         <iframe src="${movie.trailer}" frameborder="5" style="width: 100%; aspect-ratio: 4/3;"></iframe>
-                //                     </div>
-                //                 </div>
-                //             </div>
-                //         </div>
-                //    `).join('')
+                const poster = $("<a></a>")
+                poster.addClass('poster');
+                poster.css('background-image', `url('${movie.poster}')`);
+                poster.attr("href", `./pages/movie-info.html?movieId=${movie.id}`)
 
-                return movieCardsHTML
+                const movieDisplay = $("<p></p>");
+                movieDisplay.addClass('movieDisplay');
+                switch (movie.releaseStatus) {
+                    case "regular":
+                        movieDisplay.text("GET TICKETS");
+                        movieDisplay.addClass('movie-regular');
+                        break;
+                    case "newRelease":
+                        movieDisplay.text("NEW RELEASE");
+                        movieDisplay.addClass('movie-new');
+                        break;
+                    case "preSale":
+                        movieDisplay.text("PRE-SALE");
+                        movieDisplay.addClass('movie-pre');
+                        break;
+                    default:
+                        break;
+                }
+                poster.append(movieDisplay);
+                movieCard.append(poster);
+
+                if (movie.trailer !=null){
+                    const playIcon = `<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-play-circle mx-1" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                <path d="M6.271 5.055a.5.5 0 0 1 .52.038l3.5 2.5a.5.5 0 0 1 0 .814l-3.5 2.5A.5.5 0 0 1 6 10.5v-5a.5.5 0 0 1 .271-.445"/>
+                            </svg>`;
+                    const trailerBtn = $("<button></button>");
+                    trailerBtn.append(playIcon);
+                    trailerBtn.append('Watch Trailer');
+                    trailerBtn.addClass('trailerBtn', 'btn');
+                    trailerBtn.attr("data-bs-toggle","modal");
+                    trailerBtn.attr("data-bs-target","#trailerModal");
+                    trailerBtn.click(function() {
+                        $("#iframeContainer iframe").remove();
+                        $('#iframeContainer').append(`<iframe src="${movie.trailer}?autoplay=1"  allow="autoplay; encrypted-media" frameborder="5" style="width: 100%; aspect-ratio: 4/3;"></iframe>`);
+                    });
+                    movieCard.append(trailerBtn);
+                }
+
+                $("#movieCards").append(movieCard);
+            })
+            $('.carousel-text').css("display", "flex");
         }
-
-        // async function call_db_data(){
-        //     const seats = await get_booked_seats(30);
-        //     console.log(seats)
-        // }
-        // call_db_data()
-
-        // async function call_db_data(){
-        //     await getMovieDetails(3427);
-        // }
-        // call_db_data()
-
-        // async function call_db_data(){
-        //     const uuid = await register_tickets(['A1','A2','A3'], 30);
-        //     console.log("uuid from db",uuid);
-        //     const session_uuid = sessionStorage.getItem('ticket_uuid');
-        //     console.log("session uuid",session_uuid);
-
-        // }
-        // call_db_data()
-        // async function call_db_data(){
-        //     const booking_info = await getBookingInfo("1b895794-3ffa-4e1c-92ca-84ec035afe4a");
-        //     console.log("booking_info",booking_info);
-
-        // }
-        // call_db_data()
-        // async function call_db_data(){
-        //         const payment_uuid = await payment_process("1b895794-3ffa-4e1c-92ca-84ec035afe4a","erickmontesdk@gmail.com",45,30);
-        //         console.log("payment_uuid",payment_uuid);
-
-        //     }
-        //     call_db_data()
-
-        // async function call_db_data() {
-        //     const seats = await get_payment_confirmation("56fda436-d634-4d1d-8f50-6b2c34dbd67a");
-        //     console.log(seats)
-        // }
-        // call_db_data()
-
 
     </script>
 
