@@ -55,7 +55,7 @@ export async function getMovies(numberOfMovies, date=convertDateIso().split("T")
             stack: error.stack,
             timestamp: new Date().toISOString()
         }));
-        window.location.href = "./../../pages/error.html";
+        // window.location.href = "./../../pages/error.html";
     }
 }
 
