@@ -1,46 +1,71 @@
 /* layout */
-body {
-    background-color: var(--black);
-    color: var(--white);
-    font-family: 'Roboto', sans-serif;
-}
-
 section {
     margin-top: 10px;
-    padding: 40px 5% 60px;
+    padding: 20px 60px 40px 60px;
 }
 
 h2 {
-    font-family: 'Gugi', sans-serif;
-    font-size: 2.5rem;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
 }
 
 #nowPlaying {
-    background-color: transparent;
+    background-color: var(--white);
+
 }
 
 #promotions {
-    background-color: #000;
+    background-color: var(--black);
 }
 
-/* Main cinematic carousel */
+#promotions h2 {
+    color: var(--white);
+}
+
+#nowPlaying h2 {
+    color: var(--black);
+}
+
+
+
+/* Main carousel */
 #mainMovies {
     position: relative;
     background-color: var(--black);
     overflow: hidden;
 }
 
+#mainMovies #carouselIndicators .carousel-indicators {
+    margin-bottom: 2rem;
+    z-index: 10;
+}
+
+#mainMovies #carouselIndicators .carousel-indicators button {
+    width: 12px;
+    height: 12px;
+    background-color: transparent;
+    border: 2px solid var(--yellow);
+    border-radius: 50%;
+    margin: 0 8px;
+    transition: all 0.3s ease;
+    opacity: 0.6;
+}
+
+#mainMovies #carouselIndicators .carousel-indicators button.active {
+    background-color: var(--yellow);
+    transform: scale(1.3);
+    opacity: 1;
+}
+
 #mainMovies .carousel-inner {
-    height: 75vh;
-    min-height: 500px;
+    height: 60vh;
+    min-height: 400px;
 }
 
 #mainMovies .carousel-item {
     height: 100%;
 }
 
-.carousel-background {
+#mainMovies .carousel-background {
     position: absolute;
     top: 0;
     left: 0;
@@ -48,294 +73,665 @@ h2 {
     height: 100%;
     background-size: cover;
     background-position: center;
-    filter: blur(50px) brightness(0.3);
+    filter: blur(30px) brightness(0.4);
     transform: scale(1.1);
+    /* Prevent white edges from blur */
     z-index: 0;
 }
 
-.carousel-item a {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+#mainMovies .carousel-item a {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
     align-items: center;
     height: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 50px;
-    text-decoration: none;
-    position: relative;
-    z-index: 2;
-    gap: 40px;
-}
-
-.carousel-image {
     width: 100%;
-    max-width: 350px;
-    height: 500px;
+    text-decoration: none;
+    padding: 0 10%;
+    gap: 5%;
+    position: relative;
+    z-index: 1;
+}
+
+#mainMovies .carousel-image {
+    width: 300px;
+    height: 450px;
     object-fit: cover;
+    border-radius: 15px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 2;
+}
+
+#mainMovies .carousel-item.active .carousel-image {
+    transform: translateY(0) scale(1);
+    animation: posterEntry 1s ease-out;
+}
+
+@keyframes posterEntry {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+#mainMovies .carousel-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border-radius: 20px;
-    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
-    justify-self: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    max-width: 600px;
+    animation: textEntry 1s ease-out 0.2s both;
 }
 
-.carousel-text {
-    color: white;
+@keyframes textEntry {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-.carousel-nowPlaying {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1rem;
-    letter-spacing: 5px;
-    text-transform: uppercase;
-    margin-bottom: 15px;
-    color: var(--yellow);
-}
-
-.carousel-title {
-    font-family: 'Gugi', sans-serif;
+#mainMovies .carousel-title {
+    color: var(--white);
     font-size: 4rem;
-    margin-bottom: 30px;
+    margin-bottom: 1rem;
+    font-family: "Gugi", sans-serif;
     line-height: 1.1;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
 }
 
-.carousel-getTickets {
-    background: var(--yellow);
+#mainMovies .carousel-nowPlaying {
+    color: var(--yellow);
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    font-family: "Orbitron", sans-serif;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+#mainMovies .carousel-getTickets {
+    background-color: var(--yellow);
     color: var(--black);
     border: none;
-    padding: 15px 40px;
     border-radius: 50px;
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 800;
-    font-size: 1rem;
-    letter-spacing: 2px;
+    padding: 15px 40px;
+    font-family: "Gugi", sans-serif;
+    font-size: 1.2rem;
     transition: all 0.3s ease;
-    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(241, 205, 85, 0.3);
 }
 
-.carousel-getTickets:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 30px rgba(241, 205, 85, 0.4);
+#mainMovies .carousel-getTickets:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(241, 205, 85, 0.5);
+    background-color: #fff;
 }
 
-/* Promotions & Presale Redesign */
-.promo-presale-container {
+/* Control buttons customization */
+.carousel-control-prev,
+.carousel-control-next {
+    width: 5%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+#mainMovies:hover .carousel-control-prev,
+#mainMovies:hover .carousel-control-next {
+    opacity: 0.8;
+}
+
+@media screen and (max-width: 992px) {
+    #mainMovies .carousel-inner {
+        height: auto;
+        padding-top: 2rem;
+        padding-bottom: 4rem;
+    }
+
+    #mainMovies .carousel-item a {
+        flex-direction: column;
+        padding: 0 5%;
+        gap: 2rem;
+    }
+
+    #mainMovies .carousel-image {
+        width: 220px;
+        height: 330px;
+    }
+
+    #mainMovies .carousel-text {
+        align-items: center;
+        text-align: center;
+        padding: 20px;
+        max-width: 90%;
+    }
+
+    #mainMovies .carousel-title {
+        font-size: 2.5rem;
+    }
+}
+
+
+/* promotions */
+#promotions {
+    background-color: var(--black);
+    padding: 40px 10%;
+    position: relative;
+}
+
+#promotions h2 {
+    color: var(--white);
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+    text-align: left;
+    position: relative;
+    padding-left: 20px;
+}
+
+#promotions h2::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 100%;
+    background: var(--yellow);
+    border-radius: 3px;
+    box-shadow: 0 0 15px var(--yellow);
+}
+
+#promoContainer {
     display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 30px;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 40px;
+    align-items: stretch;
 }
 
-.glass-card {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 30px;
-    padding: 40px;
+#promoCarousel,
+#promoCarousel .carousel-inner,
+#promoCarousel .carousel-item {
     height: 100%;
 }
 
-/* Promotion Carousel */
 #promoCarousel {
-    height: 350px;
-}
-
-.promo-item {
-    height: 350px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 5%;
-}
-
-.promo-content {
-    flex: 1;
-}
-
-.promo-content h3 {
-    font-family: 'Gugi', sans-serif;
-    font-size: 2.5rem;
-    margin-bottom: 10px;
-    color: var(--white);
-}
-
-.promo-content p {
-    font-size: 1.2rem;
-    color: #ccc;
-    margin-bottom: 25px;
-}
-
-.promo-img {
-    width: 300px;
-    height: auto;
-    border-radius: 15px;
-}
-
-/* Featured Presale */
-.presale-featured {
-    background: linear-gradient(135deg, #1a1a1a 0%, #000 100%);
-    position: relative;
-    overflow: hidden;
-    text-align: center;
-    border: 1px solid rgba(241, 205, 85, 0.3);
-}
-
-.presale-featured img {
     width: 100%;
-    margin-bottom: 20px;
-    border-radius: 15px;
-}
-
-.presale-featured h3 {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1.5rem;
-    color: var(--yellow);
-    margin-bottom: 10px;
-}
-
-.presale-btn {
-    display: block;
-    margin-top: 15px;
-    color: var(--white);
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 0.9rem;
-    letter-spacing: 2px;
-}
-
-/* Now Playing Grid */
-#movieCards {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 40px;
-}
-
-.movie {
-    background: transparent;
-    transition: transform 0.4s ease;
-}
-
-.poster-container {
-    position: relative;
     border-radius: 20px;
     overflow: hidden;
-    aspect-ratio: 2/3;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.promo-card {
+    border: none;
+    border-radius: 20px;
+    height: 100%;
+    min-height: 200px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.card#comboPromo {
+    background: linear-gradient(135deg, rgba(237, 37, 78, 0.2), rgba(237, 37, 78, 0.05));
+    border-color: rgba(237, 37, 78, 0.3);
+}
+
+.card#selfiePromo {
+    background: linear-gradient(135deg, rgba(148, 139, 137, 0.2), rgba(148, 139, 137, 0.05));
+    border-color: rgba(148, 139, 137, 0.3);
+}
+
+.card#refill {
+    background: linear-gradient(135deg, rgba(44, 140, 153, 0.2), rgba(44, 140, 153, 0.05));
+    border-color: rgba(44, 140, 153, 0.3);
+}
+
+.card-header {
+    background: transparent;
+    border: none;
+    color: var(--white);
+    font-family: "Orbitron", sans-serif;
+    letter-spacing: 2px;
+    font-size: 0.7rem;
+    padding: 15px 25px;
+    opacity: 0.8;
+}
+
+.card-body {
+    padding: 0 25px 25px 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: var(--white) !important;
+}
+
+.card-text {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.8) !important;
+    max-width: 60%;
+    line-height: 1.4;
+}
+
+.card-body img {
+    position: absolute;
+    right: -20px;
+    bottom: -20px;
+    height: 110%;
+    width: auto;
+    object-fit: contain;
+    transition: transform 0.5s ease;
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.4));
+}
+
+.promo-card:hover .card-body img {
+    transform: scale(1.1) rotate(-5deg);
+}
+
+.card-footer {
+    background: rgba(0, 0, 0, 0.2);
+    border: none;
+    padding: 10px 30px;
+}
+
+.card-footer small {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.75rem;
+}
+
+/* Popular/Presale Card */
+#popularMovie {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+    min-width: unset;
+    max-width: unset;
+}
+
+#popularMovie::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(0, 255, 255, 0.1) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+#presale {
+    font-family: "Orbitron", sans-serif;
+    color: cyan;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    transform: none;
+    /* Reset rotated baseline */
+    width: auto;
+    display: block;
+    border-bottom: 1px solid rgba(0, 255, 255, 0.3);
+    padding-bottom: 10px;
+}
+
+#presaleData {
+    background: transparent;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 0;
+    margin: 10px 0;
+}
+
+#presaleData img {
+    height: 140px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+#presaleDataText {
+    align-items: flex-start;
+    gap: 5px;
+}
+
+#presaleDataText p:nth-child(1) {
+    font-size: 1.2rem;
+    text-decoration: none;
+    color: var(--white);
+    margin: 0;
+}
+
+#presaleDataText p:nth-child(2) {
+    font-size: 1.6rem;
+    color: cyan;
+    margin: 0;
+}
+
+#presaleDataText p:nth-child(3) {
+    text-decoration: none;
+    font-family: "Orbitron", sans-serif;
+    font-size: 0.9rem;
+    color: var(--yellow);
+    margin-top: 10px;
+}
+
+#buyPresale {
+    margin: 0;
+    background: cyan;
+    color: var(--black);
+    padding: 12px 25px;
+    border-radius: 50px;
+    text-align: center;
+    font-family: "Gugi", sans-serif;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 255, 255, 0.3);
+    text-decoration: none;
+}
+
+#buyPresale:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 255, 255, 0.5);
+    background: #fff;
+}
+
+@media screen and (max-width: 1200px) {
+    #promoContainer {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    #promotions {
+        padding: 40px 5%;
+    }
+
+    .promo-card {
+        height: auto;
+        min-height: 400px;
+    }
+
+    .card-text {
+        max-width: 100%;
+        margin-bottom: 150px;
+        /* Space for the image on mobile */
+    }
+
+    .card-body img {
+        height: 200px;
+        right: 10px;
+        bottom: 10px;
+    }
+
+    #presaleData {
+        flex-direction: row;
+    }
+
+    #presaleData img {
+        height: 120px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    #presaleData {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    #presaleData img {
+        height: auto;
+        width: 100%;
+    }
+}
+
+/* Movie cards */
+#nowPlaying {
+    padding: 60px 10%;
+    background-color: var(--white);
+}
+
+#nowPlaying h2 {
+    color: var(--black);
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+    position: relative;
+    padding-left: 20px;
+}
+
+#nowPlaying h2::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 100%;
+    background: var(--yellow);
+    border-radius: 3px;
+    box-shadow: 0 0 15px var(--yellow);
 }
 
 .poster {
-    height: 100%;
+    width: 100%;
+    max-width: 260px;
+    aspect-ratio: 2/3;
+    display: block;
+    position: relative;
+    border-radius: 20px;
     background-size: cover;
     background-position: center;
-    transition: transform 0.6s ease;
-}
-
-.movie-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, transparent 60%);
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    padding-bottom: 30px;
-    opacity: 0;
-    transition: opacity 0.3s;
-    text-decoration: none;
-}
-
-.movie:hover .poster {
-    transform: scale(1.1);
-}
-
-.movie:hover .movie-overlay {
-    opacity: 1;
-}
-
-.view-details {
-    color: var(--white);
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 800;
-    font-size: 0.9rem;
-    letter-spacing: 2px;
-    border: 2px solid var(--white);
-    padding: 10px 20px;
-    border-radius: 50px;
-}
-
-.movie-status {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    padding: 5px 15px;
-    border-radius: 50px;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 0.7rem;
-    font-weight: bold;
-    backdrop-filter: blur(10px);
-    z-index: 10;
-}
-
-.newRelease {
-    background: rgba(241, 205, 85, 0.9);
-    color: #000;
-}
-
-.preSale {
-    background: rgba(0, 100, 255, 0.8);
-    color: #fff;
-}
-
-.regular {
-    background: rgba(255, 255, 255, 0.2);
-    color: #fff;
-}
-
-.movie-details {
-    padding: 20px 0;
-}
-
-.movie-card-title {
-    font-family: 'Gugi', sans-serif;
-    font-size: 1.4rem;
-    margin-bottom: 12px;
-    white-space: nowrap;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     overflow: hidden;
-    text-overflow: ellipsis;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.poster:hover {
+    transform: translateY(-15px) scale(1.03);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+    border-color: rgba(241, 205, 85, 0.6);
+}
+
+.movieDisplay {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    margin: 0;
+    padding: 12px 5px;
+    color: var(--white);
+    font-family: "Orbitron", sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    backdrop-filter: blur(15px) brightness(0.7);
+    -webkit-backdrop-filter: blur(15px) brightness(0.7);
+    background: rgba(0, 0, 0, 0.5);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.movie-regular {
+    color: var(--yellow);
+    text-shadow: 0 0 10px rgba(241, 205, 85, 0.4);
+}
+
+.movie-new {
+    color: #ff6464;
+    text-shadow: 0 0 10px rgba(255, 100, 100, 0.4);
+}
+
+.movie-pre {
+    color: #00ffff;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
 }
 
 .trailerBtn {
-    background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: #aaa;
-    padding: 8px 15px;
+    margin-top: 15px;
+    padding: 10px 20px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.05);
+    color: var(--black);
     border-radius: 50px;
-    font-size: 0.8rem;
     display: flex;
     align-items: center;
     gap: 8px;
-    transition: all 0.3s;
+    font-family: "Orbitron", sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
 }
 
 .trailerBtn:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff;
-    border-color: #fff;
+    background-color: var(--black);
+    color: var(--white);
+    border-color: var(--black);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
-/* Responsive */
-@media (max-width: 992px) {
-    .carousel-item a {
-        grid-template-columns: 1fr;
-        text-align: center;
+#loadingNowPlaying {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 100px 0;
+    color: var(--black);
+    font-family: "Gugi", sans-serif;
+}
+
+#loadContainer {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.spinner-border {
+    color: var(--yellow);
+}
+
+#popcornLoad {
+    position: absolute;
+    width: 35px;
+    height: 35px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#movieCards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 40px;
+    width: 100%;
+}
+
+.movie {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+}
+
+#showMoreMoviesBtn {
+    width: 100%;
+    max-width: 260px;
+    height: 390px;
+    /* Matching poster aspect ratio */
+    background: rgba(0, 0, 0, 0.03);
+    border: 2px dashed rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    color: var(--black);
+    font-family: "Gugi", sans-serif;
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#showMoreMoviesBtn:hover {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: var(--black);
+    color: var(--black);
+    transform: translateY(-10px);
+}
+
+/* Trailer Modal Styles */
+.trailer-modal-content {
+    background-color: #000;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 50px rgba(241, 205, 85, 0.2);
+    border-radius: 30px;
+    overflow: hidden;
+}
+
+#iframeContainer iframe {
+    border: none !important;
+    display: block;
+    width: 100%;
+}
+
+.modal-header .btn-close-white {
+    filter: invert(1) grayscale(100%) brightness(200%);
+    opacity: 0.8;
+}
+
+.modal-header .btn-close-white:hover {
+    opacity: 1;
+    transform: rotate(90deg);
+    transition: all 0.3s ease;
+}
+
+
+@media screen and (max-width: 400px) {
+    .card-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
     }
 
-    .carousel-image {
-        height: 350px;
+    .card-body img {
+        display: none;
     }
+}
 
-    .carousel-title {
-        font-size: 2.5rem;
-    }
-
-    .promo-presale-container {
-        grid-template-columns: 1fr;
+@media screen and (max-width: 769px) {
+    #movieCards {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     }
 }
