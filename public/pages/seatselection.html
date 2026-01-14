@@ -39,7 +39,8 @@
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <!--This part is for Logo-->
-                    <a class="navbar-brand" href="../index.html" id="header" style="display: flex; align-items: center;">
+                    <a class="navbar-brand" href="../index.html" id="header"
+                        style="display: flex; align-items: center;">
                         <img src="../asset/img/Logo.svg" alt="Logo" width="32" height="32"
                             class="d-inline-block align-text-top mx-1">
                         Opus-Cinemas
@@ -90,178 +91,115 @@
             </div>
         </nav>
     </header>
-    <main>
+    <main class="booking-main">
+        <!-- Background Blur Container -->
+        <div id="movieBackground" class="movie-bg"></div>
+        <div class="movie-bg-overlay"></div>
+
         <section id="loadingScreen">
-            <h1>Loading...</h1>
             <div id="loadContainer">
                 <div class="spinner-border" style="width: 70px; height: 70px;" role="status">
                     <span class="visually-hidden">Loading...</span>
                 </div>
                 <img src="../asset/img/popcorn-svgrepo-com.svg" alt="popcorn" id="popcornLoad">
             </div>
+            <h1>Preparing your seats...</h1>
         </section>
 
+        <div class="selection-container">
+            <div class="booking-grid">
+                <!-- Left Side: Panoramic Auditorium -->
+                <div class="auditorium-wrapper glass-panel">
+                    <div class="booking-header">
+                        <div class="breadcrumb-nav">
+                            <a href="#" id="movieInfoPage" class="step">Movie</a>
+                            <span class="step active">Seats</span>
+                            <span class="step">Payment</span>
+                        </div>
+                    </div>
 
-        <section id="menuContainer" class="row">
-            <div class="col-12 col-lg-6" id="interactiveSide">
-                <div id="progressButtons">
-                    <div id="stepBar">
-                        <a class="progressButton" id="movieInfoPage"></a>
-                        <a class="progressButton aDisabled" id="currentStep"></a>
-                        <a class="progressButton aDisabled"></a>
-                        <a class="progressButton aDisabled"></a>
+                    <div class="screen-container">
+                        <div class="cinematic-screen shadow"></div>
+                        <p class="screen-label">SCREEN</p>
                     </div>
-                    <p>Booking</p>
-                </div>
-                <div id="auditoriumScreen">
-                    <div id="screenDraw"></div>
-                    <p id="screenTitle">Screen</p>
-                    <div id="seatsDraw">
-                        <button class="emptyPlace"></button>
-                        <button class="seat" id="A01">A01</button>
-                        <button class="seat" id="A02">A02</button>
-                        <button class="seat" id="A03">A03</button>
-                        <button class="seat" id="A04">A04</button>
-                        <button class="seat" id="A05">A05</button>
-                        <button class="seat" id="A06">A06</button>
-                        <button class="seat" id="A07">A07</button>
-                        <button class="seat" id="A08">A08</button>
-                        <button class="seat" id="A09">A09</button>
-                        <button class="seat" id="A10">A10</button>
-                        <button class="seat" id="A11">A11</button>
-                        <button class="emptyPlace"></button>
-                        <div class="rowName">A</div>
-                        <button class="emptyPlace"></button>
-                        <button class="seat" id="B01">B01</button>
-                        <button class="seat" id="B02">B02</button>
-                        <button class="seat" id="B03">B03</button>
-                        <button class="seat" id="B04">B04</button>
-                        <button class="seat" id="B05">B05</button>
-                        <button class="seat" id="B06">B06</button>
-                        <button class="seat" id="B07">B07</button>
-                        <button class="seat" id="B08">B08</button>
-                        <button class="seat" id="B09">B09</button>
-                        <button class="seat" id="B10">B10</button>
-                        <button class="seat" id="B11">B11</button>
-                        <button class="emptyPlace"></button>
-                        <div class="rowName">B</div>
-                        <button class="emptyPlace"></button>
-                        <button class="seat" id="C01">C01</button>
-                        <button class="seat" id="C02">C02</button>
-                        <button class="seat" id="C03">C03</button>
-                        <button class="seat" id="C04">C04</button>
-                        <button class="seat" id="C05">C05</button>
-                        <button class="seat" id="C06">C06</button>
-                        <button class="seat" id="C07">C07</button>
-                        <button class="seat" id="C08">C08</button>
-                        <button class="seat" id="C09">C09</button>
-                        <button class="seat" id="C10">C10</button>
-                        <button class="seat" id="C11">C11</button>
-                        <button class="emptyPlace"></button>
-                        <div class="rowName">C</div>
-                        <button class="emptyPlace"></button>
-                        <button class="seat" id="D01">D01</button>
-                        <button class="seat" id="D02">D02</button>
-                        <button class="seat" id="D03">D03</button>
-                        <button class="seat" id="D04">D04</button>
-                        <button class="seat" id="D05">D05</button>
-                        <button class="seat" id="D06">D06</button>
-                        <button class="seat" id="D07">D07</button>
-                        <button class="seat" id="D08">D08</button>
-                        <button class="seat" id="D09">D09</button>
-                        <button class="seat" id="D10">D10</button>
-                        <button class="seat" id="D11">D11</button>
-                        <button class="emptyPlace" ></button>
-                        <div class="rowName">D</div>
-                        <button class="emptyRow" ></button>
-                        <button class="seat" id="E01">E01</button>
-                        <button class="seat" id="E02">E02</button>
-                        <button class="seat" id="E03">E03</button>
-                        <button class="seat" id="E04">E04</button>
-                        <button class="seat" id="E05">E05</button>
-                        <button class="seat" id="E06">E06</button>
-                        <button class="seat" id="E07">E07</button>
-                        <button class="seat" id="E08">E08</button>
-                        <button class="seat" id="E09">E09</button>
-                        <button class="seat" id="E10">E10</button>
-                        <button class="seat" id="E11">E11</button>
-                        <button class="seat" id="E12">E12</button>
-                        <button class="seat" id="E13">E13</button>
-                        <div class="rowName">E</div>
-                        <button class="seat" id="F01">F01</button>
-                        <button class="seat" id="F02">F02</button>
-                        <button class="seat" id="F03">F03</button>
-                        <button class="seat" id="F04">F04</button>
-                        <button class="seat" id="F05">F05</button>
-                        <button class="seat" id="F06">F06</button>
-                        <button class="seat" id="F07">F07</button>
-                        <button class="seat" id="F08">F08</button>
-                        <button class="seat" id="F09">F09</button>
-                        <button class="seat" id="F10">F10</button>
-                        <button class="seat" id="F11">F11</button>
-                        <button class="seat" id="F12">F12</button>
-                        <button class="seat" id="F13">F13</button>
-                        <div class="rowName">F</div>
-                        <button class="seat" id="G01">G01</button>
-                        <button class="seat" id="G02">G02</button>
-                        <button class="seat" id="G03">G03</button>
-                        <button class="seat" id="G04">G04</button>
-                        <button class="seat" id="G05">G05</button>
-                        <button class="seat" id="G06">G06</button>
-                        <button class="seat" id="G07">G07</button>
-                        <button class="seat" id="G08">G08</button>
-                        <button class="seat" id="G09">G09</button>
-                        <button class="seat" id="G10">G10</button>
-                        <button class="seat" id="G11">G11</button>
-                        <button class="seat" id="G12">G12</button>
-                        <button class="seat" id="G13">G13</button>
-                        <div class="rowName">G</div>
+
+                    <div class="pan-container">
+                        <div id="seatsDraw" class="seat-grid">
+                            <!-- Seats dynamically injected here -->
+                        </div>
                     </div>
-                    <div class="row" id="infoSeats">
-                        <div class="col-4">
-                            <div class="seat"></div>
-                            <p>Available</p>
+
+                    <div class="legend">
+                        <div class="legend-item">
+                            <div class="seat-sample available"></div>
+                            <span>Available</span>
                         </div>
-                        <div class="col-4">
-                            <div class="seat unavailableSeat" ></div>
-                            <p>Unvailable</p>
+                        <div class="legend-item">
+                            <div class="seat-sample selected"></div>
+                            <span>Selected</span>
                         </div>
-                        <div class="col-4">
-                            <div class="seat selectedSeat"></div>
-                            <p>Selected</p>
+                        <div class="legend-item">
+                            <div class="seat-sample occupied"></div>
+                            <span>Occupied</span>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-12 col-lg-6" id="formSide">
-                <div id="formContainer">
-                    <p id="movieTitle">Movie title</p>
-                    <div id="movieData">
-                        <p>Date & Time: <span id="showtimeDate"></span></p>
-                        <p>Auditorium: <span id="auditoriumName"></span></p>
-                        <p>Select the number of tickets</p>
-                        <div id="ticketInput">
-                            <button id="ticketSubtract" type="button" disabled>-</button>
-                            <div id="displayInfo">
-                                <span id="numberTickets">1</span>
-                                <span>Tickets</span>
+
+                <!-- Right Side: Booking Summary -->
+                <div class="summary-wrapper glass-panel">
+                    <div class="summary-content">
+                        <h2 id="movieTitle" class="cinematic-movie-title">Movie Title</h2>
+
+                        <div class="selection-details">
+                            <div class="detail-row">
+                                <span class="label">Time</span>
+                                <span id="showtimeDate" class="value">-</span>
                             </div>
-                            <button id="ticketAdd" type="button">+</button>
+                            <div class="detail-row">
+                                <span class="label">Auditorium</span>
+                                <span id="auditoriumName" class="value">-</span>
+                            </div>
                         </div>
-                        <p>Please select your seats:</p>
-                        <p id="remainingSeats">Seats left to select: <span class="seatsLeft">1</span></p>
-                        <p id="overSeats">You need to deselect: <span class="seatsLeft">1</span> seats</p>
-                        <div id="seatsSelected">
-                        </div>
-                        <p id="infoAmount">Price: $<span id="totalPrice">0000</span></p>
-                    </div>
-                    <button type="button" id="continuePayment" disabled>Proceed to Pay</button>
-                    
 
+                        <div class="ticket-selector-box">
+                            <p class="selector-title">Number of Tickets</p>
+                            <div class="ticket-controls">
+                                <button id="ticketSubtract" class="ctrl-btn" disabled>−</button>
+                                <div class="ticket-display">
+                                    <span id="numberTickets">1</span>
+                                    <span class="sub">Tickets</span>
+                                </div>
+                                <button id="ticketAdd" class="ctrl-btn">+</button>
+                            </div>
+                        </div>
+
+                        <div class="seat-selection-status">
+                            <div id="remainingSeats" class="status-msg">
+                                <p>Select <span class="seatsLeft highlight">1</span> more seat</p>
+                            </div>
+                            <div id="overSeats" class="status-msg warning">
+                                <p>Deselect <span class="seatsLeft highlight">1</span> seat</p>
+                            </div>
+                            <div id="seatsSelected" class="selected-tokens">
+                                <!-- Selected seat tokens -->
+                            </div>
+                        </div>
+
+                        <div class="total-price-box">
+                            <span class="label">Total Amount</span>
+                            <span class="price">$<span id="totalPrice">0</span></span>
+                        </div>
+
+                        <button id="continuePayment" class="checkout-btn" disabled>
+                            CONTINUE TO PAYMENT
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
             </div>
-            
-        </section>
+        </div>
     </main>
     <footer>
 
@@ -305,58 +243,65 @@
     <script>
         const urlParams = new URLSearchParams(window.location.search)
         const showtimeId = urlParams.get('showtimeId');
-        </script>
+    </script>
     <script src="../js/seatsSelection.js"></script>
-    
+
     <script type="module">
         import { getBookedSeats, registerTickets } from "../js/services/dataService.js"
 
-        async function sendBookingInformation(ticketsSelected){
+        async function sendBookingInformation(ticketsSelected) {
             try {
                 const ticketToken = await registerTickets(ticketsSelected, showtimeId);
-                window.location.href = `/pages/payment?ticketToken=${ticketToken}`;
+                window.location.href = `/pages/payment.html?ticketToken=${ticketToken}`;
             } catch (error) {
                 console.error('Error sending tickets to db:', error);
                 alert('Error processing your tickets. Please try again later');
             }
         }
 
-        function updateScreenWithShowtimeData(showtimeData){
+        function updateScreenWithShowtimeData(showtimeData) {
+            // Synchronize auditorium layout with booked seats
             showtimeData.bookedSeats.forEach(bookedSeat => {
-                if( !bookedSeat.available ){
+                if (!bookedSeat.available) {
                     $(`#${bookedSeat.seat_number}`).addClass('unavailableSeat').prop('disabled', true);
                 }
             })
-            console.log(showtimeData)
+
+            // Inject movie details
             $('#movieTitle').text(showtimeData.movieTitle);
-            $('#showtimeDate').text(`${showtimeData.date} at ${showtimeData.hour.slice(0,-3)}`);
+            $('#showtimeDate').text(`${showtimeData.date} at ${showtimeData.hour.slice(0, -3)}`);
             $('#auditoriumName').text(showtimeData.auditorium);
-            $('#movieInfoPage').prop('href', `/pages/movie-info.html?movieId=${showtimeData.movieId}`);
+            $('#movieInfoPage').attr('href', `/pages/movie-info.html?movieId=${showtimeData.movieId}`);
+
+            // Set cinematic backgrounds
+            $('#movieBackground').css('background-image', `url("${showtimeData.moviePoster}")`);
             document.body.style.backgroundImage = `url("${showtimeData.moviePoster}")`;
 
-            $('#loadingScreen').fadeOut('fast');
+            // Smooth transition
+            $('#loadingScreen').fadeOut(800);
         }
 
-        
-        
-        async function loadingSeatSelectionScreen(showtimeId){
+
+
+        async function loadingSeatSelectionScreen(showtimeId) {
             const showtimeData = await getBookedSeats(showtimeId);
-            
-            if (showtimeData){
+
+            if (showtimeData) {
                 updateScreenWithShowtimeData(showtimeData);
-                
-                document.dispatchEvent(new CustomEvent('updatedTicketsAvailabilty',{
-                    detail: [showtimeData.totalSeats,showtimeData.bookedSeats]                }))
-                }
 
-                document.addEventListener('seatsObjectReady', (event)=>{
-                    const ticketsSelected = event.detail
-                    console.log(ticketsSelected);
+                document.dispatchEvent(new CustomEvent('updatedTicketsAvailabilty', {
+                    detail: [showtimeData.totalSeats, showtimeData.bookedSeats]
+                }))
+            }
 
-                    sendBookingInformation(ticketsSelected);
-                })
-        } 
-                    
+            document.addEventListener('seatsObjectReady', (event) => {
+                const ticketsSelected = event.detail
+                console.log(ticketsSelected);
+
+                sendBookingInformation(ticketsSelected);
+            })
+        }
+
         loadingSeatSelectionScreen(showtimeId);
     </script>
 

@@ -1,86 +1,263 @@
-body {
-    background-color: var(--black);
+:root {
+    --glass-bg: rgba(0, 0, 0, 0.85);
+    --glass-border: var(--white);
+    --accent-glow: rgba(241, 205, 85, 0.4);
 }
 
-main {
+body {
+    background-color: #000;
+    color: var(--white);
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+/* Atmospheric Background */
+.movie-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    filter: blur(50px) brightness(0.2);
+    z-index: -2;
+    transform: scale(1.1);
+}
+
+.movie-bg-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, transparent, rgba(0, 0, 0, 0.9));
+    z-index: -1;
+}
+
+/* Loading Screen */
+#loadingScreen {
+    position: fixed;
+    inset: 0;
+    background: #000;
+    z-index: 9999;
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* Layout Container */
+.selection-container {
+    padding: 80px 20px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Main Panels - "Opus Hybrid" style */
+.glass-panel {
+    background: var(--glass-bg);
+    border: 7px solid var(--white);
+    border-radius: 30px;
+    padding: 30px;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
+}
+
+.summary-panel {
+    background: var(--grey) !important;
+}
+
+/* Breadcrumbs / Steps */
+.booking-header {
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.breadcrumb-nav {
+    display: flex;
+    gap: 15px;
     justify-content: center;
     align-items: center;
+    margin-bottom: 20px;
 }
 
-.menuContainer {
-    background-color: var(--black);
-    padding: 20px;
-    width: 90%;
-    margin: 60px auto 60px auto;
-    border-radius: 20px;
-    border: 7px solid var(--white);
-}
-
-.progressButton {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    border-radius: 20px;
+.breadcrumb-nav .step {
     border: 5px solid var(--white);
-    background: var(--black);
-    justify-content: center;
-    cursor: pointer;
-    padding: 15px 15px;
+    border-radius: 20px;
+    padding: 6px 15px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: var(--white);
+    text-decoration: none;
+    transition: all 0.3s ease;
 }
 
-.aDisabled {
+.breadcrumb-nav .step.active {
+    background-color: var(--white);
+    color: var(--black);
+}
+
+.breadcrumb-nav .step.disabled {
+    opacity: 0.4;
     cursor: not-allowed;
     pointer-events: none;
 }
 
-#currentStep {
-    background-color: var(--white);
+.section-title {
+    font-family: 'Gugi', sans-serif;
+    font-size: 2.5rem;
+    color: var(--white);
+    margin-bottom: 30px;
 }
 
+/* Form Styling */
 .opusCinemaFormLabel {
-    color: var(--white);
-    padding-top: 15px;
+    display: block;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    margin-top: 20px;
+    color: var(--lighGrey);
 }
 
-.opusCinemaForm, .opusCinemaForm:focus {
+.opusCinemaForm {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 12px 15px;
     color: var(--white);
-    background: var(--black);
-    border: none;
-    border-radius: 0px;
-    border-bottom: 2px solid var(--white);
-    outline: none !important;
+    font-family: 'Roboto', sans-serif;
+    transition: all 0.3s ease;
+}
+
+.opusCinemaForm:focus {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--yellow);
+    outline: none;
+    box-shadow: 0 0 15px rgba(241, 205, 85, 0.2);
 }
 
 .opusCinemaForm::placeholder {
-    color: var(--grey);
+    color: rgba(255, 255, 255, 0.3);
 }
 
+/* Custom validation states */
+.opusCinemaForm.verified {
+    border-color: #4CAF50 !important;
+}
+
+.opusCinemaForm.error {
+    border-color: #f44336 !important;
+}
+
+/* Booking Summary Detail Panel */
 .opusCinemaTicketInfo {
-    background-color: var(--grey);
-    color: var(--white);
-    border-radius: 15px;
-    padding:15px 20px 15px 20px;
+    background: rgba(255, 255, 255, 0.05);
+    /* Lighter contrast against grey */
+    border-radius: 20px;
+    padding: 25px;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.detail-row:last-child {
+    border-bottom: none;
+}
+
+.detail-label {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    color: var(--lighGrey);
+}
+
+.detail-value {
+    font-weight: 500;
+    text-align: right;
+}
+
+.price-row {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 2px dashed rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.total-label {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1rem;
+    color: var(--yellow);
+}
+
+.total-value {
+    font-family: 'Gugi', sans-serif;
+    font-size: 2rem;
+}
+
+/* Finish Button */
+.finish-container {
+    margin-top: 40px;
+    text-align: center;
 }
 
 .opusCinemaButton {
-    font-family: "Gugi", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-    display: flex;
-    justify-content: center;
-    background-color: var(--yellow);
+    width: 100%;
+    max-width: 400px;
+    padding: 18px;
     border-radius: 20px;
-    padding: 15px 10% 15px 10%;
-    margin-top: 20px;
+    border: none;
+    background: var(--yellow);
+    color: var(--black);
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 800;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-input.error:focus {
-    border: 2px solid red;
+.opusCinemaButton:hover:not(:disabled) {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(241, 205, 85, 0.4);
 }
-input.error {
-    background-color: var(--red);
+
+.opusCinemaButton:disabled {
+    background: #444;
+    color: #888;
+    cursor: not-allowed;
 }
-input.verified {
-    border: 2px solid green;
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+    .glass-panel {
+        margin-bottom: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .selection-container {
+        padding-top: 60px;
+    }
+
+    .section-title {
+        font-size: 1.8rem;
+    }
+
+    .glass-panel {
+        padding: 20px;
+        border-width: 5px;
+    }
 }

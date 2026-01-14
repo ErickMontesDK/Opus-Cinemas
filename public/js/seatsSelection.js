@@ -1,147 +1,162 @@
 
+// Helper to generate the theater grid if it's not pre-populated
+function generateAuditorium() {
+    const container = $('#seatsDraw');
+    if (container.children().length > 0) return; // Already populated
 
-document.addEventListener('updatedTicketsAvailabilty', (event)=>{
-    const ticketPrice = 15
-    const [availableSeats, bookedSeats] = event.detail;
-    const maxTickets = availableSeats > 8 ? 8 : availableSeats;
+    const layout = [
+        { row: 'A', seats: 11, offset: 1 },
+        { row: 'B', seats: 11, offset: 1 },
+        { row: 'C', seats: 11, offset: 1 },
+        { row: 'D', seats: 11, offset: 1 },
+        { row: 'spacer', height: '20px' },
+        { row: 'E', seats: 13, offset: 0 },
+        { row: 'F', seats: 13, offset: 0 },
+        { row: 'G', seats: 13, offset: 0 }
+    ];
 
-    function calculateTotalPrice(){
+    layout.forEach(config => {
+        if (config.row === 'spacer') {
+            container.append('<div class="emptyRow"></div>');
+            return;
+        }
+
+        // Left offset spacer
+        if (config.offset > 0) {
+            for (let i = 0; i < config.offset; i++) container.append('<div class="emptyPlace"></div>');
+        }
+
+        // Seats
+        for (let i = 1; i <= config.seats; i++) {
+            const num = i < 10 ? `0${i}` : i;
+            const id = `${config.row}${num}`;
+            container.append(`<button class="seat" id="${id}">${id}</button>`);
+        }
+
+        // Right offset spacer
+        if (config.offset > 0) {
+            for (let i = 0; i < config.offset; i++) container.append('<div class="emptyPlace"></div>');
+        }
+
+        // Row label (matching previous layout)
+        container.append(`<div class="rowName">${config.row}</div>`);
+    });
+}
+
+document.addEventListener('updatedTicketsAvailabilty', (event) => {
+    generateAuditorium();
+
+    const ticketPrice = 15;
+    const [totalSeats, bookedSeats] = event.detail;
+    const maxTickets = totalSeats > 8 ? 8 : totalSeats;
+
+    function calculateTotalPrice() {
         let ticketNumber = parseInt($('#numberTickets').text());
-        const price = ticketNumber * ticketPrice
+        const price = ticketNumber * ticketPrice;
         $('#totalPrice').text(price);
-
     }
-    calculateTotalPrice(); 
-    function addTicketNumber(){
+
+    calculateTotalPrice();
+
+    function updateTicketCounter(delta) {
         let ticketNumber = parseInt($('#numberTickets').text());
-        ticketNumber += 1;
-        
+        ticketNumber += delta;
+
+        if (ticketNumber < 1 || ticketNumber > maxTickets) return;
+
         $('#numberTickets').text(ticketNumber);
-        calculateTotalPrice(); 
-        
-        if (ticketNumber === maxTickets){
-            $('#ticketAdd').prop('disabled', true);
-        }
-        if (ticketNumber > 1){
-            $('#ticketSubtract').prop('disabled', false);
-        }
-    }
-    function subtractTicketNumber(){
-        let ticketNumber = parseInt($('#numberTickets').text());
-        ticketNumber -= 1;
-        $('#numberTickets').text(ticketNumber);
-        calculateTotalPrice(); 
-        
-        if (ticketNumber < maxTickets){
-            $('#ticketAdd').prop('disabled', false);
-        }
-        if (ticketNumber === 1){
-            $('#ticketSubtract').prop('disabled', true);
-        }
-    }
-    
-    $('#ticketAdd').click(function () {
-        addTicketNumber();
+        calculateTotalPrice();
+
+        $('#ticketSubtract').prop('disabled', ticketNumber === 1);
+        $('#ticketAdd').prop('disabled', ticketNumber === maxTickets);
+
         verifiedSeatAndTickets();
-    });
-    $('#ticketSubtract').click(function () {
-        subtractTicketNumber();
-        verifiedSeatAndTickets();
-    });
-
-    function addSeatSelected(ticketNumber){
-        const seatsContainer = $('#seatsSelected');
-        seatsContainer.append(`<button class="seats" data-value="${ticketNumber}">${ticketNumber}</button>`);
     }
 
-    function removeSeatSelected(ticketNumber){
-        const seatToRemove = $(`#seatsSelected .seats:contains(${ticketNumber})`);
-        seatToRemove.remove();
+    $('#ticketAdd').off().on('click', () => updateTicketCounter(1));
+    $('#ticketSubtract').off().on('click', () => updateTicketCounter(-1));
+
+    function addSeatToken(seatId) {
+        const container = $('#seatsSelected');
+        container.append(`<button class="seats" data-value="${seatId}">${seatId}</button>`);
     }
 
-    function verifiedSeatAndTickets(){
-        let seatSelected = $('#seatsSelected .seats').length;
-        let ticketNumber = parseInt($('#numberTickets').text());
-        const seatsLeft = ticketNumber - seatSelected;
+    function removeSeatToken(seatId) {
+        $(`#seatsSelected .seats[data-value="${seatId}"]`).remove();
+    }
 
-        $('.seatsLeft').text(seatsLeft);
-        
-        if (seatSelected === ticketNumber){
+    function verifiedSeatAndTickets() {
+        const seatSelected = $('#seatsSelected .seats').length;
+        const ticketNumber = parseInt($('#numberTickets').text());
+        const diff = ticketNumber - seatSelected;
+
+        $('.seatsLeft').text(Math.abs(diff));
+
+        if (diff === 0) {
             $('#continuePayment').prop('disabled', false);
             $('#seatsDraw .seat:not(.selectedSeat)').prop('disabled', true);
             $('#remainingSeats').hide();
             $('#overSeats').hide();
+        } else if (diff < 0) {
+            $('#continuePayment').prop('disabled', true);
+            $('#seatsDraw .seat').prop('disabled', false); // Allow deselecting
+            $('#overSeats').show();
+            $('#remainingSeats').hide();
         } else {
             $('#continuePayment').prop('disabled', true);
-            $('#seatsDraw .seat:not(.selectedSeat)').prop('disabled', false);
-            
-            if (seatSelected > ticketNumber) {
-                $('#overSeats').show();
-                $('#remainingSeats').hide();
-                $('.seatsLeft').text(-1*seatsLeft);
-            } else {
-                $('#overSeats').hide();
-                $('#remainingSeats').show();
-                $('.seatsLeft').text(seatsLeft);
-            }
+            $('#seatsDraw .seat:not(.unavailableSeat)').prop('disabled', false);
+            $('#overSeats').hide();
+            $('#remainingSeats').show();
         }
     }
 
-    $('#seatsDraw .seat').click(function () {
-        if ($(this).hasClass('selectedSeat')){
+    // Delegation for dynamic seats
+    $(document).off('click', '#seatsDraw .seat').on('click', '#seatsDraw .seat', function () {
+        if ($(this).hasClass('unavailableSeat')) return;
+
+        if ($(this).hasClass('selectedSeat')) {
             $(this).removeClass('selectedSeat');
-            removeSeatSelected($(this).text());
+            removeSeatToken($(this).attr('id'));
         } else {
-            $(this).addClass('selectedSeat');
-            addSeatSelected($(this).text());
+            const currentSelected = $('#seatsSelected .seats').length;
+            const ticketNumber = parseInt($('#numberTickets').text());
+
+            if (currentSelected < ticketNumber) {
+                $(this).addClass('selectedSeat');
+                addSeatToken($(this).attr('id'));
+            }
         }
         verifiedSeatAndTickets();
-
-    $('#seatsSelected .seats').click(function(){
-        $(this).remove();
-        $(`#seatsDraw .seat:contains(${$(this).text()})`).removeClass('selectedSeat');
-        verifiedSeatAndTickets();
-    })
     });
 
+    // Delegation for selected tokens
+    $(document).off('click', '#seatsSelected .seats').on('click', '#seatsSelected .seats', function () {
+        const seatId = $(this).attr('data-value');
+        $(this).remove();
+        $(`#${seatId}`).removeClass('selectedSeat');
+        verifiedSeatAndTickets();
+    });
 
-    $('#continuePayment').click(function(){
-        const numberOfTickets = parseInt($('#numberTickets').text());
-        const seatsSelected = $('#seatsSelected .seats')
-
-        const seatsNumbers = seatsSelected.map(function() {
+    $('#continuePayment').off().on('click', function () {
+        const ticketNumber = parseInt($('#numberTickets').text());
+        const selectedSeats = $('#seatsSelected .seats').map(function () {
             return $(this).attr('data-value');
         }).get();
 
-        console.log(numberOfTickets, seatsNumbers);
-
-        if (numberOfTickets === seatsNumbers.length) {
-            const ticketsSelected = seatsNumbers.map(seatNumber => {
-
-                const previousBookedRecord = bookedSeats.find(bookedSeat => bookedSeat.seat_number === seatNumber)
-
-                if(previousBookedRecord){
-                    if (previousBookedRecord.status == "reserved" && previousBookedRecord.available){
-                        return {id: previousBookedRecord.id, seat_number: seatNumber}
-                    } else {
-                        alert('Seat'+ seatNumber +'is not available or reserved');
-                        throw new Error("Error when trying to select the seats");
-                    }
-                } else {
-                    return {id: null, seat_number:seatNumber}
-                }
+        if (ticketNumber === selectedSeats.length) {
+            const tickets = selectedSeats.map(seatId => {
+                const record = bookedSeats.find(s => s.seat_number === seatId);
+                return {
+                    id: record ? record.id : null,
+                    seat_number: seatId
+                };
             });
 
-            console.log(ticketsSelected)
-            document.dispatchEvent(new CustomEvent('seatsObjectReady',{
-                detail: ticketsSelected,
-            }))
-            
+            document.dispatchEvent(new CustomEvent('seatsObjectReady', { detail: tickets }));
         } else {
-            alert('Please select all seats');
+            alert('Please select all your seats before proceeding.');
         }
     });
 
-})
-
-
+    verifiedSeatAndTickets();
+});
