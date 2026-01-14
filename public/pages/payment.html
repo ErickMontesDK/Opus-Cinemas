@@ -20,7 +20,6 @@
     <!-- EmailJS -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
-    <script src="../js/services/dataService.js"></script>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/payment.css">
 </head>
@@ -164,17 +163,20 @@
 
         async function initPayment() {
             const urlParams = new URLSearchParams(window.location.search);
-            const showtimeId = urlParams.get("showtimeId");
-            const selectedSeats = urlParams.get("seats") ? urlParams.get("seats").split(",") : [];
+            const ticketToken = urlParams.get("ticketToken");
 
-            if (!showtimeId || selectedSeats.length === 0) {
+            if (!ticketToken) {
+                console.error("Ticket token not found in URL");
                 window.location.href = "/";
                 return;
             }
 
             try {
-                const bookingData = await getPaymentBookingInfo(showtimeId);
+                const bookingData = await getPaymentBookingInfo(ticketToken);
                 console.log("Booking Data:", bookingData);
+
+                const showtimeId = bookingData.showtimeId;
+                const selectedSeats = bookingData.seatsReserved;
 
                 // Populate UI
                 document.getElementById("summaryMovie").innerText = bookingData.movieTitle;
@@ -204,7 +206,7 @@
                     const userEmail = document.getElementById("userEmail").value;
 
                     try {
-                        const result = await completeBooking(showtimeId, selectedSeats, userEmail, userName);
+                        const result = await completeBooking(showtimeId, selectedSeats, userEmail, userName, ticketToken);
                         console.log("Booking completed:", result);
 
                         if (result.success) {
