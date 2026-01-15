@@ -1,345 +1,205 @@
-:root {
-    --glass-bg: rgba(0, 0, 0, 0.85);
-    --glass-border: var(--white);
-    --accent-glow: rgba(241, 205, 85, 0.4);
-}
-
 body {
-    background-color: #000;
-    color: var(--white);
-    font-family: 'Roboto', sans-serif;
-    margin: 0;
-    overflow-x: hidden;
-    min-height: 100vh;
+    background-color: white;
 }
 
-/* Atmospheric Background */
-.movie-bg {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-size: cover;
-    background-position: center;
-    filter: blur(50px) brightness(0.2);
-    z-index: -2;
-    transform: scale(1.1);
-}
-
-.movie-bg-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at center, transparent, rgba(0, 0, 0, 0.9));
-    z-index: -1;
-}
-
-/* Loading Screen */
-#loadingScreen {
-    position: fixed;
-    inset: 0;
-    background: #000;
-    z-index: 9999;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-}
-
-.spinner-border {
-    color: var(--yellow);
-}
-
-/* Layout Container */
-.selection-container {
-    padding: 80px 20px 40px;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-/* Main Panels - "Opus Hybrid" style */
-.glass-panel {
-    background: transparent;
-    padding: 0;
-    box-shadow: none;
-    border: none;
-}
-
-.confirmation-card {
-    display: grid;
-    grid-template-columns: 1fr 400px;
-    gap: 40px;
-    align-items: start;
-    justify-content: center;
-}
-
-.message-side {
-    background: var(--grey);
-    border: 7px solid var(--white);
-    border-radius: 30px;
-    padding: 40px;
-    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
-    text-align: center;
-}
-
-.message-side h1 {
-    font-family: 'Gugi', sans-serif;
-    font-size: 2.5rem;
-    color: var(--white);
-    margin-bottom: 20px;
-}
-
-.message-side p {
-    font-size: 1rem;
-    color: var(--white);
-    line-height: 1.6;
-    margin-bottom: 30px;
-}
-
-/* New Actions layout */
-.actions {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-}
-
-/* Buttons */
-.btndownload {
-    background: var(--yellow);
-    color: var(--black);
-    border: none;
-    padding: 15px 30px;
-    border-radius: 50px;
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 800;
-    text-transform: uppercase;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    text-decoration: none;
-    width: fit-content;
-}
-
-.btndownload:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(241, 205, 85, 0.3);
-}
-
-.back-link {
-    display: inline-block;
-    color: var(--yellow);
-    text-decoration: none;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 0.9rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    transition: all 0.3s;
-}
-
-.back-link:hover {
-    transform: scale(1.1);
-    color: var(--white);
-}
-
-/* Digital Ticket Redesign - SHRUNK TO 280px */
 .confirmationticket {
-    perspective: 1000px;
     display: flex;
     justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    background-color: black;
+    width: fit-content;
+    height: fit-content;
+    position: relative;
+    overflow: hidden;
 }
 
 .ticket {
     width: 280px;
-    background: var(--white);
-    border-radius: 20px;
-    color: var(--black);
+    background: white;
+    border-radius: 15px;
+    text-align: center;
     overflow: hidden;
     position: relative;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-    transition: transform 0.3s ease;
+    padding-bottom: 10px;
+    height: fit-content;
+    border: 1px solid white;
 }
 
-.ticket:hover {
-    transform: rotateY(5deg) rotateX(5deg);
+.fallback-image {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+
+}
+
+.qrim {
+    background: white;
+    display: inline-block;
+    border-radius: 20px;
+    margin: -120px auto 0px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    transform: scale(0.8);
+    transform-origin: center;
+}
+
+
+.notch {
+    position: absolute;
+    width: 40px;
+    height: 20px;
+    background: #181818;
+    border-radius: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.notch.top {
+    top: -10px;
+    z-index: 5;
+
+}
+
+.notch.bottom {
+    bottom: -10px;
+    z-index: 5;
+}
+
+
+.details {
+    padding: 10px;
+    font-size: 14px;
+}
+
+
+.dashed-line {
+    width: 80%;
+    border-top: 5px dashed black;
+    margin: 10px auto;
+}
+
+.messagecon {
+    color: white;
+    background-color: #3b3a37;
+    padding: 25px;
+    border-radius: 15px;
+    width: 350px;
+    height: fit-content;
+    justify-content: center;
+    text-align: center;
+
+}
+
+.completeconfirmation {
+    display: flex;
+    justify-content: space-around;
+    gap: 100px;
+    background-color: black;
+    width: fit-content;
+    padding: 50px;
+    border-radius: 10px;
+    margin-right: 25%;
+    margin-left: 25%;
+
+}
+
+.btndownload {
+    background-color: transparent;
+    color: white;
+    background: none;
+    cursor: pointer;
 }
 
 #imageposter-container {
     width: 100%;
-    height: 350px;
-    overflow: hidden;
+    /* Ensure the container takes up the full width of its parent */
+    height: 400px;
+    /* Set a fixed height or adjust as needed */
+    background-color: #FFEB3B;
+    /* Light yellow background */
+    display: flex;
+    justify-content: center;
+    /* Center the content horizontally */
+    align-items: center;
+    /* Center the content vertically */
     position: relative;
+    /* Position relative for absolute children (like the image) */
 }
 
-#imageposter-container img {
+#imageposter {
+    width: 300px;
+    /* Adjust width as necessary */
+    height: 20x;
+    /* Let height adjust proportionally */
+    border-radius: 10px;
+    /* Optional: rounded corners */
+    object-fit: contain;
+    /* Make sure the image fits inside the container without distortion */
+    z-index: 0;
+    /* Ensure the image appears above the background */
+}
+
+
+.fallback-image {
     width: 100%;
     height: 100%;
+    /* Make the fallback image fill the container */
     object-fit: cover;
+    /* Ensure the image covers the entire container */
+    border-radius: 10px;
+    /* Optional: rounded corners */
+    background-color: #FFEB3B;
+    /* Light yellow background in case image doesn't exist */
 }
 
-.ticket-header {
-    padding: 12px;
-    text-align: center;
+.randomtext {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-20deg);
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #f2d03a;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 5px 10px;
+    border-radius: 5px;
+    z-index: 0;
+}
+
+
+
+.leftside {
+    display: grid;
+}
+
+.circle {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+    border: 2px solid var(--white);
     background: var(--black);
+    justify-content: center;
 }
 
-.ticket-header img {
-    height: 25px;
+.active {
+    background: var(--white);
 }
 
-.ticket-body {
-    padding: 15px;
+
+body {
+    background-color: var(--black);
+    background-size: cover;
     position: relative;
 }
 
-.ticket-title {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1rem;
-    font-weight: 900;
-    margin-bottom: 12px;
-    text-align: center;
-    border-bottom: 2px solid #eee;
-    padding-bottom: 8px;
-}
-
-.ticket-info {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    margin-bottom: 15px;
-}
-
-.info-item label {
-    display: block;
-    font-size: 0.6rem;
-    text-transform: uppercase;
-    color: #888;
-    margin-bottom: 1px;
-}
-
-.info-item span {
-    font-weight: 600;
-    font-size: 0.8rem;
-}
-
-.ticket-footer {
-    padding: 15px;
-    border-top: 2px dashed #ccc;
-    text-align: center;
-    background: #f9f9f9;
-}
-
-.qr-container {
-    background: var(--white);
-    padding: 8px;
-    display: inline-block;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-}
-
-.qr-container canvas {
-    display: block;
-    max-width: 100%;
-    width: 120px !important;
-    height: 120px !important;
-}
-
-/* Notches */
-.notches-row {
+body::before {
+    content: "";
     position: absolute;
     width: 100%;
-    top: 350px;
-    display: flex;
-    justify-content: space-between;
-    z-index: 10;
-    padding: 0;
-    margin-top: -15px;
-}
-
-.notch {
-    width: 30px;
-    height: 30px;
-    background: #121212;
-    /* Match with atmospheric bg */
-    border-radius: 50%;
-}
-
-.notch.left {
-    margin-left: -15px;
-}
-
-.notch.right {
-    margin-right: -15px;
-}
-
-/* Footer Section Restoration */
-footer {
-    margin-top: 50px;
-    padding: 40px 20px;
-    background: rgba(0, 0, 0, 0.5);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.footersection {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.footertext,
-.footertext p {
-    color: var(--lighGrey);
-    font-size: 0.8rem;
-    text-decoration: none;
-    margin: 0;
-}
-
-.footertext:hover {
-    color: var(--white);
-}
-
-/* Header Icons Restoration */
-.header-icon-custom {
-    color: var(--white);
-    font-size: 1.2rem;
-    transition: color 0.3s;
-}
-
-.header-icon-custom:hover {
-    color: var(--yellow);
-}
-
-/* Responsive */
-@media (max-width: 992px) {
-    .confirmation-card {
-        grid-template-columns: 1fr;
-        text-align: center;
-    }
-
-    .message-side {
-        margin: 0 auto;
-        max-width: 500px;
-    }
-}
-
-@media (max-width: 576px) {
-    .message-side {
-        padding: 25px;
-        border-width: 5px;
-    }
-
-    .ticket {
-        width: 100%;
-        max-width: 280px;
-    }
+    height: 100%;
+    background: inherit;
+    filter: blur(7px) brightness(0.3) sepia(.4);
+    z-index: -1;
 }
