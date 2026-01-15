@@ -354,6 +354,7 @@
 
                 const showtimeData = await getBookedSeats(bookingInfo.showtimeId);
                 $('#movieInfoPage').prop('href', `/pages/movie-info.html?movieId=${showtimeData.movieId}`);
+                $('#movieBg').css('background-image', `url("${showtimeData.moviePoster}")`);
 
                 $('#loadingScreen').fadeOut('fast');
 
