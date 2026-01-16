@@ -1,0 +1,278 @@
+:root {
+    --glass-bg: rgba(0, 0, 0, 0.65);
+    --glass-border: var(--white);
+    --accent-glow: rgba(241, 205, 85, 0.4);
+}
+
+body {
+    background-color: #000;
+    color: var(--white);
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+/* Atmospheric Background */
+.movie-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    filter: blur(50px) brightness(0.4);
+    z-index: -2;
+    transform: scale(1.1);
+}
+
+.movie-bg-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, transparent, rgba(0, 0, 0, 0.7));
+    z-index: -1;
+}
+
+/* Loading Screen */
+#loadingScreen {
+    position: fixed;
+    inset: 0;
+    background: #000;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* Layout */
+.selection-container {
+    padding: 80px 20px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Breadcrumbs */
+.booking-header {
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.breadcrumb-nav {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.breadcrumb-nav .step {
+    border: 5px solid var(--white);
+    border-radius: 20px;
+    padding: 6px 15px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: var(--white);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.breadcrumb-nav .step.active {
+    background-color: var(--white);
+    color: var(--black);
+}
+
+.breadcrumb-nav .step.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Glass Panels */
+.glass-panel {
+    background: var(--glass-bg);
+    border: 7px solid var(--white);
+    border-radius: 30px;
+    padding: 30px;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
+    height: 100%;
+}
+
+.section-title {
+    font-family: 'Gugi', sans-serif;
+    font-size: 2.5rem;
+    color: var(--white);
+    margin-bottom: 20px;
+}
+
+.success-message {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 40px;
+    opacity: 0.9;
+}
+
+/* Buttons */
+.opusCinemaButton {
+    width: 100%;
+    max-width: 300px;
+    padding: 15px 25px;
+    border-radius: 15px;
+    border: none;
+    background: var(--yellow);
+    color: var(--black);
+    font-family: 'Orbitron', sans-serif;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+}
+
+.opusCinemaButton:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(241, 205, 85, 0.4);
+    background: #fff;
+}
+
+.home-link {
+    display: block;
+    margin-top: 20px;
+    color: var(--lighGrey);
+    text-decoration: none;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.9rem;
+    transition: color 0.3s;
+}
+
+.home-link:hover {
+    color: var(--yellow);
+}
+
+/* Ticket Styles */
+.ticket-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.ticket {
+    background: #fff;
+    width: 320px;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    color: #000;
+}
+
+#imageposter-container {
+    width: 100%;
+    height: 250px;
+    background: #000;
+    position: relative;
+    overflow: hidden;
+}
+
+#imageposter-container img {
+    width: 100%;
+    object-fit: cover;
+}
+
+.ticket-details {
+    padding: 25px;
+    text-align: center;
+    position: relative;
+}
+
+/* Dashed Line & Notches */
+.ticket-divider {
+    position: relative;
+    height: 30px;
+    background: #fff;
+    margin-top: -15px;
+    z-index: 10;
+}
+
+.ticket-divider::before,
+.ticket-divider::after {
+    content: '';
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: var(--glass-bg);
+    /* Match parent background */
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+    /* Inner shadow for depth */
+}
+
+.ticket-divider::before {
+    left: -15px;
+}
+
+.ticket-divider::after {
+    right: -15px;
+}
+
+.dashed-line {
+    border-top: 3px dashed #ccc;
+    position: relative;
+    top: 50%;
+}
+
+.details {
+    padding-top: 140px;
+}
+
+.details strong {
+    display: block;
+    font-family: 'Gugi', sans-serif;
+    font-size: 1.4rem;
+    margin-bottom: 5px;
+    line-height: 1.2;
+}
+
+.details p {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.85rem;
+    margin: 5px 0;
+    color: #444;
+}
+
+#qr {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    z-index: 10;
+    transform: translateX(-50%);
+}
+
+#qr canvas {
+    border: 5px solid #000;
+    border-radius: 10px;
+    height: 180px !important;
+    width: 180px !important;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .glass-panel {
+        margin-bottom: 30px;
+    }
+}

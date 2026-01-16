@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="stylesheet" href="../css/confirmation..css" />
+    <link rel="stylesheet" href="../css/confirmation.css" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -26,65 +26,30 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="/css/style.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
         integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="../js/services/dataService.js"></script>
     <link rel="stylesheet" href="../css/payment.css" />
     <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+
+    <!-- Component Loader for Header and Footer -->
+    <script src="/js/utils/componentLoader.js" defer></script>
 </head>
 
 <body>
-    <header>
-        <nav class="navbar bg-body-tertiary">
-            <div class="container-fluid" style="background-color: var(--black)">
-                <div style="display: inline">
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-
-                    <a class="navbar-brand" href="#" id="header">
-                        <img src="../asset/img/Logo.png" alt="Logo" width="30" height="24"
-                            class="d-inline-block align-text-top" />
-                        Opus-Cinemas
-                    </a>
-                </div>
-
-                <span class="navbar-text" id="header-link">
-                    <a href="https://www.facebook.com/" target="_blank"><i
-                            class="fab fa-facebook header-icon-custom mx-2"></i></a>
-                    <a href="https://x.com/" target="_blank"><i class="fab fa-twitter header-icon-custom mx-2"></i></a>
-                    <a href="https://www.instagram.com/" target="_blank"><i
-                            class="fab fa-instagram header-icon-custom mx-2"></i></a>
-                </span>
-
-                <div class="collapse navbar-collapse" id="navbarNav" style="background-color: var(--grey)">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">About Us</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Promotions</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Pre-Sales</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Events</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
+    <header></header>
 
     <br />
 
+    <!-- Immersive Background -->
+    <div class="movie-bg" id="movieBg"></div>
+    <div class="movie-bg-overlay"></div>
+
     <main>
         <section id="loadingScreen">
-            <h1>Loading...</h1>
+            <h1>Generating Ticket...</h1>
             <div id="loadContainer">
                 <div class="spinner-border" style="width: 70px; height: 70px;" role="status">
                     <span class="visually-hidden">Loading...</span>
@@ -93,247 +58,208 @@
             </div>
         </section>
 
-        <section class="completeconfirmation">
-            <div class="leftside">
-                <div style="text-align: center" class="menucontainer">
-                    <div id="progressButtons">
-                        <a class="circle" href="~"></a>
-                        <a class="circle" href="~"></a>
-                        <a class="circle" href="~"></a>
-                        <a class="circle active" href="~"></a>
-                    </div>
-                    <h1 style="color: var(--white)">Payment</h1>
-                </div>
-    
-                <div class="messagecon">
-                    <h2>Thanks for buying!</h2>
-                    <p>
-                        Your tickets were already sent to your email address, but you can
-                        download them right here
-                    </p>
-                    <br /><br />
-                    <button class="btndownload" id="buttondownloadpdf">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-download" viewBox="0 0 16 16">
-                            <path
-                                d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
-                            <path
-                                d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z" />
-                        </svg>
-                        Download tickets here
-                    </button>
-                    <br /><br /><br /><br />
-                    <h2>Go to main page</h2>
+        <div class="selection-container">
+            <div class="booking-header">
+                <div class="breadcrumb-nav">
+                    <a href="#" class="step">Movie</a>
+                    <a href="#" class="step">Seats</a>
+                    <a href="#" class="step">Payment</a>
+                    <span class="step active">Ticket</span>
                 </div>
             </div>
-    
-            <div class="confirmationticket" id="ticketpdf">
-                <div class="notch top"></div>
-    
-                <div class="ticket">
-                    <div id="imageposter-container">
-                        <div src="../asset/img/Logo.svg" alt="Movie Poster" id="imageposter" class="fallback-image"></div>
-                    </div>
-    
-                    <div class="qri" id="qr"></div>
-    
-                    <div class="dashed-line"></div>
-                    <div class="details">
-                        <strong id="movieTitle"></strong>
-                        <p id="movieDate"></p>
-                        <p id="movieHour"></p>
-                        <strong id="movieAuditorium"></strong>
-                        <p id="movieSeats"></p>
+
+            <div class="row">
+                <!-- Left Side: Message -->
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <div class="glass-panel text-center d-flex flex-column justify-content-center align-items-center">
+                        <h1 class="section-title">ENJOY THE SHOW!</h1>
+                        <p class="success-message">
+                            Your payment was successful and your tickets have been sent to your email.
+                            <br><br>
+                            You can also download your digital pass below.
+                        </p>
+
+                        <button class="opusCinemaButton" id="buttondownloadpdf">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                class="bi bi-download" viewBox="0 0 16 16">
+                                <path
+                                    d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
+                                <path
+                                    d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z" />
+                            </svg>
+                            Download Ticket
+                        </button>
+
+                        <a href="../index.html" class="home-link">Return to Homepage</a>
                     </div>
                 </div>
-    
-                <div class="notch bottom"></div>
+
+                <!-- Right Side: Ticket -->
+                <div class="col-lg-6">
+                    <div class="ticket-wrapper">
+                        <!-- ID 'ticketpdf' is used by the PDF download function -->
+                        <div class="ticket" id="ticketpdf">
+                            <div id="imageposter-container">
+                                <img src="../asset/img/Logo.svg" alt="Movie Poster" id="imageposter">
+                            </div>
+
+                            <div class="ticket-divider">
+                                <div class="dashed-line"></div>
+                            </div>
+
+                            <div id="qr" class="mb-3"></div>
+                            <div class="ticket-details details">
+                                <strong id="movieTitle">Loading...</strong>
+                                <p id="movieDate">--/--/--</p>
+                                <p id="movieHour">--:--</p>
+                                <p><strong>Auditorium:</strong> <span id="movieAuditorium">--</span></p>
+                                <p><strong>Seats:</strong> <span id="movieSeats">--</span></p>
+
+                                <small style="display:block; margin-top:10px; color:#aaa; font-size: 0.7rem;">SCAN AT
+                                    ENTRANCE</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </section>
-        <br /><br />
-
-
+        </div>
     </main>
 
-
-    <footer>
-        <hr />
-
-        <section class="footersection">
-            <div class="numberemail">
-                <h3>Contact</h3>
-                <p>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-telephone-fill" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd"
-                            d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z" />
-                    </svg>
-                    +1 (236) 444 9999
-                </p>
-
-                <p>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-envelope-fill" viewBox="0 0 16 16">
-                        <path
-                            d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414zM0 4.697v7.104l5.803-3.558zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586zm3.436-.586L16 11.801V4.697z" />
-                    </svg>
-                    <a href="mailto:info@cinename.ca" class="footertext">info@opuscinema.com</a>
-                </p>
-            </div>
-
-            <div class="footertextdiv">
-                <p>
-                    <a href="#" class="footertext">Cookie Settings</a> |
-                    <a href="#" class="footertext">Terms of Use</a> |
-                    <a href="#" class="footertext">Privacy Policy</a>
-                </p>
-                <p>Developed by Team Number 1 for Internet Programming Course</p>
-            </div>
-        </section>
-    </footer>
+    <footer class="main-footer"></footer>
     <script>
         function printTickerPdf() {
-            //var element = document.getElementById('ticketpdf');
-            //html2pdf(element);
-
             const element = document.getElementById("ticketpdf");
             const opt = {
-                margin: [5, 5],
-                filename: "ticket-cine.pdf",
-                image: { type: "jpeg", quality: 0.98 },
+                margin: [20, 45],
+                filename: "Opus-Ticket.pdf",
+                image: { type: "jpeg", quality: 0.99 },
                 html2canvas: {
-                    scale: 2, // Aumenta la resolución
-                    logging: true, // Depuración en consola
-                    useCORS: true, // Para imágenes externas
-                    allowTaint: true, // Permite recursos externos
-                    scrollY: 0, // Evita espacios en blanco
+                    scale: 2,
+                    useCORS: true,
+                    scrollY: 0,
+                    windowHeight: 1500, // Ensure ample height for capture
+                    onclone: function (clonedDoc) {
+                        const ticket = clonedDoc.getElementById('ticketpdf');
+                        // Remove shadow to prevent bounding box inflation/clipping
+                        ticket.style.boxShadow = 'none';
+                        ticket.style.border = '5px solid #000';
+                        ticket.style.boxSizing = 'border-box';
+                        // Ensure background is solid
+                        ticket.style.background = '#ffffff';
+
+                        // Fix QR positioning for capture if needed
+                        const qr = clonedDoc.getElementById('qr');
+                        if (qr) {
+                            // Simplify transform for canvas
+                            qr.style.transform = 'translateX(-50%)';
+                        }
+                    }
                 },
-                jsPDF: { unit: "mm", format: "a5", orientation: "portrait" },
+                jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
             };
 
             html2pdf().set(opt).from(element).save();
-            document.getElementById("imageposter").style.display = "block";
         }
-        document
-            .getElementById("buttondownloadpdf")
-            .addEventListener("click", function () {
-                document.getElementById("imageposter").style.display = "none";
-                printTickerPdf();
-            });
+
+        document.getElementById("buttondownloadpdf").addEventListener("click", function () {
+            printTickerPdf();
+        });
     </script>
 
     <script type="module">
         import { getPaymentConfirmation } from "../js/services/dataService.js";
         import { makeQrCode } from "../js/makeQrCode.js";
 
-        window.onload = function () {
-            //const imageUrl = movieData.poster;
+        // Helper to convert image URL to Base64 using local proxy
+        async function toDataURL(url) {
+            try {
+                // Use our new Netlify function proxy
+                const proxyUrl = `/.netlify/functions/imgProxy?url=${encodeURIComponent(url)}`;
 
-            const imageElement = document.getElementById("imageposter");
+                const response = await fetch(proxyUrl);
+                if (!response.ok) throw new Error('Network response was not ok');
 
-            checkImageExistence(imageUrl, function (exists) {
-                if (exists) {
-                    imageElement.src = imageUrl;
-                } else {
-                    imageElement.src = "../asset/img/Logo.svg";
-                }
-            });
-        };
-
-        async function call_db_data(salesId) {
-            console.log(salesId);
-            const bookingInfo = await getPaymentConfirmation(salesId);
-            console.log("ejemplo", bookingInfo);
-
-            const movieInformation = {
-                salesId: salesId,
-                date: bookingInfo.date,
-                time: bookingInfo.hour,
-                movieTitle: bookingInfo.movie.title,
-                auditorium: bookingInfo.auditorium,
-                seats: bookingInfo.seatsReserved,
-            };
-
-            const canvas = document.createElement("canvas");
-            makeQrCode(canvas, movieInformation);
-            document.getElementById("qr").appendChild(canvas);
-
-            canvas.classList.add("qrim");
-
-            console.log(movieInformation);
-            document.getElementById("movieTitle").innerText =
-                movieInformation.movieTitle;
-            document.getElementById("movieDate").innerText = movieInformation.date;
-            document.getElementById("movieHour").innerText = movieInformation.time;
-            document.getElementById("movieAuditorium").innerText =
-                movieInformation.auditorium;
-            document.getElementById("movieSeats").innerText =
-                movieInformation.seats;
-            document.body.style.backgroundImage = `url("${bookingInfo.movie.poster}")`;
-
-            const imageContainer = document.getElementById("imageposter");
-            imageContainer.innerHTML = "";
-
-            const image = document.createElement("img");
-            image.src = "../asset/img/Logo.svg"; // Use the logo image instead of movie poster
-            image.alt = movieInformation.movieTitle;
-            image.style.width = "400px";  // Increase the width to make it wider
-            image.style.height = "auto";  // Let the height adjust proportionally
-            image.style.borderRadius = "10px";  // Keep the rounded corners
-            image.style.objectFit = "contain";  // Ensure the image fits nicely inside the container
-            image.style.marginLeft = "-50px";  // Move the image 50px to the left (adjust as needed)
-
-            // Apply the light yellow background color to the image container
-            const imagePosterContainer = document.getElementById('imageposter-container');
-            imagePosterContainer.style.backgroundColor = "#FFEB3B";  // Light yellow background
-
-
-            imageContainer.appendChild(image);
-            $('#loadingScreen').fadeOut('fast');
+                const blob = await response.blob();
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onloadend = () => resolve(reader.result);
+                    reader.onerror = reject;
+                    reader.readAsDataURL(blob);
+                });
+            } catch (error) {
+                console.error("Error converting image to base64 via proxy:", error);
+                return null;
+            }
         }
 
-        const queryString = window.location.search;
-        const urlParams = new URLSearchParams(queryString);
-        const salesId = urlParams.get("salesId");
+        async function initConfirmation() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const salesId = urlParams.get("salesId");
 
-        call_db_data(salesId);
-
-        function checkImageExistence(url, callback) {
-            const img = new Image();
-            img.onload = function () {
-                callback(true);
-            };
-            img.onerror = function () {
-                callback(false);
-            };
-            img.src = url;
-        }
-    </script>
-
-    <script type="module">
-        $(document).ready(async function () {
-            if (salesId) {
-                console.error("No ticket token found in URL.");
+            if (!salesId) {
+                console.error("Sales ID not found");
+                window.location.href = "/";
                 return;
             }
 
             try {
-                console.log("test", bookingInfo);
+                const bookingInfo = await getPaymentConfirmation(salesId);
+                console.log("Confirmation Data:", bookingInfo);
 
-                const base64Image = canvas.toDataURL("image/png");
-                console.log(base64Image);
+                // Populate Text
+                document.getElementById("movieTitle").innerText = bookingInfo.movie.title;
+                document.getElementById("movieDate").innerText = bookingInfo.date;
+                document.getElementById("movieHour").innerText = bookingInfo.hour;
+                document.getElementById("movieAuditorium").innerText = bookingInfo.auditorium;
+                document.getElementById("movieSeats").innerText = bookingInfo.seatsReserved.join(', ');
 
-                if (bookingInfo && bookingInfo.qrCodeUrl) {
-                    document.getElementById("qrimage").src = bookingInfo.qrCodeUrl;
-                    document.getElementById("qrimage").style.display = "block";
+                // Handle Poster/Background
+                const imageElement = document.getElementById("imageposter");
+                const bgElement = document.getElementById("movieBg");
+
+                if (bookingInfo.movie.poster) {
+                    // Try to fetch and convert to Base64 using proxy for PDF compatibility
+                    const base64Poster = await toDataURL(bookingInfo.movie.poster);
+
+                    if (base64Poster) {
+                        imageElement.src = base64Poster;
+                        bgElement.style.backgroundImage = `url("${bookingInfo.movie.poster}")`;
+                    } else {
+                        // Fallback
+                        imageElement.src = bookingInfo.movie.poster;
+                        bgElement.style.backgroundImage = `url("${bookingInfo.movie.poster}")`;
+                    }
                 } else {
-                    console.error("QR code URL not found in booking info.");
+                    imageElement.src = "../asset/img/Logo.svg";
                 }
+
+                // Generate QR
+                const movieInformation = {
+                    salesId: salesId,
+                    date: bookingInfo.date,
+                    time: bookingInfo.hour,
+                    movieTitle: bookingInfo.movie.title,
+                    auditorium: bookingInfo.auditorium,
+                    seats: bookingInfo.seatsReserved,
+                };
+
+                const canvas = document.createElement("canvas");
+                // makeQrCode expects (element, text/object)
+                makeQrCode(canvas, movieInformation);
+
+                const qrContainer = document.getElementById("qr");
+                qrContainer.innerHTML = ''; // Clear previous if any
+                qrContainer.appendChild(canvas);
+
+                $('#loadingScreen').fadeOut('slow');
+
             } catch (error) {
-                console.error("Error fetching booking info:", error);
+                console.error("Error loading confirmation:", error);
+                $('#loadingScreen').fadeOut('fast');
             }
-            generateQRCode(bookingInfo.ticketToken);
-        });
+        }
+
+        $(document).ready(initConfirmation);
     </script>
 </body>
 

@@ -1,15 +1,25 @@
-body {
-    background-color: var(--yellow);
-   
-    z-index: -2;
+:root {
+    --transition: all 0.3s ease;
 }
 
+body {
+    background-color: var(--black);
+    color: var(--white);
+    font-family: 'Roboto', sans-serif;
+    overflow-x: hidden;
+}
+
+/* Hero Banner */
 #banner {
     position: relative;
     width: 100%;
-    height: 350px;
-    background-color: var(--black);
-    padding: 10px;
+    height: 500px;
+    background-color: #000;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
 #bannerFiller {
@@ -18,68 +28,189 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
-    filter: blur(5px)  grayscale(.9);
+    object-fit: cover;
+    opacity: 0.4;
+    filter: grayscale(1) blur(2px);
 }
+
 #banner #mainPic {
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 100%;
-    z-index: 1;
-    border-radius: 10px;
-    box-shadow:0 0 15px 10px rgba(0, 0,0, .3)
+    display: none;
+    /* We'll use the filler as background */
 }
-#banner h1{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 48px;
+
+#banner h1 {
+    position: relative;
+    z-index: 2;
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(3rem, 8vw, 5rem);
     color: var(--yellow);
-    text-shadow: 1.5px 1.5px 1.5px rgba(0, 0, 0);
-
+    text-transform: uppercase;
+    letter-spacing: 8px;
+    margin: 0;
+    animation: fadeInDown 1s ease-out;
 }
 
-#description {
-    padding: 30px 90px;
-}
-#description h2 {
+#banner::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
     width: 100%;
-    margin: 50px auto;
+    height: 150px;
+    background: linear-gradient(to top, var(--black), transparent);
+    z-index: 1;
+}
+
+/* Description Section */
+#description {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 80px 20px;
+}
+
+#description h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    color: var(--yellow);
+    margin-bottom: 40px;
     text-align: center;
-    font-size: 45px;
+    border-left: 4px solid var(--yellow);
+    padding-left: 20px;
+    display: inline-block;
 }
-#description h3 {
-    margin: 25px 0;
-    text-decoration: underline;
-}
+
 #description p {
+    font-size: 1.1rem;
     line-height: 1.8;
-    margin-left: 30px;
+    color: #ccc;
+    margin-bottom: 30px;
+    max-width: 800px;
 }
-#description *{
-    color:var(--black);
+
+#description h3 {
+    font-family: 'Orbitron', sans-serif;
+    color: var(--yellow);
+    margin: 60px 0 30px;
+    font-size: 1.5rem;
+    text-transform: uppercase;
 }
+
+/* Feature Cards (Replacing UL) */
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin: 40px 0;
+}
+
+.feature-card {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 30px;
+    border-radius: 12px;
+    border: 1px solid rgba(236, 201, 104, 0.1);
+    transition: var(--transition);
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--yellow);
+    background: rgba(236, 201, 104, 0.05);
+}
+
+.feature-card strong {
+    display: block;
+    color: var(--yellow);
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+}
+
+.feature-card u {
+    text-decoration-color: var(--yellow);
+    color: var(--white);
+}
+
+/* Promotional Image */
 #promotional {
-    float: right;
-    border: 5px solid var(--black);
-    border-radius: 10px;
-    margin: 20px;
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    border: 2px solid var(--yellow);
+    border-radius: 15px;
+    margin: 40px 0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
+
+/* Popcorn Icon */
 #popcorn {
-    width: 40px;
+    width: 32px;
+    vertical-align: middle;
+    margin-left: 10px;
+    filter: drop-shadow(0 0 5px var(--yellow));
 }
-i {
-    font-style: italic;
-    font-weight: bold;
-}
-hr {
-    color: var(--black);
-    margin: 50px 0;
-}
+
+/* Team Section */
 #teamData {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+    margin-top: 50px;
+}
+
+#teamData>div {
+    background: linear-gradient(145deg, #1a1a1a, #0a0a0a);
+    padding: 40px 20px;
+    border-radius: 15px;
+    text-align: center;
+    border-bottom: 3px solid transparent;
+    transition: var(--transition);
+}
+
+#teamData>div:hover {
+    border-bottom-color: var(--yellow);
+    transform: scale(1.05);
+}
+
+#teamData dt {
+    font-family: 'Orbitron', sans-serif;
+    color: var(--yellow);
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+}
+
+#teamData dd {
+    font-size: 0.9rem;
+    color: #888;
+    margin: 0;
+}
+
+/* Animations */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    #description {
+        padding: 40px 20px;
+    }
+
+    #banner {
+        height: 300px;
+    }
+
+    #description h2 {
+        border-left: none;
+        border-bottom: 3px solid var(--yellow);
+        padding-bottom: 10px;
+        padding-left: 0;
+        width: 100%;
+    }
 }
