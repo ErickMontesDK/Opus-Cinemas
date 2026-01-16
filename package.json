@@ -10,11 +10,11 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "@supabase/supabase-js": "^2.49.1",
     "netlify-cli": "^19.0.2"
   },
   "dependencies": {
     "@emailjs/nodejs": "^5.0.2",
+    "@supabase/supabase-js": "^2.49.1",
     "dotenv": "^16.4.7",
     "emailjs": "^4.0.3",
     "pg": "^8.14.1"

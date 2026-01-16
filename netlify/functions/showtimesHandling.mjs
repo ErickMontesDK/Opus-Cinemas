@@ -48,7 +48,8 @@ export const handler = async (event) => {
                             message: error.message,
                             details: error.details,
                             hint: error.hint,
-                            code: error.code
+                            code: error.code,
+                            fullError: error
                         });
                         throw new Error(`Error searching showtimes: ${error.message}`);
                     }
