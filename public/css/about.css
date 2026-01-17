@@ -30,7 +30,7 @@ body {
     height: 100%;
     object-fit: cover;
     opacity: 0.4;
-    filter: grayscale(1) blur(2px);
+    /* filter: grayscale(1) blur(2px); */
 }
 
 #banner #mainPic {
@@ -145,7 +145,7 @@ body {
     width: 32px;
     vertical-align: middle;
     margin-left: 10px;
-    filter: drop-shadow(0 0 5px var(--yellow));
+    filter: invert(1) brightness(2);
 }
 
 /* Team Section */

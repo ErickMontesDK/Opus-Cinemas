@@ -10,7 +10,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Gugi&family=Orbitron:wght@400..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
-    <title>Opus Cinemas</title>
+    <title>Opus Cinemas - Presales</title>
     <!--This link charges JQuery-->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
@@ -24,94 +24,106 @@
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/about.css">
     <link rel="stylesheet" href="../css/presales.css">
 
     <!-- Component Loader for Header and Footer -->
-    <script src="/js/utils/componentLoader.js" defer></script>
+    <script src="/js/componentLoader.js" defer></script>
 </head>
 
 <body>
     <header></header>
     <main>
-        <div id="banner">
-            <h1>Pre-sales</h1>
-            <p>
-                Be the first to know about upcoming special screenings and events at Opus Cinemas.
-            </p>
+        <div id="banner" class="reveal">
+            <img id="bannerFiller"
+                src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=2025&auto=format&fit=crop"
+                alt="Vintage Cinema">
+            <h1 class="orbitron-premium">Pre-sales</h1>
         </div>
 
-        <section id="presales">
-            <div class="row">
-                <div class="col-12 col-md-4">
-                    <div class="card">
-                        <div class="imgContainer">
-                            <img src="https://lumiere-a.akamaihd.net/v1/images/revenge-of-the-sith-20th-anniversary-theatrical-release_f5fb864b.jpeg?region=0,0,729,1080"
-                                class="card-img-top" alt="horrorImg">
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Star Wars: Episode III - 20th Anniversary Re-release</h5>
-                            <p class="card-text">
-                                Celebrate the 20th anniversary of "Star Wars: Episode III - Revenge of the Sith" with a
-                                special theatrical re-release. Relive the epic battle between good and evil in a galaxy
-                                far, far away.
-                            </p>
-                        </div>
-                        <div class="card-footer">
-                            <small>Release date: April 25, 2025</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-4">
-                    <div class="card">
-                        <div class="imgContainer">
-                            <img src="https://m.media-amazon.com/images/M/MV5BYTBmMDBhNWYtNTk4MS00NzBmLTk5ZWItM2ZlZjY4NTYxNWQzXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg"
-                                class="card-img-top" alt="horrorImg">
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Lilo & Stitch</h5>
-                            <p class="card-text">
-                                A live-action reimagining of Disney’s 2002 animated classic, "Lilo & Stitch" is the
-                                wildly funny and touching story of a lonely Hawaiian girl and the fugitive alien who
-                                helps to mend her broken family. </p>
-                        </div>
-                        <div class="card-footer">
-                            <small>Release date: May 23, 2025</small>
+        <section id="description" class="reveal">
+            <h2 class="mb-5">Future Releases</h2>
+            <p class="mb-5">
+                Secure your seats for the most anticipated upcoming blockbusters. Be the first to witness the magic on
+                the big screen.
+            </p>
+
+            <div id="presales" class="container-fluid px-0">
+                <div class="row g-4">
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="cinematic-card">
+                            <div class="imgContainer">
+                                <img src="https://lumiere-a.akamaihd.net/v1/images/revenge-of-the-sith-20th-anniversary-theatrical-release_f5fb864b.jpeg?region=0,0,729,1080"
+                                    alt="Star Wars">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Star Wars: Episode III</h5>
+                                <p class="card-text">
+                                    Celebrate the 20th anniversary of "Star Wars: Episode III - Revenge of the Sith"
+                                    with a
+                                    special theatrical re-release. Relive the epic battle between good and evil.
+                                </p>
+                            </div>
+                            <div class="card-footer">
+                                <small>Release date: April 25, 2025</small>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-12 col-md-4">
-                    <div class="card">
-                        <div class="imgContainer">
-                            <img src="https://m.media-amazon.com/images/M/MV5BZjFhZmU5NzUtZTg4Zi00ZjRjLWI0YmQtODk2MzI4YjNhYTdkXkEyXkFqcGc@._V1_.jpg"
-                                class="card-img-top" alt="horrorImg">
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Superman </h5>
-                            <p class="card-text">
-                                James Gunn brings a fresh take on the iconic superhero. Get ready for an action-packed
-                                adventure with the Man of Steel.
-                            </p>
-                        </div>
-                        <div class="card-footer">
-                            <small>Release date: July 11, 2025</small>
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="cinematic-card">
+                            <div class="imgContainer">
+                                <img src="https://m.media-amazon.com/images/M/MV5BYTBmMDBhNWYtNTk4MS00NzBmLTk5ZWItM2ZlZjY4NTYxNWQzXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg"
+                                    alt="Lilo & Stitch">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Lilo & Stitch</h5>
+                                <p class="card-text">
+                                    A live-action reimagining of Disney’s 2002 animated classic... A wildly funny and
+                                    touching story of a lonely Hawaiian girl and the fugitive alien who helps mend her
+                                    broken family.
+                                </p>
+                            </div>
+                            <div class="card-footer">
+                                <small>Release date: May 23, 2025</small>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-12 col-md-4">
-                    <div class="card">
-                        <div class="imgContainer">
-                            <img src="https://image.tmdb.org/t/p/w342/qnqHQMfvBy916X3tTV5lQMkbGxH.jpg"
-                                class="card-img-top" alt="horrorImg">
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="cinematic-card">
+                            <div class="imgContainer">
+                                <img src="https://m.media-amazon.com/images/M/MV5BZjFhZmU5NzUtZTg4Zi00ZjRjLWI0YmQtODk2MzI4YjNhYTdkXkEyXkFqcGc@._V1_.jpg"
+                                    alt="Superman">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Superman</h5>
+                                <p class="card-text">
+                                    James Gunn brings a fresh take on the iconic superhero. Get ready for an
+                                    action-packed
+                                    adventure with the Man of Steel.
+                                </p>
+                            </div>
+                            <div class="card-footer">
+                                <small>Release date: July 11, 2025</small>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Fantastic Four</h5>
-                            <p class="card-text">
-                                Marvel's first family of superheroes returns to the big screen. Join Reed, Sue, Johnny,
-                                and Ben in their fight against evil and interdimensional adventures.
-                            </p>
-                        </div>
-                        <div class="card-footer">
-                            <small>Release date: July 25, 2025</small>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="cinematic-card">
+                            <div class="imgContainer">
+                                <img src="https://image.tmdb.org/t/p/w342/qnqHQMfvBy916X3tTV5lQMkbGxH.jpg"
+                                    alt="Fantastic Four">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Fantastic Four</h5>
+                                <p class="card-text">
+                                    Marvel's first family of superheroes returns to the big screen. Join Reed, Sue,
+                                    Johnny,
+                                    and Ben in their fight against evil and interdimensional adventures.
+                                </p>
+                            </div>
+                            <div class="card-footer">
+                                <small>Release date: July 25, 2025</small>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -120,10 +132,20 @@
 
     </main>
     <footer class="main-footer"></footer>
+    <!-- Reveal Animations Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.1 });
 
-
-
-
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        });
+    </script>
 </body>
 
 </html>

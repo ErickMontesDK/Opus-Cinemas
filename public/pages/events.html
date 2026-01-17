@@ -10,7 +10,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Gugi&family=Orbitron:wght@400..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
-    <title>Opus Cinemas</title>
+    <title>Opus Cinemas - Events</title>
     <!--This link charges JQuery-->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
@@ -24,76 +24,89 @@
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/about.css">
     <link rel="stylesheet" href="../css/events.css">
 
     <!-- Component Loader for Header and Footer -->
-    <script src="/js/utils/componentLoader.js" defer></script>
+    <script src="/js/componentLoader.js" defer></script>
 </head>
 
 <body>
     <header></header>
     <main>
-        <div id="banner">
-            <h1>Events & Festivals</h1>
-            <p>
-                Unlock limited-time deals for the ultimate movie experience. Act fast - these offers won't last!
-            </p>
+        <div id="banner" class="reveal">
+            <img id="bannerFiller"
+                src="https://cdn.choosechicago.com/uploads/2019/06/chicago-film-festival-1800x900.jpg"
+                alt="Cinema Crowd">
+            <h1 class="orbitron-premium">Exclusive Events</h1>
         </div>
 
-        <section id="events">
-            <div class="row">
-                <div class="col-12 col-lg-4">
-                    <div class="card">
-                        <div class="imgContainer">
-                            <img src="https://cdn.displate.com/artwork/270x380/2024-11-27/0db5fe03-2296-4da1-93af-512b3fee281c.jpg"
-                                class="card-img-top" alt="horrorImg">
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Midnight Scream Fest</h5>
-                            <p class="card-text">
-                                Vancouver’s spookiest cinematic tradition returns! A week of horror classics, indie
-                                chillers, and surprise screenings of banned films too intense for mainstream theaters.
-                            </p>
-                        </div>
-                        <div class="card-footer">
-                            <small>October 24-31, 2025</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-lg-4">
-                    <div class="card">
-                        <div class="imgContainer">
-                            <img src="https://infocusfilmschool.com/wp-content/uploads/2016/06/film-making-courses-teach-students-to-film-anywhere.jpg"
-                                class="card-img-top" alt="horrorImg">
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">CCTB Student Film Showcase</h5>
-                            <p class="card-text">
-                                The raw talent of tomorrow’s filmmakers shines in this three-day spotlight on shorts
-                                created by Canadian College students.
-                            </p>
-                            <p>Live director Q&As with free coffee and donuts for attendees.</p>
-                        </div>
-                        <div class="card-footer">
-                            <small>November 14-16, 2025</small>
+        <section id="description" class="reveal">
+            <h2 class="mb-5">Exclusive Happenings</h2>
+            <p class="mb-5">
+                Unlock limited-time deals and unique cinematic experiences. From horror marathons to student showcases,
+                Opus Cinemas is where the community comes together.
+            </p>
+
+            <div id="events" class="container-fluid px-0">
+                <div class="row g-4">
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="cinematic-card">
+                            <div class="imgContainer">
+                                <img src="https://cdn.displate.com/artwork/270x380/2024-11-27/0db5fe03-2296-4da1-93af-512b3fee281c.jpg"
+                                    alt="horrorImg">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Midnight Scream Fest</h5>
+                                <p class="card-text">
+                                    Vancouver’s spookiest cinematic tradition returns! A week of horror classics, indie
+                                    chillers, and surprise screenings of banned films too intense for mainstream
+                                    theaters.
+                                </p>
+                            </div>
+                            <div class="card-footer">
+                                <small>October 24-31, 2025</small>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-12 col-lg-4">
-                    <div class="card">
-                        <div class="imgContainer">
-                            <img src="https://cache.getarchive.net/Prod/thumb/cdn2/L3Bob3RvLzE5MzkvMTIvMzEvcG9zdGVyLWdvbmUtd2l0aC10aGUtd2luZC0wMi1kYzhjNDQtMTAyNC5qcGc%3D/320/366/jpg"
-                                class="card-img-top" alt="horrorImg">
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="cinematic-card">
+                            <div class="imgContainer">
+                                <img src="https://infocusfilmschool.com/wp-content/uploads/2016/06/film-making-courses-teach-students-to-film-anywhere.jpg"
+                                    alt="Student Film">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">CCTB Student Film Showcase</h5>
+                                <p class="card-text">
+                                    The raw talent of tomorrow’s filmmakers shines in this three-day spotlight on shorts
+                                    created by Canadian College students.
+                                </p>
+                                <p class="card-text small text-white-50">Live director Q&As with free coffee and donuts
+                                    for
+                                    attendees.</p>
+                            </div>
+                            <div class="card-footer">
+                                <small>November 14-16, 2025</small>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Silver Screen Sundays</h5>
-                            <p class="card-text">
-                                Rediscover black-and-white masterpieces the way they were meant to be seen – on film,
-                                with an intermission and old-school concession stand prices.
-                            </p>
-                        </div>
-                        <div class="card-footer">
-                            <small>Every Sunday in December 2025</small>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="cinematic-card">
+                            <div class="imgContainer">
+                                <img src="https://cache.getarchive.net/Prod/thumb/cdn2/L3Bob3RvLzE5MzkvMTIvMzEvcG9zdGVyLWdvbmUtd2l0aC10aGUtd2luZC0wMi1kYzhjNDQtMTAyNC5qcGc%3D/320/366/jpg"
+                                    alt="Classic Film">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Silver Screen Sundays</h5>
+                                <p class="card-text">
+                                    Rediscover black-and-white masterpieces the way they were meant to be seen – on
+                                    film,
+                                    with an intermission and old-school concession stand prices.
+                                </p>
+                            </div>
+                            <div class="card-footer">
+                                <small>Every Sunday in December 2025</small>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -102,10 +115,20 @@
 
     </main>
     <footer class="main-footer"></footer>
+    <!-- Reveal Animations Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.1 });
 
-
-
-
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        });
+    </script>
 </body>
 
 </html>
