@@ -190,11 +190,11 @@
             const showtimeData = await getBookedSeats(showtimeId);
 
             if (showtimeData) {
-                updateScreenWithShowtimeData(showtimeData);
 
                 document.dispatchEvent(new CustomEvent('updatedTicketsAvailabilty', {
                     detail: [showtimeData.totalSeats, showtimeData.bookedSeats]
                 }))
+                updateScreenWithShowtimeData(showtimeData);
             }
 
             document.addEventListener('seatsObjectReady', (event) => {
