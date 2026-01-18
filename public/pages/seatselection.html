@@ -22,11 +22,11 @@
     <!-- Supabase JS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/seats.css">
+    <link rel="stylesheet" href="./../css//style.css">
+    <link rel="stylesheet" href="./../css/seats.css">
 
     <!-- Component Loader for Header and Footer -->
-    <script src="/js/componentLoader.js" defer></script>
+    <script src="/js/componentLoader.js?v=1.1" defer></script>
 </head>
 
 <body>
@@ -141,12 +141,12 @@
             </div>
         </div>
     </main>
-    <footer></footer>
+    <footer class="main-footer"></footer>
     <script>
         const urlParams = new URLSearchParams(window.location.search)
         const showtimeId = urlParams.get('showtimeId');
     </script>
-    <script src="../js/seatsSelection.js"></script>
+    <script src="../js/seatsSelection.js?v=1.1"></script>
 
     <script type="module">
         import { getBookedSeats, registerTickets } from "../js/services/dataService.js"
