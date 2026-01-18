@@ -64,6 +64,9 @@ async function consultMovieSchedules(movieId, datetime, movieDurationInMin) {
     try {
         const [date, time] = datetime.split("T");
         let showtimes = await getShowtimesPerMovieDb(movieId, date, time);
+
+
+
         console.log(showtimes)
         console.log(showtimes.length)
 
@@ -80,6 +83,11 @@ async function consultMovieSchedules(movieId, datetime, movieDurationInMin) {
                 }
             }
         }
+
+        if (showtimes && showtimes.length > 0) {
+            showtimes.sort((a, b) => a.start_time.localeCompare(b.start_time));
+        }
+
         return showtimes;
     } catch (error) {
         console.error("Error en consultMovieSchedules:", error);

@@ -32,6 +32,13 @@
 <body>
     <header></header>
     <main>
+        <section id="loadingScreen">
+            <div id="loadContainer">
+                <div class="loading-spinner"></div>
+                <img src="../asset/img/popcorn-svgrepo-com.svg" alt="popcorn" id="popcornLoad">
+            </div>
+            <h1>LOADING</h1>
+        </section>
         <div id="banner" class="reveal">
             <img id="bannerFiller"
                 src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=2025&auto=format&fit=crop"
@@ -134,6 +141,11 @@
             }, { threshold: 0.1 });
 
             document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+            // Hide loading screen
+            setTimeout(() => {
+                $('#loadingScreen').fadeOut('slow');
+            }, 500);
         });
     </script>
     <footer class="main-footer"></footer>

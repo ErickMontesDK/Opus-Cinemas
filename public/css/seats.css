@@ -43,7 +43,7 @@ body {
 #loadingScreen {
     position: fixed;
     inset: 0;
-    background: #000;
+    background: var(--yellow);
     z-index: 9999;
     display: flex;
     flex-direction: column;

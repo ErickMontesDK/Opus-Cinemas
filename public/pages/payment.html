@@ -43,13 +43,11 @@
     <header></header>
     <main>
         <section id="loadingScreen">
-            <h1>Loading...</h1>
             <div id="loadContainer">
-                <div class="spinner-border" style="width: 70px; height: 70px;" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
+                <div class="loading-spinner"></div>
                 <img src="../asset/img/popcorn-svgrepo-com.svg" alt="popcorn" id="popcornLoad">
             </div>
+            <h1>LOADING</h1>
         </section>
 
         <!-- Immersive Background -->
@@ -273,9 +271,14 @@
                     if (!form.checkValidity()) {
                         alert('There is an error in the information you entered. Please check again.');
                     } else {
+                        // Disable button and change text to prevent double click
+                        const finishBtn = document.getElementById('finish');
+                        finishBtn.disabled = true;
+                        finishBtn.innerHTML = 'PROCESSING... <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>';
+
                         const paymentInformation = {
                             ticketUuid: ticketToken,
-                            email: document.getElementById('Email').innerText,
+                            email: document.getElementById('Email').value,
                             totalPrice: bookingInfo.total_amount,
                             showtimeId: bookingInfo.showtimeId,
                         };

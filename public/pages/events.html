@@ -32,6 +32,13 @@
 <body>
     <header></header>
     <main>
+        <section id="loadingScreen">
+            <div id="loadContainer">
+                <div class="loading-spinner"></div>
+                <img src="../asset/img/popcorn-svgrepo-com.svg" alt="popcorn" id="popcornLoad">
+            </div>
+            <h1>LOADING</h1>
+        </section>
         <div id="banner" class="reveal">
             <img id="bannerFiller"
                 src="https://cdn.choosechicago.com/uploads/2019/06/chicago-film-festival-1800x900.jpg"
@@ -116,6 +123,11 @@
             }, { threshold: 0.1 });
 
             document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+            // Hide loading screen
+            setTimeout(() => {
+                $('#loadingScreen').fadeOut('slow');
+            }, 500);
         });
     </script>
     <footer class="main-footer"></footer>
