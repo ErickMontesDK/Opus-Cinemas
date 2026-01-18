@@ -221,7 +221,7 @@ export async function getBookedSeats(showtimeId = 30) {
                     getAuditoriumInDbById(auditoriumId)
                 ]);
 
-                console.log(movieData);
+                console.log(bookedSeats, movieData, auditoriumData);
                 const booking_data = {
                     movieTitle: movieData.film_name,
                     moviePoster: movieData.images?.poster['1']?.medium?.film_image || null,
