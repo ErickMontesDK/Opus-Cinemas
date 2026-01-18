@@ -259,7 +259,7 @@
                 const totalAmountElement = document.getElementById("totalAmount");
                 totalAmountElement.textContent = bookingInfo.total_amount;
 
-                $('#selectSeats').prop('href', `/pages/seatSelection.html?showtimeId=${bookingInfo.showtimeId}`);
+                $('#selectSeats').prop('href', `/pages/seat-selection.html?showtimeId=${bookingInfo.showtimeId}`);
 
                 const showtimeData = await getBookedSeats(bookingInfo.showtimeId);
                 $('#movieInfoPage').prop('href', `/pages/movie-info.html?movieId=${showtimeData.movieId}`);

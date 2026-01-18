@@ -7,7 +7,7 @@ function insertShowingsInContainer(showings, containerId) {
             const timeSlotElement = document.createElement('a');
             timeSlotElement.classList.add('time-slot');
             timeSlotElement.innerText = `${showing.start_time.slice(0, -3)}`;
-            timeSlotElement.href = `/pages/seatSelection.html?showtimeId=${showing.id}`;
+            timeSlotElement.href = `/pages/seat-selection.html?showtimeId=${showing.id}`;
             container.appendChild(timeSlotElement);
         });
     } else {
